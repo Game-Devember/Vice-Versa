@@ -15,7 +15,7 @@ public class spawn_brick : MonoBehaviour {
 	private float prevy = 0;
 	private float posx=1;
 	private float offset = 0.5f;
-	private int prevplace = 2;
+	private int prevplace;
 	private int pupcount;
 	// Use this for initialization
 	void Start () {
@@ -34,7 +34,7 @@ public class spawn_brick : MonoBehaviour {
 
 		/*g = Instantiate (Resources.Load ("Prefabs/score")) as GameObject;
 		g.transform.Translate (posx, 8.1f, -2);*/
-
+		prevplace = 5;
 		prevx = posx;
 		prevy = 8f;
 	}
@@ -71,77 +71,84 @@ public class spawn_brick : MonoBehaviour {
 					if(prevplace ==1)
 					{
 						posx = 5;
+						prevplace=4;
 					}
 					else
 					{
 						posx = 0.7f;
+						prevplace=1;
 					}
-					prevplace=1;
-					goto pla;
+					//goto pla;
 				}
 				else if(place==2)
 				{
 					if(prevplace ==2)
 					{
 						posx = 7.85f;
+						prevplace=6;
 					}
 					else
 					{
 						posx = 2.12f;
+						prevplace=2;
 					}
-					prevplace=2;
-					goto pla;
+					//goto pla;
 				}
 				else if(place==3)
 				{
 					if(prevplace ==3)
 					{
 						posx = 0.7f;
+						prevplace=1;
 					}
 					else
 					{
 						posx = 3.56f;
+						prevplace=3;
 					}
-					prevplace=3;
-					goto pla;
+					//goto pla;
 				}
 				else if(place==4)
 				{
 					if(prevplace ==4)
 					{
 						posx = 2.12f;
+						prevplace=2;
 					}
 					else
 					{
 						posx = 5;
+						prevplace=4;
 					}
-					prevplace=4;
-					goto pla;
+					//goto pla;
 				}
 				else if(place==5)
 				{
 					if(prevplace ==5)
 					{
 						posx = 3.56f;
+						prevplace=3;
 					}
 					else
 					{
 						posx = 6.43f;
+						prevplace=5;
 					}
-					prevplace=5;
-					goto pla;
+					//goto pla;
 				}
 				else if(place==6)
 				{
 					if(prevplace ==5)
 					{
 						posx = 6.43f;
+						prevplace=5;
 					}
 					else
 					{
 						posx = 7.85f;
+						prevplace=6;
+
 					}
-					prevplace=6;
 				}
 			pla:
 								g.transform.Translate (posx, /*transform.position.y*/ prevy + 2.5f, -5);

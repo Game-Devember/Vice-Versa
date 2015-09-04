@@ -1,11 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\collisions.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\spawn_brick.cs">
     <Files>
+      <File FileName="Mobile_Infinite.sln" Line="1" Column="1" />
+      <File FileName="Assets\spawn_brick.cs" Line="116" Column="19" />
       <File FileName="Assets\color_changer.cs" Line="1" Column="1" />
       <File FileName="Assets\collisions.cs" Line="81" Column="68" />
       <File FileName="Assets\Control.cs" Line="1" Column="1" />
-      <File FileName="Assets\spawn_brick.cs" Line="18" Column="26" />
       <File FileName="Assets\gameover.cs" Line="1" Column="1" />
       <File FileName="Assets\magnet.cs" Line="1" Column="1" />
       <File FileName="Assets\menu_exit_control.cs" Line="1" Column="1" />
@@ -15,7 +16,7 @@
       <File FileName="Assets\LookAtBall.cs" Line="1" Column="1" />
       <File FileName="Assets\PortalCopyRot.cs" Line="1" Column="1" />
       <File FileName="Assets\copyTrans.cs" Line="1" Column="1" />
-      <File FileName="Assets\ach_control.cs" Line="59" Column="10" />
+      <File FileName="Assets\ach_control.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
