@@ -91,9 +91,9 @@ public class gameover : MonoBehaviour {
 			//Debug.Log("GameOver!");
 			Destroy(ball.gameObject);
 			Destroy(halo.gameObject);
-			shatter = Instantiate(Resources.Load("Prefabs/ball_shatter")) as GameObject;
-			shatter.transform.Translate(ballref.transform.position.x,ballref.transform.position.y-1f,-3f);
-			shatter.GetComponent<Animator>().Play("Take 001");
+			//shatter = Instantiate(Resources.Load("Prefabs/ball_shatter")) as GameObject;
+			//shatter.transform.Translate(ballref.transform.position.x,ballref.transform.position.y-1f,-3f);
+			//shatter.GetComponent<Animator>().Play("Take 001");
 			//GetComponent<Animation>().wrapMode=WrapMode.Once;
 			ballref.GetComponent<MeshRenderer>().enabled = false;
 			GetComponent<AudioSource>().Play ();

@@ -23,13 +23,13 @@ public class Control : MonoBehaviour {
 			g.GetComponent<Rigidbody2D> ().velocity += Vector2.right * 0.25f;
 		} 
 		else if (Input.GetKeyUp (KeyCode.LeftArrow)) {
-			g.GetComponent<Rigidbody2D> ().velocity = new Vector2(0,g.GetComponent<Rigidbody2D> ().velocity.y);
+			g.GetComponent<Rigidbody2D> ().velocity = new Vector2(g.GetComponent<Rigidbody2D> ().velocity.x/2,g.GetComponent<Rigidbody2D> ().velocity.y);
 		}
 		else if (Input.GetKey(KeyCode.RightArrow)) {
 			g.GetComponent<Rigidbody2D> ().velocity += Vector2.right * -0.25f;
 		}
 		else if (Input.GetKeyUp (KeyCode.RightArrow)) {
-			g.GetComponent<Rigidbody2D> ().velocity = new Vector2(0,g.GetComponent<Rigidbody2D> ().velocity.y);
+			g.GetComponent<Rigidbody2D> ().velocity = new Vector2(g.GetComponent<Rigidbody2D> ().velocity.x/2,g.GetComponent<Rigidbody2D> ().velocity.y);
 		}
 
 	}
@@ -51,7 +51,7 @@ public class Control : MonoBehaviour {
 	{
 		//mat.color = defCol;
 		//g.transform.Translate (-speed, 0, 0);
-		g.GetComponent<Rigidbody2D> ().velocity = new Vector2(0,g.GetComponent<Rigidbody2D> ().velocity.y);
+		g.GetComponent<Rigidbody2D> ().velocity = new Vector2(g.GetComponent<Rigidbody2D> ().velocity.x/4,g.GetComponent<Rigidbody2D> ().velocity.y);
 		//g.GetComponent<Rigidbody2D> ().velocity += Vector2.right * 10 *-speed ;
 	}
 	void OnTouchStay()
@@ -70,7 +70,7 @@ public class Control : MonoBehaviour {
 	{
 		//mat.color = defCol;
 		//g.transform.Translate (-speed, 0, 0);
-		g.GetComponent<Rigidbody2D> ().velocity = new Vector2(0,g.GetComponent<Rigidbody2D> ().velocity.y);
+		g.GetComponent<Rigidbody2D> ().velocity = new Vector2(g.GetComponent<Rigidbody2D> ().velocity.x/4,g.GetComponent<Rigidbody2D> ().velocity.y);
 		//g.GetComponent<Rigidbody2D> ().velocity += Vector2.right * 10 * -speed ;
 	}
 }

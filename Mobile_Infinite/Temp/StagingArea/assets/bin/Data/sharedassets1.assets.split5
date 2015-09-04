@@ -1,0 +1,4702 @@
+ highp int;
+uniform lowp sampler2D _MainTex;
+uniform lowp sampler2D _LightBuffer;
+in highp vec2 vs_TEXCOORD0;
+in mediump vec4 vs_TEXCOORD2;
+in highp vec4 vs_TEXCOORD3;
+in highp vec3 vs_TEXCOORD5;
+layout(location = 0) out lowp vec4 SV_Target0;
+highp vec3 t0;
+lowp vec3 t10_0;
+mediump vec4 t16_1;
+lowp vec4 t10_1;
+lowp vec3 t10_2;
+mediump vec3 t16_3;
+void main()
+{
+    //Instruction 303
+    //DIV
+    t0.xy = vs_TEXCOORD3.xy / vs_TEXCOORD3.ww;
+    //Instruction 304
+    //SAMPLE
+    t10_0.xyz = texture(_LightBuffer, t0.xy).xyz;
+    //Instruction 305
+    //MAX
+    t16_1.xyz = max(t10_0.xyz, vec3(0.00100000005, 0.00100000005, 0.00100000005));
+    //Instruction 306
+    //LOG
+    t16_1.xyz = log2(t16_1.xyz);
+    //Instruction 307
+    //ADD
+    t0.xyz = (-t16_1.xyz) + vs_TEXCOORD5.xyz;
+    //Instruction 308
+    //SAMPLE
+    t10_1 = texture(_MainTex, vs_TEXCOORD0.xy);
+    //Instruction 309
+    //MUL
+    t16_1 = t10_1 * vs_TEXCOORD2;
+    //Instruction 310
+    //MUL
+    t10_2.xyz = t16_1.www * t16_1.xyz;
+    //Instruction 311
+    //MOV
+    SV_Target0.w = t16_1.w;
+    //Instruction 312
+    //MUL
+    t16_3.xyz = t0.xyz * t10_2.xyz;
+    //Instruction 313
+    //MOV
+    SV_Target0.xyz = t16_3.xyz;
+    //Instruction 314
+    //RET
+    return;
+}
+
+#endif
+"
+}
+SubProgram "gles " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "UNITY_HDR_ON" }
+"!!GLES
+#version 100
+
+#ifdef VERTEX
+attribute vec4 _glesVertex;
+attribute vec4 _glesColor;
+attribute vec3 _glesNormal;
+attribute vec4 _glesMultiTexCoord0;
+uniform highp vec4 _ProjectionParams;
+uniform mediump vec4 unity_SHAr;
+uniform mediump vec4 unity_SHAg;
+uniform mediump vec4 unity_SHAb;
+uniform mediump vec4 unity_SHBr;
+uniform mediump vec4 unity_SHBg;
+uniform mediump vec4 unity_SHBb;
+uniform mediump vec4 unity_SHC;
+uniform highp mat4 glstate_matrix_mvp;
+uniform highp mat4 _Object2World;
+uniform highp mat4 _World2Object;
+uniform lowp vec4 _Color;
+uniform highp vec4 _MainTex_ST;
+varying highp vec2 xlv_TEXCOORD0;
+varying highp vec3 xlv_TEXCOORD1;
+varying mediump vec4 xlv_TEXCOORD2;
+varying highp vec4 xlv_TEXCOORD3;
+varying highp vec4 xlv_TEXCOORD4;
+varying highp vec3 xlv_TEXCOORD5;
+void main ()
+{
+  highp vec4 tmpvar_1;
+  mediump vec4 tmpvar_2;
+  highp vec4 tmpvar_3;
+  highp vec3 tmpvar_4;
+  lowp vec4 tmpvar_5;
+  tmpvar_5 = (_glesColor * _Color);
+  tmpvar_2 = tmpvar_5;
+  tmpvar_1 = (glstate_matrix_mvp * _glesVertex);
+  highp vec4 o_6;
+  highp vec4 tmpvar_7;
+  tmpvar_7 = (tmpvar_1 * 0.5);
+  highp vec2 tmpvar_8;
+  tmpvar_8.x = tmpvar_7.x;
+  tmpvar_8.y = (tmpvar_7.y * _ProjectionParams.x);
+  o_6.xy = (tmpvar_8 + tmpvar_7.w);
+  o_6.zw = tmpvar_1.zw;
+  tmpvar_3.zw = vec2(0.0, 0.0);
+  tmpvar_3.xy = vec2(0.0, 0.0);
+  highp vec4 v_9;
+  v_9.x = _World2Object[0].x;
+  v_9.y = _World2Object[1].x;
+  v_9.z = _World2Object[2].x;
+  v_9.w = _World2Object[3].x;
+  highp vec4 v_10;
+  v_10.x = _World2Object[0].y;
+  v_10.y = _World2Object[1].y;
+  v_10.z = _World2Object[2].y;
+  v_10.w = _World2Object[3].y;
+  highp vec4 v_11;
+  v_11.x = _World2Object[0].z;
+  v_11.y = _World2Object[1].z;
+  v_11.z = _World2Object[2].z;
+  v_11.w = _World2Object[3].z;
+  highp vec4 tmpvar_12;
+  tmpvar_12.w = 1.0;
+  tmpvar_12.xyz = normalize(((
+    (v_9.xyz * _glesNormal.x)
+   + 
+    (v_10.xyz * _glesNormal.y)
+  ) + (v_11.xyz * _glesNormal.z)));
+  mediump vec3 tmpvar_13;
+  mediump vec4 normal_14;
+  normal_14 = tmpvar_12;
+  mediump vec3 x2_15;
+  mediump vec3 x1_16;
+  x1_16.x = dot (unity_SHAr, normal_14);
+  x1_16.y = dot (unity_SHAg, normal_14);
+  x1_16.z = dot (unity_SHAb, normal_14);
+  mediump vec4 tmpvar_17;
+  tmpvar_17 = (normal_14.xyzz * normal_14.yzzx);
+  x2_15.x = dot (unity_SHBr, tmpvar_17);
+  x2_15.y = dot (unity_SHBg, tmpvar_17);
+  x2_15.z = dot (unity_SHBb, tmpvar_17);
+  tmpvar_13 = ((x2_15 + (unity_SHC.xyz * 
+    ((normal_14.x * normal_14.x) - (normal_14.y * normal_14.y))
+  )) + x1_16);
+  tmpvar_4 = tmpvar_13;
+  gl_Position = tmpvar_1;
+  xlv_TEXCOORD0 = ((_glesMultiTexCoord0.xy * _MainTex_ST.xy) + _MainTex_ST.zw);
+  xlv_TEXCOORD1 = (_Object2World * _glesVertex).xyz;
+  xlv_TEXCOORD2 = tmpvar_2;
+  xlv_TEXCOORD3 = o_6;
+  xlv_TEXCOORD4 = tmpvar_3;
+  xlv_TEXCOORD5 = tmpvar_4;
+}
+
+
+#endif
+#ifdef FRAGMENT
+uniform sampler2D _MainTex;
+uniform sampler2D _LightBuffer;
+varying highp vec2 xlv_TEXCOORD0;
+varying mediump vec4 xlv_TEXCOORD2;
+varying highp vec4 xlv_TEXCOORD3;
+varying highp vec3 xlv_TEXCOORD5;
+void main ()
+{
+  lowp vec4 tmpvar_1;
+  mediump vec4 c_2;
+  mediump vec4 light_3;
+  lowp vec4 tmpvar_4;
+  tmpvar_4 = xlv_TEXCOORD2;
+  lowp vec4 tmpvar_5;
+  tmpvar_5 = (texture2D (_MainTex, xlv_TEXCOORD0) * tmpvar_4);
+  lowp vec4 tmpvar_6;
+  tmpvar_6 = texture2DProj (_LightBuffer, xlv_TEXCOORD3);
+  light_3 = tmpvar_6;
+  mediump vec4 tmpvar_7;
+  tmpvar_7 = max (light_3, vec4(0.001, 0.001, 0.001, 0.001));
+  light_3.w = tmpvar_7.w;
+  light_3.xyz = (tmpvar_7.xyz + xlv_TEXCOORD5);
+  lowp vec4 c_8;
+  c_8.xyz = ((tmpvar_5.xyz * tmpvar_5.w) * light_3.xyz);
+  c_8.w = tmpvar_5.w;
+  c_2 = c_8;
+  tmpvar_1 = c_2;
+  gl_FragData[0] = tmpvar_1;
+}
+
+
+#endif
+"
+}
+SubProgram "gles3 " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "UNITY_HDR_ON" }
+"!!GLES3
+#ifdef VERTEX
+#version 300 es
+precision highp float;
+precision highp int;
+uniform 	vec4 _Time;
+uniform 	vec4 _SinTime;
+uniform 	vec4 _CosTime;
+uniform 	vec4 unity_DeltaTime;
+uniform 	vec3 _WorldSpaceCameraPos;
+uniform 	vec4 _ProjectionParams;
+uniform 	vec4 _ScreenParams;
+uniform 	vec4 _ZBufferParams;
+uniform 	vec4 unity_OrthoParams;
+uniform 	vec4 unity_CameraWorldClipPlanes[6];
+uniform 	mat4 unity_CameraProjection;
+uniform 	mat4 unity_CameraInvProjection;
+uniform 	vec4 _WorldSpaceLightPos0;
+uniform 	vec4 _LightPositionRange;
+uniform 	vec4 unity_4LightPosX0;
+uniform 	vec4 unity_4LightPosY0;
+uniform 	vec4 unity_4LightPosZ0;
+uniform 	mediump vec4 unity_4LightAtten0;
+uniform 	mediump vec4 unity_LightColor[8];
+uniform 	vec4 unity_LightPosition[8];
+uniform 	mediump vec4 unity_LightAtten[8];
+uniform 	vec4 unity_SpotDirection[8];
+uniform 	mediump vec4 unity_SHAr;
+uniform 	mediump vec4 unity_SHAg;
+uniform 	mediump vec4 unity_SHAb;
+uniform 	mediump vec4 unity_SHBr;
+uniform 	mediump vec4 unity_SHBg;
+uniform 	mediump vec4 unity_SHBb;
+uniform 	mediump vec4 unity_SHC;
+uniform 	mediump vec3 unity_LightColor0;
+uniform 	mediump vec3 unity_LightColor1;
+uniform 	mediump vec3 unity_LightColor2;
+uniform 	mediump vec3 unity_LightColor3;
+uniform 	vec4 unity_ShadowSplitSpheres[4];
+uniform 	vec4 unity_ShadowSplitSqRadii;
+uniform 	vec4 unity_LightShadowBias;
+uniform 	vec4 _LightSplitsNear;
+uniform 	vec4 _LightSplitsFar;
+uniform 	mat4 unity_World2Shadow[4];
+uniform 	mediump vec4 _LightShadowData;
+uniform 	vec4 unity_ShadowFadeCenterAndType;
+uniform 	mat4 glstate_matrix_mvp;
+uniform 	mat4 glstate_matrix_modelview0;
+uniform 	mat4 glstate_matrix_invtrans_modelview0;
+uniform 	mat4 _Object2World;
+uniform 	mat4 _World2Object;
+uniform 	vec4 unity_LODFade;
+uniform 	mat4 glstate_matrix_transpose_modelview0;
+uniform 	mat4 glstate_matrix_projection;
+uniform 	lowp vec4 glstate_lightmodel_ambient;
+uniform 	mat4 unity_MatrixV;
+uniform 	mat4 unity_MatrixVP;
+uniform 	lowp vec4 unity_AmbientSky;
+uniform 	lowp vec4 unity_AmbientEquator;
+uniform 	lowp vec4 unity_AmbientGround;
+uniform 	lowp vec4 unity_FogColor;
+uniform 	vec4 unity_FogParams;
+uniform 	vec4 unity_LightmapST;
+uniform 	vec4 unity_DynamicLightmapST;
+uniform 	vec4 unity_SpecCube0_BoxMax;
+uniform 	vec4 unity_SpecCube0_BoxMin;
+uniform 	vec4 unity_SpecCube0_ProbePosition;
+uniform 	mediump vec4 unity_SpecCube0_HDR;
+uniform 	vec4 unity_SpecCube1_BoxMax;
+uniform 	vec4 unity_SpecCube1_BoxMin;
+uniform 	vec4 unity_SpecCube1_ProbePosition;
+uniform 	mediump vec4 unity_SpecCube1_HDR;
+uniform 	lowp vec4 unity_ColorSpaceGrey;
+uniform 	lowp vec4 unity_ColorSpaceDouble;
+uniform 	mediump vec4 unity_ColorSpaceDielectricSpec;
+uniform 	mediump vec4 unity_ColorSpaceLuminance;
+uniform 	mediump vec4 unity_Lightmap_HDR;
+uniform 	mediump vec4 unity_DynamicLightmap_HDR;
+uniform 	lowp vec4 _LightColor0;
+uniform 	lowp vec4 _SpecColor;
+uniform 	mediump vec4 unity_LightGammaCorrectionConsts;
+uniform 	lowp vec4 _Color;
+uniform 	vec4 _MainTex_ST;
+uniform 	lowp vec4 unity_Ambient;
+in highp vec4 in_POSITION0;
+in highp vec3 in_NORMAL0;
+in highp vec4 in_TEXCOORD0;
+in lowp vec4 in_COLOR0;
+out highp vec2 vs_TEXCOORD0;
+out highp vec3 vs_TEXCOORD1;
+out mediump vec4 vs_TEXCOORD2;
+out highp vec4 vs_TEXCOORD3;
+out highp vec4 vs_TEXCOORD4;
+out highp vec3 vs_TEXCOORD5;
+highp vec4 t0;
+highp vec3 t1;
+mediump vec4 t16_1;
+lowp vec4 t10_1;
+highp vec4 t2;
+mediump vec3 t16_3;
+mediump vec3 t16_4;
+highp float t15;
+void main()
+{
+    //Instruction 705
+    //MUL
+    t0 = in_POSITION0.yyyy * glstate_matrix_mvp[1];
+    //Instruction 706
+    //MAD
+    t0 = glstate_matrix_mvp[0] * in_POSITION0.xxxx + t0;
+    //Instruction 707
+    //MAD
+    t0 = glstate_matrix_mvp[2] * in_POSITION0.zzzz + t0;
+    //Instruction 708
+    //MAD
+    t0 = glstate_matrix_mvp[3] * in_POSITION0.wwww + t0;
+    //Instruction 709
+    //MOV
+    gl_Position = t0;
+    //Instruction 710
+    //MAD
+    vs_TEXCOORD0.xy = in_TEXCOORD0.xy * _MainTex_ST.xy + _MainTex_ST.zw;
+    //Instruction 711
+    //MUL
+    t1.xyz = in_POSITION0.yyy * _Object2World[1].xyz;
+    //Instruction 712
+    //MAD
+    t1.xyz = _Object2World[0].xyz * in_POSITION0.xxx + t1.xyz;
+    //Instruction 713
+    //MAD
+    t1.xyz = _Object2World[2].xyz * in_POSITION0.zzz + t1.xyz;
+    //Instruction 714
+    //MAD
+    vs_TEXCOORD1.xyz = _Object2World[3].xyz * in_POSITION0.www + t1.xyz;
+    //Instruction 715
+    //MUL
+    t10_1 = in_COLOR0 * _Color;
+    //Instruction 716
+    //MOV
+    vs_TEXCOORD2 = t10_1;
+    //Instruction 717
+    //MUL
+    t0.y = t0.y * _ProjectionParams.x;
+    //Instruction 718
+    //MUL
+    t2.xzw = t0.xwy * vec3(0.5, 0.5, 0.5);
+    //Instruction 719
+    //MOV
+    vs_TEXCOORD3.zw = t0.zw;
+    //Instruction 720
+    //ADD
+    vs_TEXCOORD3.xy = t2.zz + t2.xw;
+    //Instruction 721
+    //MOV
+    vs_TEXCOORD4 = vec4(0.0, 0.0, 0.0, 0.0);
+    //Instruction 722
+    //MUL
+    t0.x = in_NORMAL0.x * _World2Object[0].x;
+    //Instruction 723
+    //MUL
+    t0.y = in_NORMAL0.x * _World2Object[1].x;
+    //Instruction 724
+    //MUL
+    t0.z = in_NORMAL0.x * _World2Object[2].x;
+    //Instruction 725
+    //MUL
+    t2.x = in_NORMAL0.y * _World2Object[0].y;
+    //Instruction 726
+    //MUL
+    t2.y = in_NORMAL0.y * _World2Object[1].y;
+    //Instruction 727
+    //MUL
+    t2.z = in_NORMAL0.y * _World2Object[2].y;
+    //Instruction 728
+    //ADD
+    t0.xyz = t0.xyz + t2.xyz;
+    //Instruction 729
+    //MUL
+    t2.x = in_NORMAL0.z * _World2Object[0].z;
+    //Instruction 730
+    //MUL
+    t2.y = in_NORMAL0.z * _World2Object[1].z;
+    //Instruction 731
+    //MUL
+    t2.z = in_NORMAL0.z * _World2Object[2].z;
+    //Instruction 732
+    //ADD
+    t0.xyz = t0.xyz + t2.xyz;
+    //Instruction 733
+    //DP3
+    t15 = dot(t0.xyz, t0.xyz);
+    //Instruction 734
+    //RSQ
+    t15 = inversesqrt(t15);
+    //Instruction 735
+    //MUL
+    t0.xyz = vec3(t15) * t0.xyz;
+    //Instruction 736
+    //MUL
+    t16_3.x = t0.y * t0.y;
+    //Instruction 737
+    //MAD
+    t16_3.x = t0.x * t0.x + (-t16_3.x);
+    //Instruction 738
+    //MUL
+    t16_1 = t0.yzzx * t0.xyzz;
+    //Instruction 739
+    //DP4
+    t16_4.x = dot(unity_SHBr, t16_1);
+    //Instruction 740
+    //DP4
+    t16_4.y = dot(unity_SHBg, t16_1);
+    //Instruction 741
+    //DP4
+    t16_4.z = dot(unity_SHBb, t16_1);
+    //Instruction 742
+    //MAD
+    t16_3.xyz = unity_SHC.xyz * t16_3.xxx + t16_4.xyz;
+    //Instruction 743
+    //MOV
+    t0.w = 1.0;
+    //Instruction 744
+    //DP4
+    t16_4.x = dot(unity_SHAr, t0);
+    //Instruction 745
+    //DP4
+    t16_4.y = dot(unity_SHAg, t0);
+    //Instruction 746
+    //DP4
+    t16_4.z = dot(unity_SHAb, t0);
+    //Instruction 747
+    //ADD
+    t16_3.xyz = t16_3.xyz + t16_4.xyz;
+    //Instruction 748
+    //MOV
+    vs_TEXCOORD5.xyz = t16_3.xyz;
+    //Instruction 749
+    //RET
+    return;
+}
+
+#endif
+#ifdef FRAGMENT
+#version 300 es
+precision highp float;
+precision highp int;
+uniform lowp sampler2D _MainTex;
+uniform lowp sampler2D _LightBuffer;
+in highp vec2 vs_TEXCOORD0;
+in mediump vec4 vs_TEXCOORD2;
+in highp vec4 vs_TEXCOORD3;
+in highp vec3 vs_TEXCOORD5;
+layout(location = 0) out lowp vec4 SV_Target0;
+highp vec3 t0;
+lowp vec3 t10_0;
+mediump vec4 t16_1;
+lowp vec4 t10_1;
+lowp vec3 t10_2;
+mediump vec3 t16_3;
+void main()
+{
+    //Instruction 694
+    //DIV
+    t0.xy = vs_TEXCOORD3.xy / vs_TEXCOORD3.ww;
+    //Instruction 695
+    //SAMPLE
+    t10_0.xyz = texture(_LightBuffer, t0.xy).xyz;
+    //Instruction 696
+    //MAX
+    t16_1.xyz = max(t10_0.xyz, vec3(0.00100000005, 0.00100000005, 0.00100000005));
+    //Instruction 697
+    //ADD
+    t0.xyz = t16_1.xyz + vs_TEXCOORD5.xyz;
+    //Instruction 698
+    //SAMPLE
+    t10_1 = texture(_MainTex, vs_TEXCOORD0.xy);
+    //Instruction 699
+    //MUL
+    t16_1 = t10_1 * vs_TEXCOORD2;
+    //Instruction 700
+    //MUL
+    t10_2.xyz = t16_1.www * t16_1.xyz;
+    //Instruction 701
+    //MOV
+    SV_Target0.w = t16_1.w;
+    //Instruction 702
+    //MUL
+    t16_3.xyz = t0.xyz * t10_2.xyz;
+    //Instruction 703
+    //MOV
+    SV_Target0.xyz = t16_3.xyz;
+    //Instruction 704
+    //RET
+    return;
+}
+
+#endif
+"
+}
+SubProgram "gles " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "PIXELSNAP_ON" "HDR_LIGHT_PREPASS_OFF" }
+"!!GLES
+#version 100
+
+#ifdef VERTEX
+attribute vec4 _glesVertex;
+attribute vec4 _glesColor;
+attribute vec3 _glesNormal;
+attribute vec4 _glesMultiTexCoord0;
+uniform highp vec4 _ProjectionParams;
+uniform highp vec4 _ScreenParams;
+uniform mediump vec4 unity_SHAr;
+uniform mediump vec4 unity_SHAg;
+uniform mediump vec4 unity_SHAb;
+uniform mediump vec4 unity_SHBr;
+uniform mediump vec4 unity_SHBg;
+uniform mediump vec4 unity_SHBb;
+uniform mediump vec4 unity_SHC;
+uniform highp mat4 glstate_matrix_mvp;
+uniform highp mat4 _Object2World;
+uniform highp mat4 _World2Object;
+uniform lowp vec4 _Color;
+uniform highp vec4 _MainTex_ST;
+varying highp vec2 xlv_TEXCOORD0;
+varying highp vec3 xlv_TEXCOORD1;
+varying mediump vec4 xlv_TEXCOORD2;
+varying highp vec4 xlv_TEXCOORD3;
+varying highp vec4 xlv_TEXCOORD4;
+varying highp vec3 xlv_TEXCOORD5;
+void main ()
+{
+  highp vec4 tmpvar_1;
+  mediump vec4 tmpvar_2;
+  highp vec4 tmpvar_3;
+  highp vec3 tmpvar_4;
+  lowp vec4 tmpvar_5;
+  highp vec4 pos_6;
+  pos_6.zw = _glesVertex.zw;
+  highp vec2 tmpvar_7;
+  tmpvar_7 = (_ScreenParams.xy * 0.5);
+  pos_6.xy = ((floor(
+    (((_glesVertex.xy / _glesVertex.w) * tmpvar_7) + vec2(0.5, 0.5))
+  ) / tmpvar_7) * _glesVertex.w);
+  tmpvar_5 = (_glesColor * _Color);
+  tmpvar_2 = tmpvar_5;
+  tmpvar_1 = (glstate_matrix_mvp * pos_6);
+  highp vec4 o_8;
+  highp vec4 tmpvar_9;
+  tmpvar_9 = (tmpvar_1 * 0.5);
+  highp vec2 tmpvar_10;
+  tmpvar_10.x = tmpvar_9.x;
+  tmpvar_10.y = (tmpvar_9.y * _ProjectionParams.x);
+  o_8.xy = (tmpvar_10 + tmpvar_9.w);
+  o_8.zw = tmpvar_1.zw;
+  tmpvar_3.zw = vec2(0.0, 0.0);
+  tmpvar_3.xy = vec2(0.0, 0.0);
+  highp vec4 v_11;
+  v_11.x = _World2Object[0].x;
+  v_11.y = _World2Object[1].x;
+  v_11.z = _World2Object[2].x;
+  v_11.w = _World2Object[3].x;
+  highp vec4 v_12;
+  v_12.x = _World2Object[0].y;
+  v_12.y = _World2Object[1].y;
+  v_12.z = _World2Object[2].y;
+  v_12.w = _World2Object[3].y;
+  highp vec4 v_13;
+  v_13.x = _World2Object[0].z;
+  v_13.y = _World2Object[1].z;
+  v_13.z = _World2Object[2].z;
+  v_13.w = _World2Object[3].z;
+  highp vec4 tmpvar_14;
+  tmpvar_14.w = 1.0;
+  tmpvar_14.xyz = normalize(((
+    (v_11.xyz * _glesNormal.x)
+   + 
+    (v_12.xyz * _glesNormal.y)
+  ) + (v_13.xyz * _glesNormal.z)));
+  mediump vec3 tmpvar_15;
+  mediump vec4 normal_16;
+  normal_16 = tmpvar_14;
+  mediump vec3 x2_17;
+  mediump vec3 x1_18;
+  x1_18.x = dot (unity_SHAr, normal_16);
+  x1_18.y = dot (unity_SHAg, normal_16);
+  x1_18.z = dot (unity_SHAb, normal_16);
+  mediump vec4 tmpvar_19;
+  tmpvar_19 = (normal_16.xyzz * normal_16.yzzx);
+  x2_17.x = dot (unity_SHBr, tmpvar_19);
+  x2_17.y = dot (unity_SHBg, tmpvar_19);
+  x2_17.z = dot (unity_SHBb, tmpvar_19);
+  tmpvar_15 = ((x2_17 + (unity_SHC.xyz * 
+    ((normal_16.x * normal_16.x) - (normal_16.y * normal_16.y))
+  )) + x1_18);
+  tmpvar_4 = tmpvar_15;
+  gl_Position = tmpvar_1;
+  xlv_TEXCOORD0 = ((_glesMultiTexCoord0.xy * _MainTex_ST.xy) + _MainTex_ST.zw);
+  xlv_TEXCOORD1 = (_Object2World * pos_6).xyz;
+  xlv_TEXCOORD2 = tmpvar_2;
+  xlv_TEXCOORD3 = o_8;
+  xlv_TEXCOORD4 = tmpvar_3;
+  xlv_TEXCOORD5 = tmpvar_4;
+}
+
+
+#endif
+#ifdef FRAGMENT
+uniform sampler2D _MainTex;
+uniform sampler2D _LightBuffer;
+varying highp vec2 xlv_TEXCOORD0;
+varying mediump vec4 xlv_TEXCOORD2;
+varying highp vec4 xlv_TEXCOORD3;
+varying highp vec3 xlv_TEXCOORD5;
+void main ()
+{
+  lowp vec4 tmpvar_1;
+  mediump vec4 c_2;
+  mediump vec4 light_3;
+  lowp vec4 tmpvar_4;
+  tmpvar_4 = xlv_TEXCOORD2;
+  lowp vec4 tmpvar_5;
+  tmpvar_5 = (texture2D (_MainTex, xlv_TEXCOORD0) * tmpvar_4);
+  lowp vec4 tmpvar_6;
+  tmpvar_6 = texture2DProj (_LightBuffer, xlv_TEXCOORD3);
+  light_3 = tmpvar_6;
+  light_3 = -(log2(max (light_3, vec4(0.001, 0.001, 0.001, 0.001))));
+  light_3.xyz = (light_3.xyz + xlv_TEXCOORD5);
+  lowp vec4 c_7;
+  c_7.xyz = ((tmpvar_5.xyz * tmpvar_5.w) * light_3.xyz);
+  c_7.w = tmpvar_5.w;
+  c_2 = c_7;
+  tmpvar_1 = c_2;
+  gl_FragData[0] = tmpvar_1;
+}
+
+
+#endif
+"
+}
+SubProgram "gles3 " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "PIXELSNAP_ON" "HDR_LIGHT_PREPASS_OFF" }
+"!!GLES3
+#ifdef VERTEX
+#version 300 es
+precision highp float;
+precision highp int;
+uniform 	vec4 _Time;
+uniform 	vec4 _SinTime;
+uniform 	vec4 _CosTime;
+uniform 	vec4 unity_DeltaTime;
+uniform 	vec3 _WorldSpaceCameraPos;
+uniform 	vec4 _ProjectionParams;
+uniform 	vec4 _ScreenParams;
+uniform 	vec4 _ZBufferParams;
+uniform 	vec4 unity_OrthoParams;
+uniform 	vec4 unity_CameraWorldClipPlanes[6];
+uniform 	mat4 unity_CameraProjection;
+uniform 	mat4 unity_CameraInvProjection;
+uniform 	vec4 _WorldSpaceLightPos0;
+uniform 	vec4 _LightPositionRange;
+uniform 	vec4 unity_4LightPosX0;
+uniform 	vec4 unity_4LightPosY0;
+uniform 	vec4 unity_4LightPosZ0;
+uniform 	mediump vec4 unity_4LightAtten0;
+uniform 	mediump vec4 unity_LightColor[8];
+uniform 	vec4 unity_LightPosition[8];
+uniform 	mediump vec4 unity_LightAtten[8];
+uniform 	vec4 unity_SpotDirection[8];
+uniform 	mediump vec4 unity_SHAr;
+uniform 	mediump vec4 unity_SHAg;
+uniform 	mediump vec4 unity_SHAb;
+uniform 	mediump vec4 unity_SHBr;
+uniform 	mediump vec4 unity_SHBg;
+uniform 	mediump vec4 unity_SHBb;
+uniform 	mediump vec4 unity_SHC;
+uniform 	mediump vec3 unity_LightColor0;
+uniform 	mediump vec3 unity_LightColor1;
+uniform 	mediump vec3 unity_LightColor2;
+uniform 	mediump vec3 unity_LightColor3;
+uniform 	vec4 unity_ShadowSplitSpheres[4];
+uniform 	vec4 unity_ShadowSplitSqRadii;
+uniform 	vec4 unity_LightShadowBias;
+uniform 	vec4 _LightSplitsNear;
+uniform 	vec4 _LightSplitsFar;
+uniform 	mat4 unity_World2Shadow[4];
+uniform 	mediump vec4 _LightShadowData;
+uniform 	vec4 unity_ShadowFadeCenterAndType;
+uniform 	mat4 glstate_matrix_mvp;
+uniform 	mat4 glstate_matrix_modelview0;
+uniform 	mat4 glstate_matrix_invtrans_modelview0;
+uniform 	mat4 _Object2World;
+uniform 	mat4 _World2Object;
+uniform 	vec4 unity_LODFade;
+uniform 	mat4 glstate_matrix_transpose_modelview0;
+uniform 	mat4 glstate_matrix_projection;
+uniform 	lowp vec4 glstate_lightmodel_ambient;
+uniform 	mat4 unity_MatrixV;
+uniform 	mat4 unity_MatrixVP;
+uniform 	lowp vec4 unity_AmbientSky;
+uniform 	lowp vec4 unity_AmbientEquator;
+uniform 	lowp vec4 unity_AmbientGround;
+uniform 	lowp vec4 unity_FogColor;
+uniform 	vec4 unity_FogParams;
+uniform 	vec4 unity_LightmapST;
+uniform 	vec4 unity_DynamicLightmapST;
+uniform 	vec4 unity_SpecCube0_BoxMax;
+uniform 	vec4 unity_SpecCube0_BoxMin;
+uniform 	vec4 unity_SpecCube0_ProbePosition;
+uniform 	mediump vec4 unity_SpecCube0_HDR;
+uniform 	vec4 unity_SpecCube1_BoxMax;
+uniform 	vec4 unity_SpecCube1_BoxMin;
+uniform 	vec4 unity_SpecCube1_ProbePosition;
+uniform 	mediump vec4 unity_SpecCube1_HDR;
+uniform 	lowp vec4 unity_ColorSpaceGrey;
+uniform 	lowp vec4 unity_ColorSpaceDouble;
+uniform 	mediump vec4 unity_ColorSpaceDielectricSpec;
+uniform 	mediump vec4 unity_ColorSpaceLuminance;
+uniform 	mediump vec4 unity_Lightmap_HDR;
+uniform 	mediump vec4 unity_DynamicLightmap_HDR;
+uniform 	lowp vec4 _LightColor0;
+uniform 	lowp vec4 _SpecColor;
+uniform 	mediump vec4 unity_LightGammaCorrectionConsts;
+uniform 	lowp vec4 _Color;
+uniform 	vec4 _MainTex_ST;
+uniform 	lowp vec4 unity_Ambient;
+in highp vec4 in_POSITION0;
+in highp vec3 in_NORMAL0;
+in highp vec4 in_TEXCOORD0;
+in lowp vec4 in_COLOR0;
+out highp vec2 vs_TEXCOORD0;
+out highp vec3 vs_TEXCOORD1;
+out mediump vec4 vs_TEXCOORD2;
+out highp vec4 vs_TEXCOORD3;
+out highp vec4 vs_TEXCOORD4;
+out highp vec3 vs_TEXCOORD5;
+highp vec4 t0;
+lowp vec4 t10_0;
+highp vec4 t1;
+mediump vec4 t16_1;
+highp vec4 t2;
+mediump vec3 t16_3;
+mediump vec3 t16_4;
+highp vec3 t5;
+highp vec2 t10;
+highp float t16;
+void main()
+{
+    //Instruction 372
+    //DIV
+    t0.xy = in_POSITION0.xy / in_POSITION0.ww;
+    //Instruction 373
+    //MUL
+    t10.xy = _ScreenParams.xy * vec2(0.5, 0.5);
+    //Instruction 374
+    //MUL
+    t0.xy = t10.xy * t0.xy;
+    //Instruction 375
+    //ROUND_NE
+    t0.xy = roundEven(t0.xy);
+    //Instruction 376
+    //DIV
+    t0.xy = t0.xy / t10.xy;
+    //Instruction 377
+    //MUL
+    t0.xy = t0.xy * in_POSITION0.ww;
+    //Instruction 378
+    //MUL
+    t1 = t0.yyyy * glstate_matrix_mvp[1];
+    //Instruction 379
+    //MAD
+    t1 = glstate_matrix_mvp[0] * t0.xxxx + t1;
+    //Instruction 380
+    //MAD
+    t1 = glstate_matrix_mvp[2] * in_POSITION0.zzzz + t1;
+    //Instruction 381
+    //MAD
+    t1 = glstate_matrix_mvp[3] * in_POSITION0.wwww + t1;
+    //Instruction 382
+    //MOV
+    gl_Position = t1;
+    //Instruction 383
+    //MAD
+    vs_TEXCOORD0.xy = in_TEXCOORD0.xy * _MainTex_ST.xy + _MainTex_ST.zw;
+    //Instruction 384
+    //MUL
+    t5.xyz = t0.yyy * _Object2World[1].xyz;
+    //Instruction 385
+    //MAD
+    t0.xyz = _Object2World[0].xyz * t0.xxx + t5.xyz;
+    //Instruction 386
+    //MAD
+    t0.xyz = _Object2World[2].xyz * in_POSITION0.zzz + t0.xyz;
+    //Instruction 387
+    //MAD
+    vs_TEXCOORD1.xyz = _Object2World[3].xyz * in_POSITION0.www + t0.xyz;
+    //Instruction 388
+    //MUL
+    t10_0 = in_COLOR0 * _Color;
+    //Instruction 389
+    //MOV
+    vs_TEXCOORD2 = t10_0;
+    //Instruction 390
+    //MUL
+    t1.y = t1.y * _ProjectionParams.x;
+    //Instruction 391
+    //MUL
+    t2.xzw = t1.xwy * vec3(0.5, 0.5, 0.5);
+    //Instruction 392
+    //MOV
+    vs_TEXCOORD3.zw = t1.zw;
+    //Instruction 393
+    //ADD
+    vs_TEXCOORD3.xy = t2.zz + t2.xw;
+    //Instruction 394
+    //MOV
+    vs_TEXCOORD4 = vec4(0.0, 0.0, 0.0, 0.0);
+    //Instruction 395
+    //MUL
+    t1.x = in_NORMAL0.x * _World2Object[0].x;
+    //Instruction 396
+    //MUL
+    t1.y = in_NORMAL0.x * _World2Object[1].x;
+    //Instruction 397
+    //MUL
+    t1.z = in_NORMAL0.x * _World2Object[2].x;
+    //Instruction 398
+    //MUL
+    t2.x = in_NORMAL0.y * _World2Object[0].y;
+    //Instruction 399
+    //MUL
+    t2.y = in_NORMAL0.y * _World2Object[1].y;
+    //Instruction 400
+    //MUL
+    t2.z = in_NORMAL0.y * _World2Object[2].y;
+    //Instruction 401
+    //ADD
+    t1.xyz = t1.xyz + t2.xyz;
+    //Instruction 402
+    //MUL
+    t2.x = in_NORMAL0.z * _World2Object[0].z;
+    //Instruction 403
+    //MUL
+    t2.y = in_NORMAL0.z * _World2Object[1].z;
+    //Instruction 404
+    //MUL
+    t2.z = in_NORMAL0.z * _World2Object[2].z;
+    //Instruction 405
+    //ADD
+    t1.xyz = t1.xyz + t2.xyz;
+    //Instruction 406
+    //DP3
+    t16 = dot(t1.xyz, t1.xyz);
+    //Instruction 407
+    //RSQ
+    t16 = inversesqrt(t16);
+    //Instruction 408
+    //MUL
+    t0.xyz = vec3(t16) * t1.xyz;
+    //Instruction 409
+    //MUL
+    t16_3.x = t0.y * t0.y;
+    //Instruction 410
+    //MAD
+    t16_3.x = t0.x * t0.x + (-t16_3.x);
+    //Instruction 411
+    //MUL
+    t16_1 = t0.yzzx * t0.xyzz;
+    //Instruction 412
+    //DP4
+    t16_4.x = dot(unity_SHBr, t16_1);
+    //Instruction 413
+    //DP4
+    t16_4.y = dot(unity_SHBg, t16_1);
+    //Instruction 414
+    //DP4
+    t16_4.z = dot(unity_SHBb, t16_1);
+    //Instruction 415
+    //MAD
+    t16_3.xyz = unity_SHC.xyz * t16_3.xxx + t16_4.xyz;
+    //Instruction 416
+    //MOV
+    t0.w = 1.0;
+    //Instruction 417
+    //DP4
+    t16_4.x = dot(unity_SHAr, t0);
+    //Instruction 418
+    //DP4
+    t16_4.y = dot(unity_SHAg, t0);
+    //Instruction 419
+    //DP4
+    t16_4.z = dot(unity_SHAb, t0);
+    //Instruction 420
+    //ADD
+    t16_3.xyz = t16_3.xyz + t16_4.xyz;
+    //Instruction 421
+    //MOV
+    vs_TEXCOORD5.xyz = t16_3.xyz;
+    //Instruction 422
+    //RET
+    return;
+}
+
+#endif
+#ifdef FRAGMENT
+#version 300 es
+precision highp float;
+precision highp int;
+uniform lowp sampler2D _MainTex;
+uniform lowp sampler2D _LightBuffer;
+in highp vec2 vs_TEXCOORD0;
+in mediump vec4 vs_TEXCOORD2;
+in highp vec4 vs_TEXCOORD3;
+in highp vec3 vs_TEXCOORD5;
+layout(location = 0) out lowp vec4 SV_Target0;
+highp vec3 t0;
+lowp vec3 t10_0;
+mediump vec4 t16_1;
+lowp vec4 t10_1;
+lowp vec3 t10_2;
+mediump vec3 t16_3;
+void main()
+{
+    //Instruction 360
+    //DIV
+    t0.xy = vs_TEXCOORD3.xy / vs_TEXCOORD3.ww;
+    //Instruction 361
+    //SAMPLE
+    t10_0.xyz = texture(_LightBuffer, t0.xy).xyz;
+    //Instruction 362
+    //MAX
+    t16_1.xyz = max(t10_0.xyz, vec3(0.00100000005, 0.00100000005, 0.00100000005));
+    //Instruction 363
+    //LOG
+    t16_1.xyz = log2(t16_1.xyz);
+    //Instruction 364
+    //ADD
+    t0.xyz = (-t16_1.xyz) + vs_TEXCOORD5.xyz;
+    //Instruction 365
+    //SAMPLE
+    t10_1 = texture(_MainTex, vs_TEXCOORD0.xy);
+    //Instruction 366
+    //MUL
+    t16_1 = t10_1 * vs_TEXCOORD2;
+    //Instruction 367
+    //MUL
+    t10_2.xyz = t16_1.www * t16_1.xyz;
+    //Instruction 368
+    //MOV
+    SV_Target0.w = t16_1.w;
+    //Instruction 369
+    //MUL
+    t16_3.xyz = t0.xyz * t10_2.xyz;
+    //Instruction 370
+    //MOV
+    SV_Target0.xyz = t16_3.xyz;
+    //Instruction 371
+    //RET
+    return;
+}
+
+#endif
+"
+}
+SubProgram "gles " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "UNITY_HDR_ON" "PIXELSNAP_ON" }
+"!!GLES
+#version 100
+
+#ifdef VERTEX
+attribute vec4 _glesVertex;
+attribute vec4 _glesColor;
+attribute vec3 _glesNormal;
+attribute vec4 _glesMultiTexCoord0;
+uniform highp vec4 _ProjectionParams;
+uniform highp vec4 _ScreenParams;
+uniform mediump vec4 unity_SHAr;
+uniform mediump vec4 unity_SHAg;
+uniform mediump vec4 unity_SHAb;
+uniform mediump vec4 unity_SHBr;
+uniform mediump vec4 unity_SHBg;
+uniform mediump vec4 unity_SHBb;
+uniform mediump vec4 unity_SHC;
+uniform highp mat4 glstate_matrix_mvp;
+uniform highp mat4 _Object2World;
+uniform highp mat4 _World2Object;
+uniform lowp vec4 _Color;
+uniform highp vec4 _MainTex_ST;
+varying highp vec2 xlv_TEXCOORD0;
+varying highp vec3 xlv_TEXCOORD1;
+varying mediump vec4 xlv_TEXCOORD2;
+varying highp vec4 xlv_TEXCOORD3;
+varying highp vec4 xlv_TEXCOORD4;
+varying highp vec3 xlv_TEXCOORD5;
+void main ()
+{
+  highp vec4 tmpvar_1;
+  mediump vec4 tmpvar_2;
+  highp vec4 tmpvar_3;
+  highp vec3 tmpvar_4;
+  lowp vec4 tmpvar_5;
+  highp vec4 pos_6;
+  pos_6.zw = _glesVertex.zw;
+  highp vec2 tmpvar_7;
+  tmpvar_7 = (_ScreenParams.xy * 0.5);
+  pos_6.xy = ((floor(
+    (((_glesVertex.xy / _glesVertex.w) * tmpvar_7) + vec2(0.5, 0.5))
+  ) / tmpvar_7) * _glesVertex.w);
+  tmpvar_5 = (_glesColor * _Color);
+  tmpvar_2 = tmpvar_5;
+  tmpvar_1 = (glstate_matrix_mvp * pos_6);
+  highp vec4 o_8;
+  highp vec4 tmpvar_9;
+  tmpvar_9 = (tmpvar_1 * 0.5);
+  highp vec2 tmpvar_10;
+  tmpvar_10.x = tmpvar_9.x;
+  tmpvar_10.y = (tmpvar_9.y * _ProjectionParams.x);
+  o_8.xy = (tmpvar_10 + tmpvar_9.w);
+  o_8.zw = tmpvar_1.zw;
+  tmpvar_3.zw = vec2(0.0, 0.0);
+  tmpvar_3.xy = vec2(0.0, 0.0);
+  highp vec4 v_11;
+  v_11.x = _World2Object[0].x;
+  v_11.y = _World2Object[1].x;
+  v_11.z = _World2Object[2].x;
+  v_11.w = _World2Object[3].x;
+  highp vec4 v_12;
+  v_12.x = _World2Object[0].y;
+  v_12.y = _World2Object[1].y;
+  v_12.z = _World2Object[2].y;
+  v_12.w = _World2Object[3].y;
+  highp vec4 v_13;
+  v_13.x = _World2Object[0].z;
+  v_13.y = _World2Object[1].z;
+  v_13.z = _World2Object[2].z;
+  v_13.w = _World2Object[3].z;
+  highp vec4 tmpvar_14;
+  tmpvar_14.w = 1.0;
+  tmpvar_14.xyz = normalize(((
+    (v_11.xyz * _glesNormal.x)
+   + 
+    (v_12.xyz * _glesNormal.y)
+  ) + (v_13.xyz * _glesNormal.z)));
+  mediump vec3 tmpvar_15;
+  mediump vec4 normal_16;
+  normal_16 = tmpvar_14;
+  mediump vec3 x2_17;
+  mediump vec3 x1_18;
+  x1_18.x = dot (unity_SHAr, normal_16);
+  x1_18.y = dot (unity_SHAg, normal_16);
+  x1_18.z = dot (unity_SHAb, normal_16);
+  mediump vec4 tmpvar_19;
+  tmpvar_19 = (normal_16.xyzz * normal_16.yzzx);
+  x2_17.x = dot (unity_SHBr, tmpvar_19);
+  x2_17.y = dot (unity_SHBg, tmpvar_19);
+  x2_17.z = dot (unity_SHBb, tmpvar_19);
+  tmpvar_15 = ((x2_17 + (unity_SHC.xyz * 
+    ((normal_16.x * normal_16.x) - (normal_16.y * normal_16.y))
+  )) + x1_18);
+  tmpvar_4 = tmpvar_15;
+  gl_Position = tmpvar_1;
+  xlv_TEXCOORD0 = ((_glesMultiTexCoord0.xy * _MainTex_ST.xy) + _MainTex_ST.zw);
+  xlv_TEXCOORD1 = (_Object2World * pos_6).xyz;
+  xlv_TEXCOORD2 = tmpvar_2;
+  xlv_TEXCOORD3 = o_8;
+  xlv_TEXCOORD4 = tmpvar_3;
+  xlv_TEXCOORD5 = tmpvar_4;
+}
+
+
+#endif
+#ifdef FRAGMENT
+uniform sampler2D _MainTex;
+uniform sampler2D _LightBuffer;
+varying highp vec2 xlv_TEXCOORD0;
+varying mediump vec4 xlv_TEXCOORD2;
+varying highp vec4 xlv_TEXCOORD3;
+varying highp vec3 xlv_TEXCOORD5;
+void main ()
+{
+  lowp vec4 tmpvar_1;
+  mediump vec4 c_2;
+  mediump vec4 light_3;
+  lowp vec4 tmpvar_4;
+  tmpvar_4 = xlv_TEXCOORD2;
+  lowp vec4 tmpvar_5;
+  tmpvar_5 = (texture2D (_MainTex, xlv_TEXCOORD0) * tmpvar_4);
+  lowp vec4 tmpvar_6;
+  tmpvar_6 = texture2DProj (_LightBuffer, xlv_TEXCOORD3);
+  light_3 = tmpvar_6;
+  mediump vec4 tmpvar_7;
+  tmpvar_7 = max (light_3, vec4(0.001, 0.001, 0.001, 0.001));
+  light_3.w = tmpvar_7.w;
+  light_3.xyz = (tmpvar_7.xyz + xlv_TEXCOORD5);
+  lowp vec4 c_8;
+  c_8.xyz = ((tmpvar_5.xyz * tmpvar_5.w) * light_3.xyz);
+  c_8.w = tmpvar_5.w;
+  c_2 = c_8;
+  tmpvar_1 = c_2;
+  gl_FragData[0] = tmpvar_1;
+}
+
+
+#endif
+"
+}
+SubProgram "gles3 " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "UNITY_HDR_ON" "PIXELSNAP_ON" }
+"!!GLES3
+#ifdef VERTEX
+#version 300 es
+precision highp float;
+precision highp int;
+uniform 	vec4 _Time;
+uniform 	vec4 _SinTime;
+uniform 	vec4 _CosTime;
+uniform 	vec4 unity_DeltaTime;
+uniform 	vec3 _WorldSpaceCameraPos;
+uniform 	vec4 _ProjectionParams;
+uniform 	vec4 _ScreenParams;
+uniform 	vec4 _ZBufferParams;
+uniform 	vec4 unity_OrthoParams;
+uniform 	vec4 unity_CameraWorldClipPlanes[6];
+uniform 	mat4 unity_CameraProjection;
+uniform 	mat4 unity_CameraInvProjection;
+uniform 	vec4 _WorldSpaceLightPos0;
+uniform 	vec4 _LightPositionRange;
+uniform 	vec4 unity_4LightPosX0;
+uniform 	vec4 unity_4LightPosY0;
+uniform 	vec4 unity_4LightPosZ0;
+uniform 	mediump vec4 unity_4LightAtten0;
+uniform 	mediump vec4 unity_LightColor[8];
+uniform 	vec4 unity_LightPosition[8];
+uniform 	mediump vec4 unity_LightAtten[8];
+uniform 	vec4 unity_SpotDirection[8];
+uniform 	mediump vec4 unity_SHAr;
+uniform 	mediump vec4 unity_SHAg;
+uniform 	mediump vec4 unity_SHAb;
+uniform 	mediump vec4 unity_SHBr;
+uniform 	mediump vec4 unity_SHBg;
+uniform 	mediump vec4 unity_SHBb;
+uniform 	mediump vec4 unity_SHC;
+uniform 	mediump vec3 unity_LightColor0;
+uniform 	mediump vec3 unity_LightColor1;
+uniform 	mediump vec3 unity_LightColor2;
+uniform 	mediump vec3 unity_LightColor3;
+uniform 	vec4 unity_ShadowSplitSpheres[4];
+uniform 	vec4 unity_ShadowSplitSqRadii;
+uniform 	vec4 unity_LightShadowBias;
+uniform 	vec4 _LightSplitsNear;
+uniform 	vec4 _LightSplitsFar;
+uniform 	mat4 unity_World2Shadow[4];
+uniform 	mediump vec4 _LightShadowData;
+uniform 	vec4 unity_ShadowFadeCenterAndType;
+uniform 	mat4 glstate_matrix_mvp;
+uniform 	mat4 glstate_matrix_modelview0;
+uniform 	mat4 glstate_matrix_invtrans_modelview0;
+uniform 	mat4 _Object2World;
+uniform 	mat4 _World2Object;
+uniform 	vec4 unity_LODFade;
+uniform 	mat4 glstate_matrix_transpose_modelview0;
+uniform 	mat4 glstate_matrix_projection;
+uniform 	lowp vec4 glstate_lightmodel_ambient;
+uniform 	mat4 unity_MatrixV;
+uniform 	mat4 unity_MatrixVP;
+uniform 	lowp vec4 unity_AmbientSky;
+uniform 	lowp vec4 unity_AmbientEquator;
+uniform 	lowp vec4 unity_AmbientGround;
+uniform 	lowp vec4 unity_FogColor;
+uniform 	vec4 unity_FogParams;
+uniform 	vec4 unity_LightmapST;
+uniform 	vec4 unity_DynamicLightmapST;
+uniform 	vec4 unity_SpecCube0_BoxMax;
+uniform 	vec4 unity_SpecCube0_BoxMin;
+uniform 	vec4 unity_SpecCube0_ProbePosition;
+uniform 	mediump vec4 unity_SpecCube0_HDR;
+uniform 	vec4 unity_SpecCube1_BoxMax;
+uniform 	vec4 unity_SpecCube1_BoxMin;
+uniform 	vec4 unity_SpecCube1_ProbePosition;
+uniform 	mediump vec4 unity_SpecCube1_HDR;
+uniform 	lowp vec4 unity_ColorSpaceGrey;
+uniform 	lowp vec4 unity_ColorSpaceDouble;
+uniform 	mediump vec4 unity_ColorSpaceDielectricSpec;
+uniform 	mediump vec4 unity_ColorSpaceLuminance;
+uniform 	mediump vec4 unity_Lightmap_HDR;
+uniform 	mediump vec4 unity_DynamicLightmap_HDR;
+uniform 	lowp vec4 _LightColor0;
+uniform 	lowp vec4 _SpecColor;
+uniform 	mediump vec4 unity_LightGammaCorrectionConsts;
+uniform 	lowp vec4 _Color;
+uniform 	vec4 _MainTex_ST;
+uniform 	lowp vec4 unity_Ambient;
+in highp vec4 in_POSITION0;
+in highp vec3 in_NORMAL0;
+in highp vec4 in_TEXCOORD0;
+in lowp vec4 in_COLOR0;
+out highp vec2 vs_TEXCOORD0;
+out highp vec3 vs_TEXCOORD1;
+out mediump vec4 vs_TEXCOORD2;
+out highp vec4 vs_TEXCOORD3;
+out highp vec4 vs_TEXCOORD4;
+out highp vec3 vs_TEXCOORD5;
+highp vec4 t0;
+lowp vec4 t10_0;
+highp vec4 t1;
+mediump vec4 t16_1;
+highp vec4 t2;
+mediump vec3 t16_3;
+mediump vec3 t16_4;
+highp vec3 t5;
+highp vec2 t10;
+highp float t16;
+void main()
+{
+    //Instruction 256
+    //DIV
+    t0.xy = in_POSITION0.xy / in_POSITION0.ww;
+    //Instruction 257
+    //MUL
+    t10.xy = _ScreenParams.xy * vec2(0.5, 0.5);
+    //Instruction 258
+    //MUL
+    t0.xy = t10.xy * t0.xy;
+    //Instruction 259
+    //ROUND_NE
+    t0.xy = roundEven(t0.xy);
+    //Instruction 260
+    //DIV
+    t0.xy = t0.xy / t10.xy;
+    //Instruction 261
+    //MUL
+    t0.xy = t0.xy * in_POSITION0.ww;
+    //Instruction 262
+    //MUL
+    t1 = t0.yyyy * glstate_matrix_mvp[1];
+    //Instruction 263
+    //MAD
+    t1 = glstate_matrix_mvp[0] * t0.xxxx + t1;
+    //Instruction 264
+    //MAD
+    t1 = glstate_matrix_mvp[2] * in_POSITION0.zzzz + t1;
+    //Instruction 265
+    //MAD
+    t1 = glstate_matrix_mvp[3] * in_POSITION0.wwww + t1;
+    //Instruction 266
+    //MOV
+    gl_Position = t1;
+    //Instruction 267
+    //MAD
+    vs_TEXCOORD0.xy = in_TEXCOORD0.xy * _MainTex_ST.xy + _MainTex_ST.zw;
+    //Instruction 268
+    //MUL
+    t5.xyz = t0.yyy * _Object2World[1].xyz;
+    //Instruction 269
+    //MAD
+    t0.xyz = _Object2World[0].xyz * t0.xxx + t5.xyz;
+    //Instruction 270
+    //MAD
+    t0.xyz = _Object2World[2].xyz * in_POSITION0.zzz + t0.xyz;
+    //Instruction 271
+    //MAD
+    vs_TEXCOORD1.xyz = _Object2World[3].xyz * in_POSITION0.www + t0.xyz;
+    //Instruction 272
+    //MUL
+    t10_0 = in_COLOR0 * _Color;
+    //Instruction 273
+    //MOV
+    vs_TEXCOORD2 = t10_0;
+    //Instruction 274
+    //MUL
+    t1.y = t1.y * _ProjectionParams.x;
+    //Instruction 275
+    //MUL
+    t2.xzw = t1.xwy * vec3(0.5, 0.5, 0.5);
+    //Instruction 276
+    //MOV
+    vs_TEXCOORD3.zw = t1.zw;
+    //Instruction 277
+    //ADD
+    vs_TEXCOORD3.xy = t2.zz + t2.xw;
+    //Instruction 278
+    //MOV
+    vs_TEXCOORD4 = vec4(0.0, 0.0, 0.0, 0.0);
+    //Instruction 279
+    //MUL
+    t1.x = in_NORMAL0.x * _World2Object[0].x;
+    //Instruction 280
+    //MUL
+    t1.y = in_NORMAL0.x * _World2Object[1].x;
+    //Instruction 281
+    //MUL
+    t1.z = in_NORMAL0.x * _World2Object[2].x;
+    //Instruction 282
+    //MUL
+    t2.x = in_NORMAL0.y * _World2Object[0].y;
+    //Instruction 283
+    //MUL
+    t2.y = in_NORMAL0.y * _World2Object[1].y;
+    //Instruction 284
+    //MUL
+    t2.z = in_NORMAL0.y * _World2Object[2].y;
+    //Instruction 285
+    //ADD
+    t1.xyz = t1.xyz + t2.xyz;
+    //Instruction 286
+    //MUL
+    t2.x = in_NORMAL0.z * _World2Object[0].z;
+    //Instruction 287
+    //MUL
+    t2.y = in_NORMAL0.z * _World2Object[1].z;
+    //Instruction 288
+    //MUL
+    t2.z = in_NORMAL0.z * _World2Object[2].z;
+    //Instruction 289
+    //ADD
+    t1.xyz = t1.xyz + t2.xyz;
+    //Instruction 290
+    //DP3
+    t16 = dot(t1.xyz, t1.xyz);
+    //Instruction 291
+    //RSQ
+    t16 = inversesqrt(t16);
+    //Instruction 292
+    //MUL
+    t0.xyz = vec3(t16) * t1.xyz;
+    //Instruction 293
+    //MUL
+    t16_3.x = t0.y * t0.y;
+    //Instruction 294
+    //MAD
+    t16_3.x = t0.x * t0.x + (-t16_3.x);
+    //Instruction 295
+    //MUL
+    t16_1 = t0.yzzx * t0.xyzz;
+    //Instruction 296
+    //DP4
+    t16_4.x = dot(unity_SHBr, t16_1);
+    //Instruction 297
+    //DP4
+    t16_4.y = dot(unity_SHBg, t16_1);
+    //Instruction 298
+    //DP4
+    t16_4.z = dot(unity_SHBb, t16_1);
+    //Instruction 299
+    //MAD
+    t16_3.xyz = unity_SHC.xyz * t16_3.xxx + t16_4.xyz;
+    //Instruction 300
+    //MOV
+    t0.w = 1.0;
+    //Instruction 301
+    //DP4
+    t16_4.x = dot(unity_SHAr, t0);
+    //Instruction 302
+    //DP4
+    t16_4.y = dot(unity_SHAg, t0);
+    //Instruction 303
+    //DP4
+    t16_4.z = dot(unity_SHAb, t0);
+    //Instruction 304
+    //ADD
+    t16_3.xyz = t16_3.xyz + t16_4.xyz;
+    //Instruction 305
+    //MOV
+    vs_TEXCOORD5.xyz = t16_3.xyz;
+    //Instruction 306
+    //RET
+    return;
+}
+
+#endif
+#ifdef FRAGMENT
+#version 300 es
+precision highp float;
+precision highp int;
+uniform lowp sampler2D _MainTex;
+uniform lowp sampler2D _LightBuffer;
+in highp vec2 vs_TEXCOORD0;
+in mediump vec4 vs_TEXCOORD2;
+in highp vec4 vs_TEXCOORD3;
+in highp vec3 vs_TEXCOORD5;
+layout(location = 0) out lowp vec4 SV_Target0;
+highp vec3 t0;
+lowp vec3 t10_0;
+mediump vec4 t16_1;
+lowp vec4 t10_1;
+lowp vec3 t10_2;
+mediump vec3 t16_3;
+void main()
+{
+    //Instruction 245
+    //DIV
+    t0.xy = vs_TEXCOORD3.xy / vs_TEXCOORD3.ww;
+    //Instruction 246
+    //SAMPLE
+    t10_0.xyz = texture(_LightBuffer, t0.xy).xyz;
+    //Instruction 247
+    //MAX
+    t16_1.xyz = max(t10_0.xyz, vec3(0.00100000005, 0.00100000005, 0.00100000005));
+    //Instruction 248
+    //ADD
+    t0.xyz = t16_1.xyz + vs_TEXCOORD5.xyz;
+    //Instruction 249
+    //SAMPLE
+    t10_1 = texture(_MainTex, vs_TEXCOORD0.xy);
+    //Instruction 250
+    //MUL
+    t16_1 = t10_1 * vs_TEXCOORD2;
+    //Instruction 251
+    //MUL
+    t10_2.xyz = t16_1.www * t16_1.xyz;
+    //Instruction 252
+    //MOV
+    SV_Target0.w = t16_1.w;
+    //Instruction 253
+    //MUL
+    t16_3.xyz = t0.xyz * t10_2.xyz;
+    //Instruction 254
+    //MOV
+    SV_Target0.xyz = t16_3.xyz;
+    //Instruction 255
+    //RET
+    return;
+}
+
+#endif
+"
+}
+}
+Program "fp" {
+SubProgram "gles " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "HDR_LIGHT_PREPASS_OFF" }
+"!!GLES"
+}
+SubProgram "gles3 " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "HDR_LIGHT_PREPASS_OFF" }
+"!!GLES3"
+}
+SubProgram "gles " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "UNITY_HDR_ON" }
+"!!GLES"
+}
+SubProgram "gles3 " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "UNITY_HDR_ON" }
+"!!GLES3"
+}
+SubProgram "gles " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "PIXELSNAP_ON" "HDR_LIGHT_PREPASS_OFF" }
+"!!GLES"
+}
+SubProgram "gles3 " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "PIXELSNAP_ON" "HDR_LIGHT_PREPASS_OFF" }
+"!!GLES3"
+}
+SubProgram "gles " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "UNITY_HDR_ON" "PIXELSNAP_ON" }
+"!!GLES"
+}
+SubProgram "gles3 " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "UNITY_HDR_ON" "PIXELSNAP_ON" }
+"!!GLES3"
+}
+}
+ }
+ Pass {
+  Name "DEFERRED"
+  Tags { "LIGHTMODE"="Deferred" "QUEUE"="Transparent" "IGNOREPROJECTOR"="true" "RenderType"="Transparent" "PreviewType"="Plane" "CanUseSpriteAtlas"="true" }
+  ZWrite Off
+  Cull Off
+  Blend One OneMinusSrcAlpha
+  GpuProgramID 271025
+Program "vp" {
+SubProgram "gles " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "HDR_LIGHT_PREPASS_OFF" }
+"!!GLES
+#version 100
+
+#ifdef VERTEX
+attribute vec4 _glesVertex;
+attribute vec4 _glesColor;
+attribute vec3 _glesNormal;
+attribute vec4 _glesMultiTexCoord0;
+uniform mediump vec4 unity_SHAr;
+uniform mediump vec4 unity_SHAg;
+uniform mediump vec4 unity_SHAb;
+uniform mediump vec4 unity_SHBr;
+uniform mediump vec4 unity_SHBg;
+uniform mediump vec4 unity_SHBb;
+uniform mediump vec4 unity_SHC;
+uniform highp mat4 glstate_matrix_mvp;
+uniform highp mat4 _Object2World;
+uniform highp mat4 _World2Object;
+uniform lowp vec4 _Color;
+uniform highp vec4 _MainTex_ST;
+varying highp vec2 xlv_TEXCOORD0;
+varying mediump vec3 xlv_TEXCOORD1;
+varying highp vec3 xlv_TEXCOORD2;
+varying mediump vec4 xlv_TEXCOORD3;
+varying highp vec4 xlv_TEXCOORD5;
+varying mediump vec3 xlv_TEXCOORD6;
+void main ()
+{
+  lowp vec3 worldNormal_1;
+  mediump vec3 tmpvar_2;
+  mediump vec4 tmpvar_3;
+  highp vec4 tmpvar_4;
+  lowp vec4 tmpvar_5;
+  tmpvar_5 = (_glesColor * _Color);
+  tmpvar_3 = tmpvar_5;
+  highp vec4 v_6;
+  v_6.x = _World2Object[0].x;
+  v_6.y = _World2Object[1].x;
+  v_6.z = _World2Object[2].x;
+  v_6.w = _World2Object[3].x;
+  highp vec4 v_7;
+  v_7.x = _World2Object[0].y;
+  v_7.y = _World2Object[1].y;
+  v_7.z = _World2Object[2].y;
+  v_7.w = _World2Object[3].y;
+  highp vec4 v_8;
+  v_8.x = _World2Object[0].z;
+  v_8.y = _World2Object[1].z;
+  v_8.z = _World2Object[2].z;
+  v_8.w = _World2Object[3].z;
+  highp vec3 tmpvar_9;
+  tmpvar_9 = normalize(((
+    (v_6.xyz * _glesNormal.x)
+   + 
+    (v_7.xyz * _glesNormal.y)
+  ) + (v_8.xyz * _glesNormal.z)));
+  worldNormal_1 = tmpvar_9;
+  tmpvar_2 = worldNormal_1;
+  tmpvar_4.zw = vec2(0.0, 0.0);
+  tmpvar_4.xy = vec2(0.0, 0.0);
+  lowp vec4 tmpvar_10;
+  tmpvar_10.w = 1.0;
+  tmpvar_10.xyz = worldNormal_1;
+  mediump vec4 normal_11;
+  normal_11 = tmpvar_10;
+  mediump vec3 x2_12;
+  mediump vec3 x1_13;
+  x1_13.x = dot (unity_SHAr, normal_11);
+  x1_13.y = dot (unity_SHAg, normal_11);
+  x1_13.z = dot (unity_SHAb, normal_11);
+  mediump vec4 tmpvar_14;
+  tmpvar_14 = (normal_11.xyzz * normal_11.yzzx);
+  x2_12.x = dot (unity_SHBr, tmpvar_14);
+  x2_12.y = dot (unity_SHBg, tmpvar_14);
+  x2_12.z = dot (unity_SHBb, tmpvar_14);
+  gl_Position = (glstate_matrix_mvp * _glesVertex);
+  xlv_TEXCOORD0 = ((_glesMultiTexCoord0.xy * _MainTex_ST.xy) + _MainTex_ST.zw);
+  xlv_TEXCOORD1 = tmpvar_2;
+  xlv_TEXCOORD2 = (_Object2World * _glesVertex).xyz;
+  xlv_TEXCOORD3 = tmpvar_3;
+  xlv_TEXCOORD5 = tmpvar_4;
+  xlv_TEXCOORD6 = ((x2_12 + (unity_SHC.xyz * 
+    ((normal_11.x * normal_11.x) - (normal_11.y * normal_11.y))
+  )) + x1_13);
+}
+
+
+#endif
+#ifdef FRAGMENT
+#extension GL_EXT_draw_buffers : enable
+uniform sampler2D _MainTex;
+varying highp vec2 xlv_TEXCOORD0;
+varying mediump vec3 xlv_TEXCOORD1;
+varying mediump vec4 xlv_TEXCOORD3;
+varying mediump vec3 xlv_TEXCOORD6;
+void main ()
+{
+  mediump vec4 outEmission_1;
+  lowp vec3 tmpvar_2;
+  lowp vec4 tmpvar_3;
+  tmpvar_3 = xlv_TEXCOORD3;
+  tmpvar_2 = xlv_TEXCOORD1;
+  lowp vec3 tmpvar_4;
+  lowp vec4 tmpvar_5;
+  tmpvar_5 = (texture2D (_MainTex, xlv_TEXCOORD0) * tmpvar_3);
+  tmpvar_4 = (tmpvar_5.xyz * tmpvar_5.w);
+  mediump vec4 outDiffuseOcclusion_6;
+  mediump vec4 outNormal_7;
+  mediump vec4 emission_8;
+  lowp vec4 tmpvar_9;
+  tmpvar_9.w = 1.0;
+  tmpvar_9.xyz = tmpvar_4;
+  outDiffuseOcclusion_6 = tmpvar_9;
+  lowp vec4 tmpvar_10;
+  tmpvar_10.w = 1.0;
+  tmpvar_10.xyz = ((tmpvar_2 * 0.5) + 0.5);
+  outNormal_7 = tmpvar_10;
+  lowp vec4 tmpvar_11;
+  tmpvar_11.w = 1.0;
+  tmpvar_11.xyz = vec3(0.0, 0.0, 0.0);
+  emission_8 = tmpvar_11;
+  emission_8.xyz = (emission_8.xyz + (tmpvar_4 * xlv_TEXCOORD6));
+  outEmission_1.w = emission_8.w;
+  outEmission_1.xyz = exp2(-(emission_8.xyz));
+  gl_FragData[0] = outDiffuseOcclusion_6;
+  gl_FragData[1] = vec4(0.0, 0.0, 0.0, 0.0);
+  gl_FragData[2] = outNormal_7;
+  gl_FragData[3] = outEmission_1;
+}
+
+
+#endif
+"
+}
+SubProgram "gles3 " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "HDR_LIGHT_PREPASS_OFF" }
+"!!GLES3
+#ifdef VERTEX
+#version 300 es
+precision highp float;
+precision highp int;
+uniform 	vec4 _Time;
+uniform 	vec4 _SinTime;
+uniform 	vec4 _CosTime;
+uniform 	vec4 unity_DeltaTime;
+uniform 	vec3 _WorldSpaceCameraPos;
+uniform 	vec4 _ProjectionParams;
+uniform 	vec4 _ScreenParams;
+uniform 	vec4 _ZBufferParams;
+uniform 	vec4 unity_OrthoParams;
+uniform 	vec4 unity_CameraWorldClipPlanes[6];
+uniform 	mat4 unity_CameraProjection;
+uniform 	mat4 unity_CameraInvProjection;
+uniform 	vec4 _WorldSpaceLightPos0;
+uniform 	vec4 _LightPositionRange;
+uniform 	vec4 unity_4LightPosX0;
+uniform 	vec4 unity_4LightPosY0;
+uniform 	vec4 unity_4LightPosZ0;
+uniform 	mediump vec4 unity_4LightAtten0;
+uniform 	mediump vec4 unity_LightColor[8];
+uniform 	vec4 unity_LightPosition[8];
+uniform 	mediump vec4 unity_LightAtten[8];
+uniform 	vec4 unity_SpotDirection[8];
+uniform 	mediump vec4 unity_SHAr;
+uniform 	mediump vec4 unity_SHAg;
+uniform 	mediump vec4 unity_SHAb;
+uniform 	mediump vec4 unity_SHBr;
+uniform 	mediump vec4 unity_SHBg;
+uniform 	mediump vec4 unity_SHBb;
+uniform 	mediump vec4 unity_SHC;
+uniform 	mediump vec3 unity_LightColor0;
+uniform 	mediump vec3 unity_LightColor1;
+uniform 	mediump vec3 unity_LightColor2;
+uniform 	mediump vec3 unity_LightColor3;
+uniform 	vec4 unity_ShadowSplitSpheres[4];
+uniform 	vec4 unity_ShadowSplitSqRadii;
+uniform 	vec4 unity_LightShadowBias;
+uniform 	vec4 _LightSplitsNear;
+uniform 	vec4 _LightSplitsFar;
+uniform 	mat4 unity_World2Shadow[4];
+uniform 	mediump vec4 _LightShadowData;
+uniform 	vec4 unity_ShadowFadeCenterAndType;
+uniform 	mat4 glstate_matrix_mvp;
+uniform 	mat4 glstate_matrix_modelview0;
+uniform 	mat4 glstate_matrix_invtrans_modelview0;
+uniform 	mat4 _Object2World;
+uniform 	mat4 _World2Object;
+uniform 	vec4 unity_LODFade;
+uniform 	mat4 glstate_matrix_transpose_modelview0;
+uniform 	mat4 glstate_matrix_projection;
+uniform 	lowp vec4 glstate_lightmodel_ambient;
+uniform 	mat4 unity_MatrixV;
+uniform 	mat4 unity_MatrixVP;
+uniform 	lowp vec4 unity_AmbientSky;
+uniform 	lowp vec4 unity_AmbientEquator;
+uniform 	lowp vec4 unity_AmbientGround;
+uniform 	lowp vec4 unity_FogColor;
+uniform 	vec4 unity_FogParams;
+uniform 	vec4 unity_LightmapST;
+uniform 	vec4 unity_DynamicLightmapST;
+uniform 	vec4 unity_SpecCube0_BoxMax;
+uniform 	vec4 unity_SpecCube0_BoxMin;
+uniform 	vec4 unity_SpecCube0_ProbePosition;
+uniform 	mediump vec4 unity_SpecCube0_HDR;
+uniform 	vec4 unity_SpecCube1_BoxMax;
+uniform 	vec4 unity_SpecCube1_BoxMin;
+uniform 	vec4 unity_SpecCube1_ProbePosition;
+uniform 	mediump vec4 unity_SpecCube1_HDR;
+uniform 	lowp vec4 unity_ColorSpaceGrey;
+uniform 	lowp vec4 unity_ColorSpaceDouble;
+uniform 	mediump vec4 unity_ColorSpaceDielectricSpec;
+uniform 	mediump vec4 unity_ColorSpaceLuminance;
+uniform 	mediump vec4 unity_Lightmap_HDR;
+uniform 	mediump vec4 unity_DynamicLightmap_HDR;
+uniform 	lowp vec4 _LightColor0;
+uniform 	lowp vec4 _SpecColor;
+uniform 	mediump vec4 unity_LightGammaCorrectionConsts;
+uniform 	lowp vec4 _Color;
+uniform 	vec4 _MainTex_ST;
+uniform 	lowp vec4 unity_Ambient;
+in highp vec4 in_POSITION0;
+in highp vec3 in_NORMAL0;
+in highp vec4 in_TEXCOORD0;
+in lowp vec4 in_COLOR0;
+out highp vec2 vs_TEXCOORD0;
+out mediump vec3 vs_TEXCOORD1;
+out highp vec3 vs_TEXCOORD2;
+out mediump vec4 vs_TEXCOORD3;
+out highp vec4 vs_TEXCOORD5;
+out mediump vec3 vs_TEXCOORD6;
+highp vec4 t0;
+highp vec3 t1;
+mediump vec4 t16_1;
+lowp vec4 t10_1;
+mediump vec3 t16_2;
+mediump vec3 t16_3;
+highp float t12;
+void main()
+{
+    //Instruction 763
+    //MUL
+    t0 = in_POSITION0.yyyy * glstate_matrix_mvp[1];
+    //Instruction 764
+    //MAD
+    t0 = glstate_matrix_mvp[0] * in_POSITION0.xxxx + t0;
+    //Instruction 765
+    //MAD
+    t0 = glstate_matrix_mvp[2] * in_POSITION0.zzzz + t0;
+    //Instruction 766
+    //MAD
+    gl_Position = glstate_matrix_mvp[3] * in_POSITION0.wwww + t0;
+    //Instruction 767
+    //MAD
+    vs_TEXCOORD0.xy = in_TEXCOORD0.xy * _MainTex_ST.xy + _MainTex_ST.zw;
+    //Instruction 768
+    //MUL
+    t0.x = in_NORMAL0.x * _World2Object[0].x;
+    //Instruction 769
+    //MUL
+    t0.y = in_NORMAL0.x * _World2Object[1].x;
+    //Instruction 770
+    //MUL
+    t0.z = in_NORMAL0.x * _World2Object[2].x;
+    //Instruction 771
+    //MUL
+    t1.x = in_NORMAL0.y * _World2Object[0].y;
+    //Instruction 772
+    //MUL
+    t1.y = in_NORMAL0.y * _World2Object[1].y;
+    //Instruction 773
+    //MUL
+    t1.z = in_NORMAL0.y * _World2Object[2].y;
+    //Instruction 774
+    //ADD
+    t0.xyz = t0.xyz + t1.xyz;
+    //Instruction 775
+    //MUL
+    t1.x = in_NORMAL0.z * _World2Object[0].z;
+    //Instruction 776
+    //MUL
+    t1.y = in_NORMAL0.z * _World2Object[1].z;
+    //Instruction 777
+    //MUL
+    t1.z = in_NORMAL0.z * _World2Object[2].z;
+    //Instruction 778
+    //ADD
+    t0.xyz = t0.xyz + t1.xyz;
+    //Instruction 779
+    //DP3
+    t12 = dot(t0.xyz, t0.xyz);
+    //Instruction 780
+    //RSQ
+    t12 = inversesqrt(t12);
+    //Instruction 781
+    //MUL
+    t0.xyz = vec3(t12) * t0.xyz;
+    //Instruction 782
+    //MOV
+    vs_TEXCOORD1.xyz = t0.xyz;
+    //Instruction 783
+    //MUL
+    t1.xyz = in_POSITION0.yyy * _Object2World[1].xyz;
+    //Instruction 784
+    //MAD
+    t1.xyz = _Object2World[0].xyz * in_POSITION0.xxx + t1.xyz;
+    //Instruction 785
+    //MAD
+    t1.xyz = _Object2World[2].xyz * in_POSITION0.zzz + t1.xyz;
+    //Instruction 786
+    //MAD
+    vs_TEXCOORD2.xyz = _Object2World[3].xyz * in_POSITION0.www + t1.xyz;
+    //Instruction 787
+    //MUL
+    t10_1 = in_COLOR0 * _Color;
+    //Instruction 788
+    //MOV
+    vs_TEXCOORD3 = t10_1;
+    //Instruction 789
+    //MOV
+    vs_TEXCOORD5 = vec4(0.0, 0.0, 0.0, 0.0);
+    //Instruction 790
+    //MUL
+    t16_2.x = t0.y * t0.y;
+    //Instruction 791
+    //MAD
+    t16_2.x = t0.x * t0.x + (-t16_2.x);
+    //Instruction 792
+    //MUL
+    t16_1 = t0.yzzx * t0.xyzz;
+    //Instruction 793
+    //DP4
+    t16_3.x = dot(unity_SHBr, t16_1);
+    //Instruction 794
+    //DP4
+    t16_3.y = dot(unity_SHBg, t16_1);
+    //Instruction 795
+    //DP4
+    t16_3.z = dot(unity_SHBb, t16_1);
+    //Instruction 796
+    //MAD
+    t16_2.xyz = unity_SHC.xyz * t16_2.xxx + t16_3.xyz;
+    //Instruction 797
+    //MOV
+    t0.w = 1.0;
+    //Instruction 798
+    //DP4
+    t16_3.x = dot(unity_SHAr, t0);
+    //Instruction 799
+    //DP4
+    t16_3.y = dot(unity_SHAg, t0);
+    //Instruction 800
+    //DP4
+    t16_3.z = dot(unity_SHAb, t0);
+    //Instruction 801
+    //ADD
+    vs_TEXCOORD6.xyz = t16_2.xyz + t16_3.xyz;
+    //Instruction 802
+    //RET
+    return;
+}
+
+#endif
+#ifdef FRAGMENT
+#version 300 es
+precision highp float;
+precision highp int;
+uniform lowp sampler2D _MainTex;
+in highp vec2 vs_TEXCOORD0;
+in mediump vec3 vs_TEXCOORD1;
+in mediump vec4 vs_TEXCOORD3;
+in mediump vec3 vs_TEXCOORD6;
+layout(location = 0) out mediump vec4 SV_Target0;
+layout(location = 1) out mediump vec4 SV_Target1;
+layout(location = 2) out mediump vec4 SV_Target2;
+layout(location = 3) out mediump vec4 SV_Target3;
+mediump vec4 t16_0;
+lowp vec4 t10_0;
+lowp vec3 t10_1;
+mediump vec3 t16_2;
+void main()
+{
+    //Instruction 750
+    //SAMPLE
+    t10_0 = texture(_MainTex, vs_TEXCOORD0.xy);
+    //Instruction 751
+    //MUL
+    t16_0 = t10_0 * vs_TEXCOORD3;
+    //Instruction 752
+    //MUL
+    t10_1.xyz = t16_0.www * t16_0.xyz;
+    //Instruction 753
+    //MOV
+    SV_Target0.xyz = t10_1.xyz;
+    //Instruction 754
+    //MUL
+    t16_2.xyz = t10_1.xyz * vs_TEXCOORD6.xyz;
+    //Instruction 755
+    //EXP
+    SV_Target3.xyz = exp2((-t16_2.xyz));
+    //Instruction 756
+    //MOV
+    SV_Target0.w = 1.0;
+    //Instruction 757
+    //MOV
+    SV_Target1 = vec4(0.0, 0.0, 0.0, 0.0);
+    //Instruction 758
+    //MAD
+    t10_1.xyz = vs_TEXCOORD1.xyz * vec3(0.5, 0.5, 0.5) + vec3(0.5, 0.5, 0.5);
+    //Instruction 759
+    //MOV
+    SV_Target2.xyz = t10_1.xyz;
+    //Instruction 760
+    //MOV
+    SV_Target2.w = 1.0;
+    //Instruction 761
+    //MOV
+    SV_Target3.w = 1.0;
+    //Instruction 762
+    //RET
+    return;
+}
+
+#endif
+"
+}
+SubProgram "gles " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "UNITY_HDR_ON" }
+"!!GLES
+#version 100
+
+#ifdef VERTEX
+attribute vec4 _glesVertex;
+attribute vec4 _glesColor;
+attribute vec3 _glesNormal;
+attribute vec4 _glesMultiTexCoord0;
+uniform mediump vec4 unity_SHAr;
+uniform mediump vec4 unity_SHAg;
+uniform mediump vec4 unity_SHAb;
+uniform mediump vec4 unity_SHBr;
+uniform mediump vec4 unity_SHBg;
+uniform mediump vec4 unity_SHBb;
+uniform mediump vec4 unity_SHC;
+uniform highp mat4 glstate_matrix_mvp;
+uniform highp mat4 _Object2World;
+uniform highp mat4 _World2Object;
+uniform lowp vec4 _Color;
+uniform highp vec4 _MainTex_ST;
+varying highp vec2 xlv_TEXCOORD0;
+varying mediump vec3 xlv_TEXCOORD1;
+varying highp vec3 xlv_TEXCOORD2;
+varying mediump vec4 xlv_TEXCOORD3;
+varying highp vec4 xlv_TEXCOORD5;
+varying mediump vec3 xlv_TEXCOORD6;
+void main ()
+{
+  lowp vec3 worldNormal_1;
+  mediump vec3 tmpvar_2;
+  mediump vec4 tmpvar_3;
+  highp vec4 tmpvar_4;
+  lowp vec4 tmpvar_5;
+  tmpvar_5 = (_glesColor * _Color);
+  tmpvar_3 = tmpvar_5;
+  highp vec4 v_6;
+  v_6.x = _World2Object[0].x;
+  v_6.y = _World2Object[1].x;
+  v_6.z = _World2Object[2].x;
+  v_6.w = _World2Object[3].x;
+  highp vec4 v_7;
+  v_7.x = _World2Object[0].y;
+  v_7.y = _World2Object[1].y;
+  v_7.z = _World2Object[2].y;
+  v_7.w = _World2Object[3].y;
+  highp vec4 v_8;
+  v_8.x = _World2Object[0].z;
+  v_8.y = _World2Object[1].z;
+  v_8.z = _World2Object[2].z;
+  v_8.w = _World2Object[3].z;
+  highp vec3 tmpvar_9;
+  tmpvar_9 = normalize(((
+    (v_6.xyz * _glesNormal.x)
+   + 
+    (v_7.xyz * _glesNormal.y)
+  ) + (v_8.xyz * _glesNormal.z)));
+  worldNormal_1 = tmpvar_9;
+  tmpvar_2 = worldNormal_1;
+  tmpvar_4.zw = vec2(0.0, 0.0);
+  tmpvar_4.xy = vec2(0.0, 0.0);
+  lowp vec4 tmpvar_10;
+  tmpvar_10.w = 1.0;
+  tmpvar_10.xyz = worldNormal_1;
+  mediump vec4 normal_11;
+  normal_11 = tmpvar_10;
+  mediump vec3 x2_12;
+  mediump vec3 x1_13;
+  x1_13.x = dot (unity_SHAr, normal_11);
+  x1_13.y = dot (unity_SHAg, normal_11);
+  x1_13.z = dot (unity_SHAb, normal_11);
+  mediump vec4 tmpvar_14;
+  tmpvar_14 = (normal_11.xyzz * normal_11.yzzx);
+  x2_12.x = dot (unity_SHBr, tmpvar_14);
+  x2_12.y = dot (unity_SHBg, tmpvar_14);
+  x2_12.z = dot (unity_SHBb, tmpvar_14);
+  gl_Position = (glstate_matrix_mvp * _glesVertex);
+  xlv_TEXCOORD0 = ((_glesMultiTexCoord0.xy * _MainTex_ST.xy) + _MainTex_ST.zw);
+  xlv_TEXCOORD1 = tmpvar_2;
+  xlv_TEXCOORD2 = (_Object2World * _glesVertex).xyz;
+  xlv_TEXCOORD3 = tmpvar_3;
+  xlv_TEXCOORD5 = tmpvar_4;
+  xlv_TEXCOORD6 = ((x2_12 + (unity_SHC.xyz * 
+    ((normal_11.x * normal_11.x) - (normal_11.y * normal_11.y))
+  )) + x1_13);
+}
+
+
+#endif
+#ifdef FRAGMENT
+#extension GL_EXT_draw_buffers : enable
+uniform sampler2D _MainTex;
+varying highp vec2 xlv_TEXCOORD0;
+varying mediump vec3 xlv_TEXCOORD1;
+varying mediump vec4 xlv_TEXCOORD3;
+varying mediump vec3 xlv_TEXCOORD6;
+void main ()
+{
+  lowp vec3 tmpvar_1;
+  lowp vec4 tmpvar_2;
+  tmpvar_2 = xlv_TEXCOORD3;
+  tmpvar_1 = xlv_TEXCOORD1;
+  lowp vec3 tmpvar_3;
+  lowp vec4 tmpvar_4;
+  tmpvar_4 = (texture2D (_MainTex, xlv_TEXCOORD0) * tmpvar_2);
+  tmpvar_3 = (tmpvar_4.xyz * tmpvar_4.w);
+  mediump vec4 outDiffuseOcclusion_5;
+  mediump vec4 outNormal_6;
+  mediump vec4 emission_7;
+  lowp vec4 tmpvar_8;
+  tmpvar_8.w = 1.0;
+  tmpvar_8.xyz = tmpvar_3;
+  outDiffuseOcclusion_5 = tmpvar_8;
+  lowp vec4 tmpvar_9;
+  tmpvar_9.w = 1.0;
+  tmpvar_9.xyz = ((tmpvar_1 * 0.5) + 0.5);
+  outNormal_6 = tmpvar_9;
+  lowp vec4 tmpvar_10;
+  tmpvar_10.w = 1.0;
+  tmpvar_10.xyz = vec3(0.0, 0.0, 0.0);
+  emission_7 = tmpvar_10;
+  emission_7.xyz = (emission_7.xyz + (tmpvar_3 * xlv_TEXCOORD6));
+  gl_FragData[0] = outDiffuseOcclusion_5;
+  gl_FragData[1] = vec4(0.0, 0.0, 0.0, 0.0);
+  gl_FragData[2] = outNormal_6;
+  gl_FragData[3] = emission_7;
+}
+
+
+#endif
+"
+}
+SubProgram "gles3 " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "UNITY_HDR_ON" }
+"!!GLES3
+#ifdef VERTEX
+#version 300 es
+precision highp float;
+precision highp int;
+uniform 	vec4 _Time;
+uniform 	vec4 _SinTime;
+uniform 	vec4 _CosTime;
+uniform 	vec4 unity_DeltaTime;
+uniform 	vec3 _WorldSpaceCameraPos;
+uniform 	vec4 _ProjectionParams;
+uniform 	vec4 _ScreenParams;
+uniform 	vec4 _ZBufferParams;
+uniform 	vec4 unity_OrthoParams;
+uniform 	vec4 unity_CameraWorldClipPlanes[6];
+uniform 	mat4 unity_CameraProjection;
+uniform 	mat4 unity_CameraInvProjection;
+uniform 	vec4 _WorldSpaceLightPos0;
+uniform 	vec4 _LightPositionRange;
+uniform 	vec4 unity_4LightPosX0;
+uniform 	vec4 unity_4LightPosY0;
+uniform 	vec4 unity_4LightPosZ0;
+uniform 	mediump vec4 unity_4LightAtten0;
+uniform 	mediump vec4 unity_LightColor[8];
+uniform 	vec4 unity_LightPosition[8];
+uniform 	mediump vec4 unity_LightAtten[8];
+uniform 	vec4 unity_SpotDirection[8];
+uniform 	mediump vec4 unity_SHAr;
+uniform 	mediump vec4 unity_SHAg;
+uniform 	mediump vec4 unity_SHAb;
+uniform 	mediump vec4 unity_SHBr;
+uniform 	mediump vec4 unity_SHBg;
+uniform 	mediump vec4 unity_SHBb;
+uniform 	mediump vec4 unity_SHC;
+uniform 	mediump vec3 unity_LightColor0;
+uniform 	mediump vec3 unity_LightColor1;
+uniform 	mediump vec3 unity_LightColor2;
+uniform 	mediump vec3 unity_LightColor3;
+uniform 	vec4 unity_ShadowSplitSpheres[4];
+uniform 	vec4 unity_ShadowSplitSqRadii;
+uniform 	vec4 unity_LightShadowBias;
+uniform 	vec4 _LightSplitsNear;
+uniform 	vec4 _LightSplitsFar;
+uniform 	mat4 unity_World2Shadow[4];
+uniform 	mediump vec4 _LightShadowData;
+uniform 	vec4 unity_ShadowFadeCenterAndType;
+uniform 	mat4 glstate_matrix_mvp;
+uniform 	mat4 glstate_matrix_modelview0;
+uniform 	mat4 glstate_matrix_invtrans_modelview0;
+uniform 	mat4 _Object2World;
+uniform 	mat4 _World2Object;
+uniform 	vec4 unity_LODFade;
+uniform 	mat4 glstate_matrix_transpose_modelview0;
+uniform 	mat4 glstate_matrix_projection;
+uniform 	lowp vec4 glstate_lightmodel_ambient;
+uniform 	mat4 unity_MatrixV;
+uniform 	mat4 unity_MatrixVP;
+uniform 	lowp vec4 unity_AmbientSky;
+uniform 	lowp vec4 unity_AmbientEquator;
+uniform 	lowp vec4 unity_AmbientGround;
+uniform 	lowp vec4 unity_FogColor;
+uniform 	vec4 unity_FogParams;
+uniform 	vec4 unity_LightmapST;
+uniform 	vec4 unity_DynamicLightmapST;
+uniform 	vec4 unity_SpecCube0_BoxMax;
+uniform 	vec4 unity_SpecCube0_BoxMin;
+uniform 	vec4 unity_SpecCube0_ProbePosition;
+uniform 	mediump vec4 unity_SpecCube0_HDR;
+uniform 	vec4 unity_SpecCube1_BoxMax;
+uniform 	vec4 unity_SpecCube1_BoxMin;
+uniform 	vec4 unity_SpecCube1_ProbePosition;
+uniform 	mediump vec4 unity_SpecCube1_HDR;
+uniform 	lowp vec4 unity_ColorSpaceGrey;
+uniform 	lowp vec4 unity_ColorSpaceDouble;
+uniform 	mediump vec4 unity_ColorSpaceDielectricSpec;
+uniform 	mediump vec4 unity_ColorSpaceLuminance;
+uniform 	mediump vec4 unity_Lightmap_HDR;
+uniform 	mediump vec4 unity_DynamicLightmap_HDR;
+uniform 	lowp vec4 _LightColor0;
+uniform 	lowp vec4 _SpecColor;
+uniform 	mediump vec4 unity_LightGammaCorrectionConsts;
+uniform 	lowp vec4 _Color;
+uniform 	vec4 _MainTex_ST;
+uniform 	lowp vec4 unity_Ambient;
+in highp vec4 in_POSITION0;
+in highp vec3 in_NORMAL0;
+in highp vec4 in_TEXCOORD0;
+in lowp vec4 in_COLOR0;
+out highp vec2 vs_TEXCOORD0;
+out mediump vec3 vs_TEXCOORD1;
+out highp vec3 vs_TEXCOORD2;
+out mediump vec4 vs_TEXCOORD3;
+out highp vec4 vs_TEXCOORD5;
+out mediump vec3 vs_TEXCOORD6;
+highp vec4 t0;
+highp vec3 t1;
+mediump vec4 t16_1;
+lowp vec4 t10_1;
+mediump vec3 t16_2;
+mediump vec3 t16_3;
+highp float t12;
+void main()
+{
+    //Instruction 435
+    //MUL
+    t0 = in_POSITION0.yyyy * glstate_matrix_mvp[1];
+    //Instruction 436
+    //MAD
+    t0 = glstate_matrix_mvp[0] * in_POSITION0.xxxx + t0;
+    //Instruction 437
+    //MAD
+    t0 = glstate_matrix_mvp[2] * in_POSITION0.zzzz + t0;
+    //Instruction 438
+    //MAD
+    gl_Position = glstate_matrix_mvp[3] * in_POSITION0.wwww + t0;
+    //Instruction 439
+    //MAD
+    vs_TEXCOORD0.xy = in_TEXCOORD0.xy * _MainTex_ST.xy + _MainTex_ST.zw;
+    //Instruction 440
+    //MUL
+    t0.x = in_NORMAL0.x * _World2Object[0].x;
+    //Instruction 441
+    //MUL
+    t0.y = in_NORMAL0.x * _World2Object[1].x;
+    //Instruction 442
+    //MUL
+    t0.z = in_NORMAL0.x * _World2Object[2].x;
+    //Instruction 443
+    //MUL
+    t1.x = in_NORMAL0.y * _World2Object[0].y;
+    //Instruction 444
+    //MUL
+    t1.y = in_NORMAL0.y * _World2Object[1].y;
+    //Instruction 445
+    //MUL
+    t1.z = in_NORMAL0.y * _World2Object[2].y;
+    //Instruction 446
+    //ADD
+    t0.xyz = t0.xyz + t1.xyz;
+    //Instruction 447
+    //MUL
+    t1.x = in_NORMAL0.z * _World2Object[0].z;
+    //Instruction 448
+    //MUL
+    t1.y = in_NORMAL0.z * _World2Object[1].z;
+    //Instruction 449
+    //MUL
+    t1.z = in_NORMAL0.z * _World2Object[2].z;
+    //Instruction 450
+    //ADD
+    t0.xyz = t0.xyz + t1.xyz;
+    //Instruction 451
+    //DP3
+    t12 = dot(t0.xyz, t0.xyz);
+    //Instruction 452
+    //RSQ
+    t12 = inversesqrt(t12);
+    //Instruction 453
+    //MUL
+    t0.xyz = vec3(t12) * t0.xyz;
+    //Instruction 454
+    //MOV
+    vs_TEXCOORD1.xyz = t0.xyz;
+    //Instruction 455
+    //MUL
+    t1.xyz = in_POSITION0.yyy * _Object2World[1].xyz;
+    //Instruction 456
+    //MAD
+    t1.xyz = _Object2World[0].xyz * in_POSITION0.xxx + t1.xyz;
+    //Instruction 457
+    //MAD
+    t1.xyz = _Object2World[2].xyz * in_POSITION0.zzz + t1.xyz;
+    //Instruction 458
+    //MAD
+    vs_TEXCOORD2.xyz = _Object2World[3].xyz * in_POSITION0.www + t1.xyz;
+    //Instruction 459
+    //MUL
+    t10_1 = in_COLOR0 * _Color;
+    //Instruction 460
+    //MOV
+    vs_TEXCOORD3 = t10_1;
+    //Instruction 461
+    //MOV
+    vs_TEXCOORD5 = vec4(0.0, 0.0, 0.0, 0.0);
+    //Instruction 462
+    //MUL
+    t16_2.x = t0.y * t0.y;
+    //Instruction 463
+    //MAD
+    t16_2.x = t0.x * t0.x + (-t16_2.x);
+    //Instruction 464
+    //MUL
+    t16_1 = t0.yzzx * t0.xyzz;
+    //Instruction 465
+    //DP4
+    t16_3.x = dot(unity_SHBr, t16_1);
+    //Instruction 466
+    //DP4
+    t16_3.y = dot(unity_SHBg, t16_1);
+    //Instruction 467
+    //DP4
+    t16_3.z = dot(unity_SHBb, t16_1);
+    //Instruction 468
+    //MAD
+    t16_2.xyz = unity_SHC.xyz * t16_2.xxx + t16_3.xyz;
+    //Instruction 469
+    //MOV
+    t0.w = 1.0;
+    //Instruction 470
+    //DP4
+    t16_3.x = dot(unity_SHAr, t0);
+    //Instruction 471
+    //DP4
+    t16_3.y = dot(unity_SHAg, t0);
+    //Instruction 472
+    //DP4
+    t16_3.z = dot(unity_SHAb, t0);
+    //Instruction 473
+    //ADD
+    vs_TEXCOORD6.xyz = t16_2.xyz + t16_3.xyz;
+    //Instruction 474
+    //RET
+    return;
+}
+
+#endif
+#ifdef FRAGMENT
+#version 300 es
+precision highp float;
+precision highp int;
+uniform lowp sampler2D _MainTex;
+in highp vec2 vs_TEXCOORD0;
+in mediump vec3 vs_TEXCOORD1;
+in mediump vec4 vs_TEXCOORD3;
+in mediump vec3 vs_TEXCOORD6;
+layout(location = 0) out mediump vec4 SV_Target0;
+layout(location = 1) out mediump vec4 SV_Target1;
+layout(location = 2) out mediump vec4 SV_Target2;
+layout(location = 3) out mediump vec4 SV_Target3;
+mediump vec4 t16_0;
+lowp vec4 t10_0;
+lowp vec3 t10_1;
+void main()
+{
+    //Instruction 423
+    //SAMPLE
+    t10_0 = texture(_MainTex, vs_TEXCOORD0.xy);
+    //Instruction 424
+    //MUL
+    t16_0 = t10_0 * vs_TEXCOORD3;
+    //Instruction 425
+    //MUL
+    t10_1.xyz = t16_0.www * t16_0.xyz;
+    //Instruction 426
+    //MOV
+    SV_Target0.xyz = t10_1.xyz;
+    //Instruction 427
+    //MUL
+    SV_Target3.xyz = t10_1.xyz * vs_TEXCOORD6.xyz;
+    //Instruction 428
+    //MOV
+    SV_Target0.w = 1.0;
+    //Instruction 429
+    //MOV
+    SV_Target1 = vec4(0.0, 0.0, 0.0, 0.0);
+    //Instruction 430
+    //MAD
+    t10_1.xyz = vs_TEXCOORD1.xyz * vec3(0.5, 0.5, 0.5) + vec3(0.5, 0.5, 0.5);
+    //Instruction 431
+    //MOV
+    SV_Target2.xyz = t10_1.xyz;
+    //Instruction 432
+    //MOV
+    SV_Target2.w = 1.0;
+    //Instruction 433
+    //MOV
+    SV_Target3.w = 1.0;
+    //Instruction 434
+    //RET
+    return;
+}
+
+#endif
+"
+}
+SubProgram "gles " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "PIXELSNAP_ON" "HDR_LIGHT_PREPASS_OFF" }
+"!!GLES
+#version 100
+
+#ifdef VERTEX
+attribute vec4 _glesVertex;
+attribute vec4 _glesColor;
+attribute vec3 _glesNormal;
+attribute vec4 _glesMultiTexCoord0;
+uniform highp vec4 _ScreenParams;
+uniform mediump vec4 unity_SHAr;
+uniform mediump vec4 unity_SHAg;
+uniform mediump vec4 unity_SHAb;
+uniform mediump vec4 unity_SHBr;
+uniform mediump vec4 unity_SHBg;
+uniform mediump vec4 unity_SHBb;
+uniform mediump vec4 unity_SHC;
+uniform highp mat4 glstate_matrix_mvp;
+uniform highp mat4 _Object2World;
+uniform highp mat4 _World2Object;
+uniform lowp vec4 _Color;
+uniform highp vec4 _MainTex_ST;
+varying highp vec2 xlv_TEXCOORD0;
+varying mediump vec3 xlv_TEXCOORD1;
+varying highp vec3 xlv_TEXCOORD2;
+varying mediump vec4 xlv_TEXCOORD3;
+varying highp vec4 xlv_TEXCOORD5;
+varying mediump vec3 xlv_TEXCOORD6;
+void main ()
+{
+  lowp vec3 worldNormal_1;
+  mediump vec3 tmpvar_2;
+  mediump vec4 tmpvar_3;
+  highp vec4 tmpvar_4;
+  lowp vec4 tmpvar_5;
+  highp vec4 pos_6;
+  pos_6.zw = _glesVertex.zw;
+  highp vec2 tmpvar_7;
+  tmpvar_7 = (_ScreenParams.xy * 0.5);
+  pos_6.xy = ((floor(
+    (((_glesVertex.xy / _glesVertex.w) * tmpvar_7) + vec2(0.5, 0.5))
+  ) / tmpvar_7) * _glesVertex.w);
+  tmpvar_5 = (_glesColor * _Color);
+  tmpvar_3 = tmpvar_5;
+  highp vec4 v_8;
+  v_8.x = _World2Object[0].x;
+  v_8.y = _World2Object[1].x;
+  v_8.z = _World2Object[2].x;
+  v_8.w = _World2Object[3].x;
+  highp vec4 v_9;
+  v_9.x = _World2Object[0].y;
+  v_9.y = _World2Object[1].y;
+  v_9.z = _World2Object[2].y;
+  v_9.w = _World2Object[3].y;
+  highp vec4 v_10;
+  v_10.x = _World2Object[0].z;
+  v_10.y = _World2Object[1].z;
+  v_10.z = _World2Object[2].z;
+  v_10.w = _World2Object[3].z;
+  highp vec3 tmpvar_11;
+  tmpvar_11 = normalize(((
+    (v_8.xyz * _glesNormal.x)
+   + 
+    (v_9.xyz * _glesNormal.y)
+  ) + (v_10.xyz * _glesNormal.z)));
+  worldNormal_1 = tmpvar_11;
+  tmpvar_2 = worldNormal_1;
+  tmpvar_4.zw = vec2(0.0, 0.0);
+  tmpvar_4.xy = vec2(0.0, 0.0);
+  lowp vec4 tmpvar_12;
+  tmpvar_12.w = 1.0;
+  tmpvar_12.xyz = worldNormal_1;
+  mediump vec4 normal_13;
+  normal_13 = tmpvar_12;
+  mediump vec3 x2_14;
+  mediump vec3 x1_15;
+  x1_15.x = dot (unity_SHAr, normal_13);
+  x1_15.y = dot (unity_SHAg, normal_13);
+  x1_15.z = dot (unity_SHAb, normal_13);
+  mediump vec4 tmpvar_16;
+  tmpvar_16 = (normal_13.xyzz * normal_13.yzzx);
+  x2_14.x = dot (unity_SHBr, tmpvar_16);
+  x2_14.y = dot (unity_SHBg, tmpvar_16);
+  x2_14.z = dot (unity_SHBb, tmpvar_16);
+  gl_Position = (glstate_matrix_mvp * pos_6);
+  xlv_TEXCOORD0 = ((_glesMultiTexCoord0.xy * _MainTex_ST.xy) + _MainTex_ST.zw);
+  xlv_TEXCOORD1 = tmpvar_2;
+  xlv_TEXCOORD2 = (_Object2World * pos_6).xyz;
+  xlv_TEXCOORD3 = tmpvar_3;
+  xlv_TEXCOORD5 = tmpvar_4;
+  xlv_TEXCOORD6 = ((x2_14 + (unity_SHC.xyz * 
+    ((normal_13.x * normal_13.x) - (normal_13.y * normal_13.y))
+  )) + x1_15);
+}
+
+
+#endif
+#ifdef FRAGMENT
+#extension GL_EXT_draw_buffers : enable
+uniform sampler2D _MainTex;
+varying highp vec2 xlv_TEXCOORD0;
+varying mediump vec3 xlv_TEXCOORD1;
+varying mediump vec4 xlv_TEXCOORD3;
+varying mediump vec3 xlv_TEXCOORD6;
+void main ()
+{
+  mediump vec4 outEmission_1;
+  lowp vec3 tmpvar_2;
+  lowp vec4 tmpvar_3;
+  tmpvar_3 = xlv_TEXCOORD3;
+  tmpvar_2 = xlv_TEXCOORD1;
+  lowp vec3 tmpvar_4;
+  lowp vec4 tmpvar_5;
+  tmpvar_5 = (texture2D (_MainTex, xlv_TEXCOORD0) * tmpvar_3);
+  tmpvar_4 = (tmpvar_5.xyz * tmpvar_5.w);
+  mediump vec4 outDiffuseOcclusion_6;
+  mediump vec4 outNormal_7;
+  mediump vec4 emission_8;
+  lowp vec4 tmpvar_9;
+  tmpvar_9.w = 1.0;
+  tmpvar_9.xyz = tmpvar_4;
+  outDiffuseOcclusion_6 = tmpvar_9;
+  lowp vec4 tmpvar_10;
+  tmpvar_10.w = 1.0;
+  tmpvar_10.xyz = ((tmpvar_2 * 0.5) + 0.5);
+  outNormal_7 = tmpvar_10;
+  lowp vec4 tmpvar_11;
+  tmpvar_11.w = 1.0;
+  tmpvar_11.xyz = vec3(0.0, 0.0, 0.0);
+  emission_8 = tmpvar_11;
+  emission_8.xyz = (emission_8.xyz + (tmpvar_4 * xlv_TEXCOORD6));
+  outEmission_1.w = emission_8.w;
+  outEmission_1.xyz = exp2(-(emission_8.xyz));
+  gl_FragData[0] = outDiffuseOcclusion_6;
+  gl_FragData[1] = vec4(0.0, 0.0, 0.0, 0.0);
+  gl_FragData[2] = outNormal_7;
+  gl_FragData[3] = outEmission_1;
+}
+
+
+#endif
+"
+}
+SubProgram "gles3 " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "PIXELSNAP_ON" "HDR_LIGHT_PREPASS_OFF" }
+"!!GLES3
+#ifdef VERTEX
+#version 300 es
+precision highp float;
+precision highp int;
+uniform 	vec4 _Time;
+uniform 	vec4 _SinTime;
+uniform 	vec4 _CosTime;
+uniform 	vec4 unity_DeltaTime;
+uniform 	vec3 _WorldSpaceCameraPos;
+uniform 	vec4 _ProjectionParams;
+uniform 	vec4 _ScreenParams;
+uniform 	vec4 _ZBufferParams;
+uniform 	vec4 unity_OrthoParams;
+uniform 	vec4 unity_CameraWorldClipPlanes[6];
+uniform 	mat4 unity_CameraProjection;
+uniform 	mat4 unity_CameraInvProjection;
+uniform 	vec4 _WorldSpaceLightPos0;
+uniform 	vec4 _LightPositionRange;
+uniform 	vec4 unity_4LightPosX0;
+uniform 	vec4 unity_4LightPosY0;
+uniform 	vec4 unity_4LightPosZ0;
+uniform 	mediump vec4 unity_4LightAtten0;
+uniform 	mediump vec4 unity_LightColor[8];
+uniform 	vec4 unity_LightPosition[8];
+uniform 	mediump vec4 unity_LightAtten[8];
+uniform 	vec4 unity_SpotDirection[8];
+uniform 	mediump vec4 unity_SHAr;
+uniform 	mediump vec4 unity_SHAg;
+uniform 	mediump vec4 unity_SHAb;
+uniform 	mediump vec4 unity_SHBr;
+uniform 	mediump vec4 unity_SHBg;
+uniform 	mediump vec4 unity_SHBb;
+uniform 	mediump vec4 unity_SHC;
+uniform 	mediump vec3 unity_LightColor0;
+uniform 	mediump vec3 unity_LightColor1;
+uniform 	mediump vec3 unity_LightColor2;
+uniform 	mediump vec3 unity_LightColor3;
+uniform 	vec4 unity_ShadowSplitSpheres[4];
+uniform 	vec4 unity_ShadowSplitSqRadii;
+uniform 	vec4 unity_LightShadowBias;
+uniform 	vec4 _LightSplitsNear;
+uniform 	vec4 _LightSplitsFar;
+uniform 	mat4 unity_World2Shadow[4];
+uniform 	mediump vec4 _LightShadowData;
+uniform 	vec4 unity_ShadowFadeCenterAndType;
+uniform 	mat4 glstate_matrix_mvp;
+uniform 	mat4 glstate_matrix_modelview0;
+uniform 	mat4 glstate_matrix_invtrans_modelview0;
+uniform 	mat4 _Object2World;
+uniform 	mat4 _World2Object;
+uniform 	vec4 unity_LODFade;
+uniform 	mat4 glstate_matrix_transpose_modelview0;
+uniform 	mat4 glstate_matrix_projection;
+uniform 	lowp vec4 glstate_lightmodel_ambient;
+uniform 	mat4 unity_MatrixV;
+uniform 	mat4 unity_MatrixVP;
+uniform 	lowp vec4 unity_AmbientSky;
+uniform 	lowp vec4 unity_AmbientEquator;
+uniform 	lowp vec4 unity_AmbientGround;
+uniform 	lowp vec4 unity_FogColor;
+uniform 	vec4 unity_FogParams;
+uniform 	vec4 unity_LightmapST;
+uniform 	vec4 unity_DynamicLightmapST;
+uniform 	vec4 unity_SpecCube0_BoxMax;
+uniform 	vec4 unity_SpecCube0_BoxMin;
+uniform 	vec4 unity_SpecCube0_ProbePosition;
+uniform 	mediump vec4 unity_SpecCube0_HDR;
+uniform 	vec4 unity_SpecCube1_BoxMax;
+uniform 	vec4 unity_SpecCube1_BoxMin;
+uniform 	vec4 unity_SpecCube1_ProbePosition;
+uniform 	mediump vec4 unity_SpecCube1_HDR;
+uniform 	lowp vec4 unity_ColorSpaceGrey;
+uniform 	lowp vec4 unity_ColorSpaceDouble;
+uniform 	mediump vec4 unity_ColorSpaceDielectricSpec;
+uniform 	mediump vec4 unity_ColorSpaceLuminance;
+uniform 	mediump vec4 unity_Lightmap_HDR;
+uniform 	mediump vec4 unity_DynamicLightmap_HDR;
+uniform 	lowp vec4 _LightColor0;
+uniform 	lowp vec4 _SpecColor;
+uniform 	mediump vec4 unity_LightGammaCorrectionConsts;
+uniform 	lowp vec4 _Color;
+uniform 	vec4 _MainTex_ST;
+uniform 	lowp vec4 unity_Ambient;
+in highp vec4 in_POSITION0;
+in highp vec3 in_NORMAL0;
+in highp vec4 in_TEXCOORD0;
+in lowp vec4 in_COLOR0;
+out highp vec2 vs_TEXCOORD0;
+out mediump vec3 vs_TEXCOORD1;
+out highp vec3 vs_TEXCOORD2;
+out mediump vec4 vs_TEXCOORD3;
+out highp vec4 vs_TEXCOORD5;
+out mediump vec3 vs_TEXCOORD6;
+highp vec3 t0;
+mediump vec4 t16_0;
+lowp vec4 t10_0;
+highp vec4 t1;
+highp vec3 t2;
+mediump vec3 t16_3;
+mediump vec3 t16_4;
+highp vec3 t5;
+highp vec2 t10;
+void main()
+{
+    //Instruction 816
+    //DIV
+    t0.xy = in_POSITION0.xy / in_POSITION0.ww;
+    //Instruction 817
+    //MUL
+    t10.xy = _ScreenParams.xy * vec2(0.5, 0.5);
+    //Instruction 818
+    //MUL
+    t0.xy = t10.xy * t0.xy;
+    //Instruction 819
+    //ROUND_NE
+    t0.xy = roundEven(t0.xy);
+    //Instruction 820
+    //DIV
+    t0.xy = t0.xy / t10.xy;
+    //Instruction 821
+    //MUL
+    t0.xy = t0.xy * in_POSITION0.ww;
+    //Instruction 822
+    //MUL
+    t1 = t0.yyyy * glstate_matrix_mvp[1];
+    //Instruction 823
+    //MAD
+    t1 = glstate_matrix_mvp[0] * t0.xxxx + t1;
+    //Instruction 824
+    //MAD
+    t1 = glstate_matrix_mvp[2] * in_POSITION0.zzzz + t1;
+    //Instruction 825
+    //MAD
+    gl_Position = glstate_matrix_mvp[3] * in_POSITION0.wwww + t1;
+    //Instruction 826
+    //MAD
+    vs_TEXCOORD0.xy = in_TEXCOORD0.xy * _MainTex_ST.xy + _MainTex_ST.zw;
+    //Instruction 827
+    //MUL
+    t1.x = in_NORMAL0.x * _World2Object[0].x;
+    //Instruction 828
+    //MUL
+    t1.y = in_NORMAL0.x * _World2Object[1].x;
+    //Instruction 829
+    //MUL
+    t1.z = in_NORMAL0.x * _World2Object[2].x;
+    //Instruction 830
+    //MUL
+    t2.x = in_NORMAL0.y * _World2Object[0].y;
+    //Instruction 831
+    //MUL
+    t2.y = in_NORMAL0.y * _World2Object[1].y;
+    //Instruction 832
+    //MUL
+    t2.z = in_NORMAL0.y * _World2Object[2].y;
+    //Instruction 833
+    //ADD
+    t1.xyz = t1.xyz + t2.xyz;
+    //Instruction 834
+    //MUL
+    t2.x = in_NORMAL0.z * _World2Object[0].z;
+    //Instruction 835
+    //MUL
+    t2.y = in_NORMAL0.z * _World2Object[1].z;
+    //Instruction 836
+    //MUL
+    t2.z = in_NORMAL0.z * _World2Object[2].z;
+    //Instruction 837
+    //ADD
+    t1.xyz = t1.xyz + t2.xyz;
+    //Instruction 838
+    //DP3
+    t10.x = dot(t1.xyz, t1.xyz);
+    //Instruction 839
+    //RSQ
+    t10.x = inversesqrt(t10.x);
+    //Instruction 840
+    //MUL
+    t1.xyz = t10.xxx * t1.xyz;
+    //Instruction 841
+    //MOV
+    vs_TEXCOORD1.xyz = t1.xyz;
+    //Instruction 842
+    //MUL
+    t5.xyz = t0.yyy * _Object2World[1].xyz;
+    //Instruction 843
+    //MAD
+    t0.xyz = _Object2World[0].xyz * t0.xxx + t5.xyz;
+    //Instruction 844
+    //MAD
+    t0.xyz = _Object2World[2].xyz * in_POSITION0.zzz + t0.xyz;
+    //Instruction 845
+    //MAD
+    vs_TEXCOORD2.xyz = _Object2World[3].xyz * in_POSITION0.www + t0.xyz;
+    //Instruction 846
+    //MUL
+    t10_0 = in_COLOR0 * _Color;
+    //Instruction 847
+    //MOV
+    vs_TEXCOORD3 = t10_0;
+    //Instruction 848
+    //MOV
+    vs_TEXCOORD5 = vec4(0.0, 0.0, 0.0, 0.0);
+    //Instruction 849
+    //MUL
+    t16_3.x = t1.y * t1.y;
+    //Instruction 850
+    //MAD
+    t16_3.x = t1.x * t1.x + (-t16_3.x);
+    //Instruction 851
+    //MUL
+    t16_0 = t1.yzzx * t1.xyzz;
+    //Instruction 852
+    //DP4
+    t16_4.x = dot(unity_SHBr, t16_0);
+    //Instruction 853
+    //DP4
+    t16_4.y = dot(unity_SHBg, t16_0);
+    //Instruction 854
+    //DP4
+    t16_4.z = dot(unity_SHBb, t16_0);
+    //Instruction 855
+    //MAD
+    t16_3.xyz = unity_SHC.xyz * t16_3.xxx + t16_4.xyz;
+    //Instruction 856
+    //MOV
+    t1.w = 1.0;
+    //Instruction 857
+    //DP4
+    t16_4.x = dot(unity_SHAr, t1);
+    //Instruction 858
+    //DP4
+    t16_4.y = dot(unity_SHAg, t1);
+    //Instruction 859
+    //DP4
+    t16_4.z = dot(unity_SHAb, t1);
+    //Instruction 860
+    //ADD
+    vs_TEXCOORD6.xyz = t16_3.xyz + t16_4.xyz;
+    //Instruction 861
+    //RET
+    return;
+}
+
+#endif
+#ifdef FRAGMENT
+#version 300 es
+precision highp float;
+precision highp int;
+uniform lowp sampler2D _MainTex;
+in highp vec2 vs_TEXCOORD0;
+in mediump vec3 vs_TEXCOORD1;
+in mediump vec4 vs_TEXCOORD3;
+in mediump vec3 vs_TEXCOORD6;
+layout(location = 0) out mediump vec4 SV_Target0;
+layout(location = 1) out mediump vec4 SV_Target1;
+layout(location = 2) out mediump vec4 SV_Target2;
+layout(location = 3) out mediump vec4 SV_Target3;
+mediump vec4 t16_0;
+lowp vec4 t10_0;
+lowp vec3 t10_1;
+mediump vec3 t16_2;
+void main()
+{
+    //Instruction 803
+    //SAMPLE
+    t10_0 = texture(_MainTex, vs_TEXCOORD0.xy);
+    //Instruction 804
+    //MUL
+    t16_0 = t10_0 * vs_TEXCOORD3;
+    //Instruction 805
+    //MUL
+    t10_1.xyz = t16_0.www * t16_0.xyz;
+    //Instruction 806
+    //MOV
+    SV_Target0.xyz = t10_1.xyz;
+    //Instruction 807
+    //MUL
+    t16_2.xyz = t10_1.xyz * vs_TEXCOORD6.xyz;
+    //Instruction 808
+    //EXP
+    SV_Target3.xyz = exp2((-t16_2.xyz));
+    //Instruction 809
+    //MOV
+    SV_Target0.w = 1.0;
+    //Instruction 810
+    //MOV
+    SV_Target1 = vec4(0.0, 0.0, 0.0, 0.0);
+    //Instruction 811
+    //MAD
+    t10_1.xyz = vs_TEXCOORD1.xyz * vec3(0.5, 0.5, 0.5) + vec3(0.5, 0.5, 0.5);
+    //Instruction 812
+    //MOV
+    SV_Target2.xyz = t10_1.xyz;
+    //Instruction 813
+    //MOV
+    SV_Target2.w = 1.0;
+    //Instruction 814
+    //MOV
+    SV_Target3.w = 1.0;
+    //Instruction 815
+    //RET
+    return;
+}
+
+#endif
+"
+}
+SubProgram "gles " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "UNITY_HDR_ON" "PIXELSNAP_ON" }
+"!!GLES
+#version 100
+
+#ifdef VERTEX
+attribute vec4 _glesVertex;
+attribute vec4 _glesColor;
+attribute vec3 _glesNormal;
+attribute vec4 _glesMultiTexCoord0;
+uniform highp vec4 _ScreenParams;
+uniform mediump vec4 unity_SHAr;
+uniform mediump vec4 unity_SHAg;
+uniform mediump vec4 unity_SHAb;
+uniform mediump vec4 unity_SHBr;
+uniform mediump vec4 unity_SHBg;
+uniform mediump vec4 unity_SHBb;
+uniform mediump vec4 unity_SHC;
+uniform highp mat4 glstate_matrix_mvp;
+uniform highp mat4 _Object2World;
+uniform highp mat4 _World2Object;
+uniform lowp vec4 _Color;
+uniform highp vec4 _MainTex_ST;
+varying highp vec2 xlv_TEXCOORD0;
+varying mediump vec3 xlv_TEXCOORD1;
+varying highp vec3 xlv_TEXCOORD2;
+varying mediump vec4 xlv_TEXCOORD3;
+varying highp vec4 xlv_TEXCOORD5;
+varying mediump vec3 xlv_TEXCOORD6;
+void main ()
+{
+  lowp vec3 worldNormal_1;
+  mediump vec3 tmpvar_2;
+  mediump vec4 tmpvar_3;
+  highp vec4 tmpvar_4;
+  lowp vec4 tmpvar_5;
+  highp vec4 pos_6;
+  pos_6.zw = _glesVertex.zw;
+  highp vec2 tmpvar_7;
+  tmpvar_7 = (_ScreenParams.xy * 0.5);
+  pos_6.xy = ((floor(
+    (((_glesVertex.xy / _glesVertex.w) * tmpvar_7) + vec2(0.5, 0.5))
+  ) / tmpvar_7) * _glesVertex.w);
+  tmpvar_5 = (_glesColor * _Color);
+  tmpvar_3 = tmpvar_5;
+  highp vec4 v_8;
+  v_8.x = _World2Object[0].x;
+  v_8.y = _World2Object[1].x;
+  v_8.z = _World2Object[2].x;
+  v_8.w = _World2Object[3].x;
+  highp vec4 v_9;
+  v_9.x = _World2Object[0].y;
+  v_9.y = _World2Object[1].y;
+  v_9.z = _World2Object[2].y;
+  v_9.w = _World2Object[3].y;
+  highp vec4 v_10;
+  v_10.x = _World2Object[0].z;
+  v_10.y = _World2Object[1].z;
+  v_10.z = _World2Object[2].z;
+  v_10.w = _World2Object[3].z;
+  highp vec3 tmpvar_11;
+  tmpvar_11 = normalize(((
+    (v_8.xyz * _glesNormal.x)
+   + 
+    (v_9.xyz * _glesNormal.y)
+  ) + (v_10.xyz * _glesNormal.z)));
+  worldNormal_1 = tmpvar_11;
+  tmpvar_2 = worldNormal_1;
+  tmpvar_4.zw = vec2(0.0, 0.0);
+  tmpvar_4.xy = vec2(0.0, 0.0);
+  lowp vec4 tmpvar_12;
+  tmpvar_12.w = 1.0;
+  tmpvar_12.xyz = worldNormal_1;
+  mediump vec4 normal_13;
+  normal_13 = tmpvar_12;
+  mediump vec3 x2_14;
+  mediump vec3 x1_15;
+  x1_15.x = dot (unity_SHAr, normal_13);
+  x1_15.y = dot (unity_SHAg, normal_13);
+  x1_15.z = dot (unity_SHAb, normal_13);
+  mediump vec4 tmpvar_16;
+  tmpvar_16 = (normal_13.xyzz * normal_13.yzzx);
+  x2_14.x = dot (unity_SHBr, tmpvar_16);
+  x2_14.y = dot (unity_SHBg, tmpvar_16);
+  x2_14.z = dot (unity_SHBb, tmpvar_16);
+  gl_Position = (glstate_matrix_mvp * pos_6);
+  xlv_TEXCOORD0 = ((_glesMultiTexCoord0.xy * _MainTex_ST.xy) + _MainTex_ST.zw);
+  xlv_TEXCOORD1 = tmpvar_2;
+  xlv_TEXCOORD2 = (_Object2World * pos_6).xyz;
+  xlv_TEXCOORD3 = tmpvar_3;
+  xlv_TEXCOORD5 = tmpvar_4;
+  xlv_TEXCOORD6 = ((x2_14 + (unity_SHC.xyz * 
+    ((normal_13.x * normal_13.x) - (normal_13.y * normal_13.y))
+  )) + x1_15);
+}
+
+
+#endif
+#ifdef FRAGMENT
+#extension GL_EXT_draw_buffers : enable
+uniform sampler2D _MainTex;
+varying highp vec2 xlv_TEXCOORD0;
+varying mediump vec3 xlv_TEXCOORD1;
+varying mediump vec4 xlv_TEXCOORD3;
+varying mediump vec3 xlv_TEXCOORD6;
+void main ()
+{
+  lowp vec3 tmpvar_1;
+  lowp vec4 tmpvar_2;
+  tmpvar_2 = xlv_TEXCOORD3;
+  tmpvar_1 = xlv_TEXCOORD1;
+  lowp vec3 tmpvar_3;
+  lowp vec4 tmpvar_4;
+  tmpvar_4 = (texture2D (_MainTex, xlv_TEXCOORD0) * tmpvar_2);
+  tmpvar_3 = (tmpvar_4.xyz * tmpvar_4.w);
+  mediump vec4 outDiffuseOcclusion_5;
+  mediump vec4 outNormal_6;
+  mediump vec4 emission_7;
+  lowp vec4 tmpvar_8;
+  tmpvar_8.w = 1.0;
+  tmpvar_8.xyz = tmpvar_3;
+  outDiffuseOcclusion_5 = tmpvar_8;
+  lowp vec4 tmpvar_9;
+  tmpvar_9.w = 1.0;
+  tmpvar_9.xyz = ((tmpvar_1 * 0.5) + 0.5);
+  outNormal_6 = tmpvar_9;
+  lowp vec4 tmpvar_10;
+  tmpvar_10.w = 1.0;
+  tmpvar_10.xyz = vec3(0.0, 0.0, 0.0);
+  emission_7 = tmpvar_10;
+  emission_7.xyz = (emission_7.xyz + (tmpvar_3 * xlv_TEXCOORD6));
+  gl_FragData[0] = outDiffuseOcclusion_5;
+  gl_FragData[1] = vec4(0.0, 0.0, 0.0, 0.0);
+  gl_FragData[2] = outNormal_6;
+  gl_FragData[3] = emission_7;
+}
+
+
+#endif
+"
+}
+SubProgram "gles3 " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "UNITY_HDR_ON" "PIXELSNAP_ON" }
+"!!GLES3
+#ifdef VERTEX
+#version 300 es
+precision highp float;
+precision highp int;
+uniform 	vec4 _Time;
+uniform 	vec4 _SinTime;
+uniform 	vec4 _CosTime;
+uniform 	vec4 unity_DeltaTime;
+uniform 	vec3 _WorldSpaceCameraPos;
+uniform 	vec4 _ProjectionParams;
+uniform 	vec4 _ScreenParams;
+uniform 	vec4 _ZBufferParams;
+uniform 	vec4 unity_OrthoParams;
+uniform 	vec4 unity_CameraWorldClipPlanes[6];
+uniform 	mat4 unity_CameraProjection;
+uniform 	mat4 unity_CameraInvProjection;
+uniform 	vec4 _WorldSpaceLightPos0;
+uniform 	vec4 _LightPositionRange;
+uniform 	vec4 unity_4LightPosX0;
+uniform 	vec4 unity_4LightPosY0;
+uniform 	vec4 unity_4LightPosZ0;
+uniform 	mediump vec4 unity_4LightAtten0;
+uniform 	mediump vec4 unity_LightColor[8];
+uniform 	vec4 unity_LightPosition[8];
+uniform 	mediump vec4 unity_LightAtten[8];
+uniform 	vec4 unity_SpotDirection[8];
+uniform 	mediump vec4 unity_SHAr;
+uniform 	mediump vec4 unity_SHAg;
+uniform 	mediump vec4 unity_SHAb;
+uniform 	mediump vec4 unity_SHBr;
+uniform 	mediump vec4 unity_SHBg;
+uniform 	mediump vec4 unity_SHBb;
+uniform 	mediump vec4 unity_SHC;
+uniform 	mediump vec3 unity_LightColor0;
+uniform 	mediump vec3 unity_LightColor1;
+uniform 	mediump vec3 unity_LightColor2;
+uniform 	mediump vec3 unity_LightColor3;
+uniform 	vec4 unity_ShadowSplitSpheres[4];
+uniform 	vec4 unity_ShadowSplitSqRadii;
+uniform 	vec4 unity_LightShadowBias;
+uniform 	vec4 _LightSplitsNear;
+uniform 	vec4 _LightSplitsFar;
+uniform 	mat4 unity_World2Shadow[4];
+uniform 	mediump vec4 _LightShadowData;
+uniform 	vec4 unity_ShadowFadeCenterAndType;
+uniform 	mat4 glstate_matrix_mvp;
+uniform 	mat4 glstate_matrix_modelview0;
+uniform 	mat4 glstate_matrix_invtrans_modelview0;
+uniform 	mat4 _Object2World;
+uniform 	mat4 _World2Object;
+uniform 	vec4 unity_LODFade;
+uniform 	mat4 glstate_matrix_transpose_modelview0;
+uniform 	mat4 glstate_matrix_projection;
+uniform 	lowp vec4 glstate_lightmodel_ambient;
+uniform 	mat4 unity_MatrixV;
+uniform 	mat4 unity_MatrixVP;
+uniform 	lowp vec4 unity_AmbientSky;
+uniform 	lowp vec4 unity_AmbientEquator;
+uniform 	lowp vec4 unity_AmbientGround;
+uniform 	lowp vec4 unity_FogColor;
+uniform 	vec4 unity_FogParams;
+uniform 	vec4 unity_LightmapST;
+uniform 	vec4 unity_DynamicLightmapST;
+uniform 	vec4 unity_SpecCube0_BoxMax;
+uniform 	vec4 unity_SpecCube0_BoxMin;
+uniform 	vec4 unity_SpecCube0_ProbePosition;
+uniform 	mediump vec4 unity_SpecCube0_HDR;
+uniform 	vec4 unity_SpecCube1_BoxMax;
+uniform 	vec4 unity_SpecCube1_BoxMin;
+uniform 	vec4 unity_SpecCube1_ProbePosition;
+uniform 	mediump vec4 unity_SpecCube1_HDR;
+uniform 	lowp vec4 unity_ColorSpaceGrey;
+uniform 	lowp vec4 unity_ColorSpaceDouble;
+uniform 	mediump vec4 unity_ColorSpaceDielectricSpec;
+uniform 	mediump vec4 unity_ColorSpaceLuminance;
+uniform 	mediump vec4 unity_Lightmap_HDR;
+uniform 	mediump vec4 unity_DynamicLightmap_HDR;
+uniform 	lowp vec4 _LightColor0;
+uniform 	lowp vec4 _SpecColor;
+uniform 	mediump vec4 unity_LightGammaCorrectionConsts;
+uniform 	lowp vec4 _Color;
+uniform 	vec4 _MainTex_ST;
+uniform 	lowp vec4 unity_Ambient;
+in highp vec4 in_POSITION0;
+in highp vec3 in_NORMAL0;
+in highp vec4 in_TEXCOORD0;
+in lowp vec4 in_COLOR0;
+out highp vec2 vs_TEXCOORD0;
+out mediump vec3 vs_TEXCOORD1;
+out highp vec3 vs_TEXCOORD2;
+out mediump vec4 vs_TEXCOORD3;
+out highp vec4 vs_TEXCOORD5;
+out mediump vec3 vs_TEXCOORD6;
+highp vec3 t0;
+mediump vec4 t16_0;
+lowp vec4 t10_0;
+highp vec4 t1;
+highp vec3 t2;
+mediump vec3 t16_3;
+mediump vec3 t16_4;
+highp vec3 t5;
+highp vec2 t10;
+void main()
+{
+    //Instruction 552
+    //DIV
+    t0.xy = in_POSITION0.xy / in_POSITION0.ww;
+    //Instruction 553
+    //MUL
+    t10.xy = _ScreenParams.xy * vec2(0.5, 0.5);
+    //Instruction 554
+    //MUL
+    t0.xy = t10.xy * t0.xy;
+    //Instruction 555
+    //ROUND_NE
+    t0.xy = roundEven(t0.xy);
+    //Instruction 556
+    //DIV
+    t0.xy = t0.xy / t10.xy;
+    //Instruction 557
+    //MUL
+    t0.xy = t0.xy * in_POSITION0.ww;
+    //Instruction 558
+    //MUL
+    t1 = t0.yyyy * glstate_matrix_mvp[1];
+    //Instruction 559
+    //MAD
+    t1 = glstate_matrix_mvp[0] * t0.xxxx + t1;
+    //Instruction 560
+    //MAD
+    t1 = glstate_matrix_mvp[2] * in_POSITION0.zzzz + t1;
+    //Instruction 561
+    //MAD
+    gl_Position = glstate_matrix_mvp[3] * in_POSITION0.wwww + t1;
+    //Instruction 562
+    //MAD
+    vs_TEXCOORD0.xy = in_TEXCOORD0.xy * _MainTex_ST.xy + _MainTex_ST.zw;
+    //Instruction 563
+    //MUL
+    t1.x = in_NORMAL0.x * _World2Object[0].x;
+    //Instruction 564
+    //MUL
+    t1.y = in_NORMAL0.x * _World2Object[1].x;
+    //Instruction 565
+    //MUL
+    t1.z = in_NORMAL0.x * _World2Object[2].x;
+    //Instruction 566
+    //MUL
+    t2.x = in_NORMAL0.y * _World2Object[0].y;
+    //Instruction 567
+    //MUL
+    t2.y = in_NORMAL0.y * _World2Object[1].y;
+    //Instruction 568
+    //MUL
+    t2.z = in_NORMAL0.y * _World2Object[2].y;
+    //Instruction 569
+    //ADD
+    t1.xyz = t1.xyz + t2.xyz;
+    //Instruction 570
+    //MUL
+    t2.x = in_NORMAL0.z * _World2Object[0].z;
+    //Instruction 571
+    //MUL
+    t2.y = in_NORMAL0.z * _World2Object[1].z;
+    //Instruction 572
+    //MUL
+    t2.z = in_NORMAL0.z * _World2Object[2].z;
+    //Instruction 573
+    //ADD
+    t1.xyz = t1.xyz + t2.xyz;
+    //Instruction 574
+    //DP3
+    t10.x = dot(t1.xyz, t1.xyz);
+    //Instruction 575
+    //RSQ
+    t10.x = inversesqrt(t10.x);
+    //Instruction 576
+    //MUL
+    t1.xyz = t10.xxx * t1.xyz;
+    //Instruction 577
+    //MOV
+    vs_TEXCOORD1.xyz = t1.xyz;
+    //Instruction 578
+    //MUL
+    t5.xyz = t0.yyy * _Object2World[1].xyz;
+    //Instruction 579
+    //MAD
+    t0.xyz = _Object2World[0].xyz * t0.xxx + t5.xyz;
+    //Instruction 580
+    //MAD
+    t0.xyz = _Object2World[2].xyz * in_POSITION0.zzz + t0.xyz;
+    //Instruction 581
+    //MAD
+    vs_TEXCOORD2.xyz = _Object2World[3].xyz * in_POSITION0.www + t0.xyz;
+    //Instruction 582
+    //MUL
+    t10_0 = in_COLOR0 * _Color;
+    //Instruction 583
+    //MOV
+    vs_TEXCOORD3 = t10_0;
+    //Instruction 584
+    //MOV
+    vs_TEXCOORD5 = vec4(0.0, 0.0, 0.0, 0.0);
+    //Instruction 585
+    //MUL
+    t16_3.x = t1.y * t1.y;
+    //Instruction 586
+    //MAD
+    t16_3.x = t1.x * t1.x + (-t16_3.x);
+    //Instruction 587
+    //MUL
+    t16_0 = t1.yzzx * t1.xyzz;
+    //Instruction 588
+    //DP4
+    t16_4.x = dot(unity_SHBr, t16_0);
+    //Instruction 589
+    //DP4
+    t16_4.y = dot(unity_SHBg, t16_0);
+    //Instruction 590
+    //DP4
+    t16_4.z = dot(unity_SHBb, t16_0);
+    //Instruction 591
+    //MAD
+    t16_3.xyz = unity_SHC.xyz * t16_3.xxx + t16_4.xyz;
+    //Instruction 592
+    //MOV
+    t1.w = 1.0;
+    //Instruction 593
+    //DP4
+    t16_4.x = dot(unity_SHAr, t1);
+    //Instruction 594
+    //DP4
+    t16_4.y = dot(unity_SHAg, t1);
+    //Instruction 595
+    //DP4
+    t16_4.z = dot(unity_SHAb, t1);
+    //Instruction 596
+    //ADD
+    vs_TEXCOORD6.xyz = t16_3.xyz + t16_4.xyz;
+    //Instruction 597
+    //RET
+    return;
+}
+
+#endif
+#ifdef FRAGMENT
+#version 300 es
+precision highp float;
+precision highp int;
+uniform lowp sampler2D _MainTex;
+in highp vec2 vs_TEXCOORD0;
+in mediump vec3 vs_TEXCOORD1;
+in mediump vec4 vs_TEXCOORD3;
+in mediump vec3 vs_TEXCOORD6;
+layout(location = 0) out mediump vec4 SV_Target0;
+layout(location = 1) out mediump vec4 SV_Target1;
+layout(location = 2) out mediump vec4 SV_Target2;
+layout(location = 3) out mediump vec4 SV_Target3;
+mediump vec4 t16_0;
+lowp vec4 t10_0;
+lowp vec3 t10_1;
+void main()
+{
+    //Instruction 540
+    //SAMPLE
+    t10_0 = texture(_MainTex, vs_TEXCOORD0.xy);
+    //Instruction 541
+    //MUL
+    t16_0 = t10_0 * vs_TEXCOORD3;
+    //Instruction 542
+    //MUL
+    t10_1.xyz = t16_0.www * t16_0.xyz;
+    //Instruction 543
+    //MOV
+    SV_Target0.xyz = t10_1.xyz;
+    //Instruction 544
+    //MUL
+    SV_Target3.xyz = t10_1.xyz * vs_TEXCOORD6.xyz;
+    //Instruction 545
+    //MOV
+    SV_Target0.w = 1.0;
+    //Instruction 546
+    //MOV
+    SV_Target1 = vec4(0.0, 0.0, 0.0, 0.0);
+    //Instruction 547
+    //MAD
+    t10_1.xyz = vs_TEXCOORD1.xyz * vec3(0.5, 0.5, 0.5) + vec3(0.5, 0.5, 0.5);
+    //Instruction 548
+    //MOV
+    SV_Target2.xyz = t10_1.xyz;
+    //Instruction 549
+    //MOV
+    SV_Target2.w = 1.0;
+    //Instruction 550
+    //MOV
+    SV_Target3.w = 1.0;
+    //Instruction 551
+    //RET
+    return;
+}
+
+#endif
+"
+}
+}
+Program "fp" {
+SubProgram "gles " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "HDR_LIGHT_PREPASS_OFF" }
+"!!GLES"
+}
+SubProgram "gles3 " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "HDR_LIGHT_PREPASS_OFF" }
+"!!GLES3"
+}
+SubProgram "gles " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "UNITY_HDR_ON" }
+"!!GLES"
+}
+SubProgram "gles3 " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "UNITY_HDR_ON" }
+"!!GLES3"
+}
+SubProgram "gles " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "PIXELSNAP_ON" "HDR_LIGHT_PREPASS_OFF" }
+"!!GLES"
+}
+SubProgram "gles3 " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "PIXELSNAP_ON" "HDR_LIGHT_PREPASS_OFF" }
+"!!GLES3"
+}
+SubProgram "gles " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "UNITY_HDR_ON" "PIXELSNAP_ON" }
+"!!GLES"
+}
+SubProgram "gles3 " {
+Keywords { "LIGHTMAP_OFF" "DIRLIGHTMAP_OFF" "DYNAMICLIGHTMAP_OFF" "UNITY_HDR_ON" "PIXELSNAP_ON" }
+"!!GLES3"
+}
+}
+ }
+}
+Fallback "Transparent/VertexLit"
+}                        
+   wallbounce      ÍÌL>%   Glass_Break-stephan_schutze-958181291          D¬     Ë•ý>             sharedassets1.resource           a                click4        D¬      ¡=              sharedassets1.resource   a      À                 HelveticaNeueLTPro-UltLt      €?š™™A       þÿÿÿ                              ÍÌÌ=èˆ  OTTO  €  @CFF ûF¢·   Ì  P†DSIGÔïøö  sœ  LGSUB¯Ë×8  QT  ÒLINOKIS‹  ](  OS/2†H(  ^@   `cmapÏ±¼†  ^   ¼headÚP?C  d\   6hheaçÎ  d”   $hmtxÈ+  d¸  maxp„P   jÈ   nameõx~™  jÐ  «postÿ¸ 2  s|      HelveticaNeueLTPro-UltLt 0ø øºøº ø»ø¼ø½û:ûjúŒú7  ¡q›¢ÄE7 £      * 5 > E G O V a f k r } Œ • œ ¢ © ¯ º À Ê Ð Ö Ý ã í ô ÿ&*07AHS_ekw}ƒ–œ©¯µÁÇÒÚæìøü	!(3>DNU[bhsyƒ‰•œ¢¬³¾ÄÎÚåéïöý"(4:@LW^dqwƒ‰š¢®´ÀÄÊÑ×Üéðû"+49;BKRY_fmv„–¢¬³¼ÄÔáèïöý²ÖëõEuronotequalinfinitylessequalgreaterequalpartialdiffsummationproductpiintegralradicalapproxequalDeltaOmegalozengecommaaccentcommaaccent.altcaron.altAmacronAbreveAogonekCacuteCcircumflexCcaronCdotaccentDcaronEcaronEmacronEbreveEdotaccentEogonekGcircumflexGbreveGdotaccentGcommaaccentHcircumflexHbarItildeImacronIdotaccentIogonekJcircumflexKcommaaccentLacuteLcaronLcommaaccentNacuteNcaronNcommaaccentOmacronObreveOhungarumlautRacuteRcaronRcommaaccentSacuteScircumflexScedillaScommaaccentTcaronTcommaaccentTbarUtildeUmacronUbreveUringUhungarumlautUogonekWcircumflexYcircumflexZacuteZdotaccentamacronabreveaogonekcacuteccircumflexccaroncdotaccentdcarondcroatecaronemacronebreveedotaccenteogonekgcircumflexgbrevegdotaccentgcommaaccenthcircumflexhbaritildeimacroniogonekdotlessjjcircumflexkcommaaccentlacutelcaronlcommaaccentnacutencaronncommaaccentnapostropheomacronobreveohungarumlautracutercommaaccentrcaronsacutescircumflexscedillascommaaccenttcarontcommaaccenttbarutildeumacronubreveuringuhungarumlautuogonekwcircumflexycircumflexzacutezdotaccentIJijLdotldotestimatedafii61289.nullCRuni00A0grave.capuni00ADuniF8FFDcroatuni021Auni021Bacute.capcircumflex.capcaron.captilde.capdieresis.capmacron.capuni02C9breve.capring.caphungarumlaut.capdotaccent.capuni2219uni2215uni0394uni03A9uni03BCCopyright © 1988, 1990, 1993, 2003 Linotype Library GmbH, www.linotype.com. All rights reserved. Copyright © 1988, 1990, 1993 Adobe Systems Incorporated. All Rights Reserved.Helvetica Neue LT Pro 25 Ultra LightHelvetica Neue LT ProUltraLight Á   / n w ‚ Œ — ¬ ¹ Ç Î â ý/?VZ”™­×ý$.@JXcjƒ‰³¶¾æÿ&—¤­¿ÊÓÚù$*5\`hmqv™½Ôåîòü 	Nk~‰”˜ª»ÁÏÛì$).:Nalsw™ž¢ÄÍØáêî÷#-2BG`lt~…‰‘˜¡­·ÀÇËÐÔèû "&8=DKS[agr|‡”˜¡©­±µ»¿ÂËÒÖÛáæêöü			
+				#	(	,	0	:	D	H	Q	Z	^	g	m	q	u	y	}	«Ãgf
+?
+Ÿ8
+ûaˆûû)ûTT
+ûn|û…
+Ÿî÷òû»Ò
+÷Ô÷÷÷ÕûûûAû
+ûûB÷
+÷¸û!Üû÷*÷+Ü÷÷!÷ 9÷û)û+:ûû ûA÷&h
+wŽ
+Ì 0)ðÍÇÚËw¥
+ó 
+÷…
+š÷nw(û$÷d¥¨••‹Œ•/øQ1
+wûéû×Jöøj÷'
+Cr…xk„{´œ¡®ÙK“º`ÌÏ½²Ï“‹
+O„apRVc®¿„û®ù^qû¶ý^¢ê÷“Ÿ÷DøK÷>üK€
+[
+ûHˆ÷A÷7:
+Ÿoˆf‡²÷Û÷;øU÷C5û Üû
+÷'÷ÞÓ÷–.
+ßuAÌ(û%?ûûûÒû÷#ãç¿ç¡ŠñûC%ûûGî÷÷Ïö÷÷Îûû
+V
+=
+ãvä|0e
+ûÓP÷Q
+$ƒ9K'ûC÷÷÷Ã÷÷8áÓ['›·
+÷~6Æ+û8?ûû(fllfflª°°ªª°°ªlfŸ»c³[[cc[[³c»»³³»û?=/û8û8=ç÷?¢üTw¤ŸøÙŸó,
+Õ÷þ9
+wŸ
+Ì$
+0ˆ?®0ûKA*†÷îû(@
+Ýv÷$w!
+wªŸø"Ÿó0U÷v÷$w-
+eûG%
+g¥p¼°¦–¨§z—|~rzfkxŸ¤û$šï¢ÃÍˆê÷ˆHÆû(û¸ÐùJ÷©÷ÃO&Œû*V!ûŸD
+wÁA
+÷j¦û`ø{u÷kü‘f+Mso‡GwÈ»ŽÐ¦÷øÿv÷4ƒ#Äû ûû`û!û ÷u÷qÔ÷à;
+ûà2ø.ÌF
+v÷
+w÷8g
+˜
+ü"P
+ød÷r÷	ÎÃHV÷	‰œ°¦”œ”œšŸ¡¡¶´’œ¤»h°bbjpGƒY“ê”ÁµÓÒÀW<`mX\ru}z‡~‡~‰sh÷SûLøýü0üýøbù0ýbü”ùbšûh
+n}
+Þ4
+¾›Z
+Ýv÷$&wÁŸø^ŸƒŸþJ
+ýBŸ÷vø‚Ï
+Jv
+âv÷=Ž
+ ÷¡÷Öû¦ør÷µü1ûÁŸ÷Á÷µø1sø‚ü‚Ÿø‚÷Ÿûö¾˜¡Ëš˜Šˆž²
+Œ€~Žx_R‡9û3wÑ
+˜x÷aŽ÷÷)÷UìÈ
+ø–ŸøÌŸû½÷Ì÷uk
+÷êwûþ÷ooûàKw[û|w÷|£ dvy
+­
+"ŒŸø‡ù/¦üwøkü‡ý/pø£ŸR
+œ’œšû)MZûûPÅ÷	¶w`ûÁ7÷÷$¿ß÷ø¤wÙøüŸ÷„ŸxŸXo
+¤÷–ý|+ÁŸùEø|ýE©‚
+ûiûû?û_÷d(
+v÷ŸøKw³w#û,Íû÷3Žû_÷û?÷iÜw:ø™ŸÖ
+û2ø‚lû3ü‚‰û-ø‚w÷4ü–§÷5ø‚÷4ü‚¥÷8ø–wû?ûûûI÷÷÷Æ÷÷ ÷Þ1û4Õß÷uk
+ww÷oo÷?zŸœv÷F…¢øpù€t÷÷@÷7ð÷”÷¬û6Øû"ûŽk´
+÷"wÖŸ÷w÷öŸwŸ÷ê¡÷zŸ÷©w÷™v÷gŸ…†…‡††^˜›wüÚ6p‡>wÚ¸“éwx|}zw{vqrg£p·¬¤–¨¤|—|tzjnzŸ¤¯¡ªÃÃ´Šlž_|‚‰‡‚w
+¿w÷—ŸÈS0÷
+¾¢Ÿ˜²
+hxzDû
+Þû8ûhòn›$nýE‰ü|Ë
+mkŸø†Ÿ¡
+Ÿwü^¾j^kX`Y@¬¤ª×Æäì³òí6ž; ü;‰
+÷wüäû\÷Z÷•û«%Ÿñ×Ÿ?÷²rûlû­rw÷1Î
+÷pŸl
+_àv¯Ð÷íXû&Ÿ‹vÆŸvÂš
+wÀ]0û¥÷ÝvËwö÷èx˜~žž˜˜žž~˜xx~~x°åø{XAÌÕ
+ûFŸ÷ãû½w vÆ
+Ÿø,ugdovV{xø–wù)¤Ö
+ûeË
+nûbýE‰û^Ë
+vù^w&Ÿ(tø’v÷uw™
+÷v÷$³˜÷PwìŸ˜[ÒÜzŸù[wûŸ÷w}û0v÷9¡
+wÒ v¤wù@w¸wû¥)v÷mŸw÷Ÿv‚
+Ÿ÷ÌŸøTwÓ¤‘ž«’›b‡zuh=~v¡Ÿ÷ÂŸŸŸ÷ÂŸ¡w Ñû$©wªûn÷–ŸÚ÷–÷CŸûCûKŸw÷¶
+ù3wý^Ÿª•¢¢yttyzst—y¨U
+ÁŸ›ü–Ÿ¶
+ùøŸû$‹ŸønŸ÷"v÷ºwîÎb$©Ÿ‹ŸwÂŸÈ‡
+0Ç v÷ãŸ÷çŸ
+ø@ŸwÂŸøÞ~¯
+÷÷ vwø÷
+¯
+÷-´
+÷1ŸƒwX¾½ÖÅ
+‹Ÿù6Ÿø+wˆü”ÕŸÕŸüŒw÷ù”
+±
+
+°ww&Ÿø;ŸlûyŸª÷y vø‚Ÿ v÷þŸ÷þH^Cg>÷¾ŸÁŸÖà
+ªŸ÷ŸŸøŸw÷w§Ÿ“Ÿø Çµ²ÃÚB IøˆŸv¶vÆwµwŸ„Ÿ÷ŽŸŸX
+Ö÷$.£¯ÇíŸÞ
+wÞ
+víwùJ¤ ã‡ž„    # A œIj÷ÿ0a™ÀÍÏÛð>h»>yØ7eíQ]n‘©ÉéïKWdk†—¤­ÄÍÒ				?	‰	œ	µ	Ã	È	ð	þ
+-
+7
+=
+T
+j
+‚
+¤
+´
+Â
+Ö)5OXg|¦°¸"xÑáú9Ctz€Ïç4¢°²i/ªµÊÙäé"0P|~¯ÌÝô.P©°¶¾ÇÉÓÙßæ +uîvæœ¨Î6âA\vxÆÈ8^Š¬ÐW¼" ÑS`n€Ž¸Å&4`n}Œž¬¹ÁÏéñ7>K`nuƒ½Åé÷IPWs{¨¯½ÅÓíõ    # 7 ? M a o!!K!½!Ö!ð"\"‰"©"â#:#X#Ñ#Ó#Õ$ $$$$&$4$X$f$n$v$‘$¥$²$Å$Ñ$ä$ý%%%4%Y%q%”%¢%¶%È%Ý%ü&&+&@&\&i&y&£&¶&Ã&Ë&Ù&æ'
+'''d'‹'£'¥'Ò'ã'ö(( ('(q(‡(•(£(·(Ñ(ß)/)<)C)K)f)”)¹)Á)Ó)à)û*2*@*N*n*›*¶*Ø*è*ú+++;+V+`+u+Š+›+«+Æ+ç+ú,,,,2,B,T,[,¥,Ë,ü,þ-(-7-I-X-m-t-£-¸-Å-Ò-æ..*.F.a.«/////$/&/(/*/,/./6/>/E/N/T/^/`/j/q/y///ƒ/…/‡/‰Kû¥üÐ
+ówø¼wÞŸò÷Jø¨wü¨ŸûJÊ
+û¥”ÔŸçŸ÷aù^wûuŸû÷uwûuŸ v÷yŸ÷EŸ÷~w÷eø>÷?sûEû?³øClû~ûw÷sûEûw÷È÷@È÷Ÿû	£÷E÷Ÿûª÷~wlû~û?ª÷~7väŸŠw v÷’w÷½w÷lŸxw³wÊw‘ŸŒŸ÷nŸ÷n¿
+®z÷±÷÷õs÷xûûûZûû«÷~Î|ˆû@÷?÷,†2ŸžzãS
+ƒ÷âÎ|÷ˆåVû Ÿƒ÷.+ÆûŽ·wÍü`ûû^ûû÷v÷pûøû!)Ë÷8÷ƒ÷$û£"¢÷÷÷
+²ï÷¤¨ÑãimûcüÁa
+ûÐÌK
+÷øûþ`
+¢zŸv÷©wøIŸ·ŸÍŸ÷Ÿ¾øg÷Ÿ¸–²ŠÇwŽV}_~nûP÷‚Ì¼ç»êßI¼;D@b/IÎI²T6V Kû	ûóHïðÏÄÔ³~äû¥û÷¾?fLV+//Âñ÷óÃÛ¾)÷aÐÅµÐÍÆ_F8.UScCèl´¸Áù^z
+Ó
+ÏŸ÷Lùo@ûbû/û1ûA³ûØû,Ÿ>÷!c÷1÷5÷1´÷/Ö÷Ó
+÷Ÿ±ûEÖ÷´÷/÷1÷Ac÷>÷,wØû!³û1û5û1bû/@ûû[ø[v÷¬w÷8Ÿ÷8ù^û û¶…x÷`3#›~ßóÞû ›—8÷÷¶‡žû`÷ ¼ v÷‡Ÿ÷‡w÷¶Ÿ÷¶÷›û†w÷†û‡Ÿ÷‡÷†Ÿû†÷‡wž÷í)¸
+í§û¥ víŸ÷)¼
+ûnÉ
+˜z÷Ûù€wûÛý€Ÿù,Ÿ ŸønŸø«÷è÷?N÷IûXûXNûIû?û?ÈûI÷X÷XÈ÷I÷?¸û,XûHûNûNX÷H÷,÷,¾÷H÷N÷N¾ûHû, vù7v¥w÷¾Ÿ°÷¾Ÿù<uSK`g9qwÐÏžÓ·´Äª
+‹Ÿø^v÷kŸÂŸƒŸøŸôÖŸœ÷Dø&âŒ÷v÷.Èûìû%B5û)Š·
+÷Äå÷"÷ ÜS  %A#Cô&CûEŽûø^ŸŸ÷rw÷&Ÿ÷v÷_Ÿ³ŸŠŸø)Ÿ„Ÿû Úøi÷ˆàÎ÷êêeûŽû-f3Zw¼ü€÷†Þ]û	û	&Lûû"+Ù÷$–wû/€ó4÷.÷õÕ÷÷	<¿;“û ß“ÉÁë÷"¹û û".@û(Ž v÷EŸøpv§wøŸØø÷E¶
+÷E÷Ÿûøwrûèüss÷íŸûÙè÷×ø[Ÿ÷fwƒ÷Ÿ÷[Ÿ°ŸøCŸøtù(ŸûñBûëàÏ°Ô¯Û÷á1ûû85ûû2Ø÷‹
+û%†ð6÷ ÷ êé÷$÷,íû ;HnLd‰É÷·Ÿ÷« 
+Éw÷@Ÿ²§øBŸøøœë~;×û	û[Rû^û=3‘=²OV­ÒUè÷÷î÷÷ û	êû
+û ,@+x‰÷0‡°÷y÷_Ïënû¦—û½•
+ vù(Ÿß
+ømù(ûLûLûûeŽûŸŸ÷£÷÷Y÷M÷M¦üFwŸ÷öŸ÷¶ŸªŸ™ŸøŸ™Ÿøkøœ*$b10%´ì÷ê¯ííêgûûû%Ø–ÊÃÙ÷,¼û
+û
+,Zû=ÊSØ€‰û €IG#û!÷N÷÷÷È÷!óIÏû –÷.ûKû Xûû ¾÷÷÷´÷	÷	÷bûŸ÷,wÝŸøBŸ²ŸøB¨wŸüø}ø]•
+üJû½+˜Û?÷	÷\Ä÷^÷=ã…ÙcÇÀiDÁ.ûû(ûû ÷	,÷
+÷æÖë úû0Žhûyû`G+¨÷pû¥ ví¢
+ü4Ê
+û¥)v÷m¢
+ûÒw)¸
+¼˜vøžwø¾˜ü~÷„ø~÷„ üûsøû¼÷&Ÿ÷BŸø¼÷&ŸüŒwøŒ÷VÂ¼˜vøžw¹˜vø÷£ü÷vø~û„XÐ
+ów÷ôv÷nŸ®Ÿ÷EŸ÷EŸ÷íw)ûEø÷†Ñä÷ð×W-%8V{{@CtY1Ÿì¦±ÓÐ¬©Ìºñö3Æûû 9)û ÷Ÿ÷Ÿ™w¼w÷ÛvÌŸv÷%ŸÄŸ÷	Ÿø‘ŸÝàøÎøuÖ
+ÀzR«Lû",û9û;ÆJØº¿—¾°f„¦q²ì÷÷÷.÷Mû%÷ûGûZû8û,ûcû‘÷Kû÷G½à÷÷ÒöËt2M!FûûLû2÷
+÷w÷P÷'÷+÷W÷B÷ûû:Ûàû'ûû9U»Æ£÷÷´v!û§*eMtUFXÁÒÝà÷â÷2÷¾ÊuGZ*Çm
+ºŸøhŸŸÎß÷³ðÛYû %5W,û³wü÷»÷íÍ÷÷;Ì.ŽâËÓá÷2ÆûûÇŸûô÷³ðñ^ûû	1Sûû°r¤ŸøÙŸ,
+ì¾ÁŸø–Ÿk}È
+9EÊ÷ÌÜÕßø8ŸüLª÷þøŸül«ŸøîŸ¿)
+ŽìÊ÷àÝÖ›
+‚ÁŸw
+3zŸ÷nwø•wŸ÷îŸø÷]_µ¨
+ÁŸ
+Í
+u
+÷y v¥wù?w¸wÁŸùŸ|ø¥Ö
+ûÂùDj¼ªùE÷ÃýE¡÷ÃË
+ýEŸù^j—Î¼a||p
+R¢ v÷ÙŸ÷ñÜøfŸÕ÷Ù÷—Á
+ûµÐùJ£
+÷>zŸ‡vùqŸŽ
+xùEu•™ûÚÒÐ®ó÷?
+¸gâÑ§ºÀxy—¸`XKs>T
+8
+Šûf,JLûä€{´ÁŸø^ŸƒŸøJ
+ôBÇzŸ÷~Äø\Ÿ…ŸþH
+ý.þ‡X vùJŸ÷„Ÿo
+™n
+~ v¥wùXw`÷¦¥Ö
+û¢ùDw ÷¬ý^¡÷¤ù^w÷Óp’°
+l¨
+÷™øû‹÷ßq÷˜ûïû§üà÷›÷ó÷™ûóàû¤ø÷˜÷ïr~¨
+÷—ŸS»]ûÝ®ëŸëùoþ ÷Ÿ.ùøèŸûnÉ
+÷èzûÛù€w÷Ûý€ûÝ®õŸ÷ûEú ûwèýø.w¼÷ŒvøYw÷Êù<wû{üYŸ÷qøE÷qüEŸXû½øˆû½üˆYü”ÔŸèø}z@
+|
+¿À#
+À(¿À3}–ÂŸø+Ÿ~Öù^¦÷$¾1¦ÕIô÷Þ÷÷/÷$=÷û!ûBL.s‰û÷4Þå÷÷ ÆûûûIûûû?÷÷v
+ªŸø"Ÿ0}–§Ÿø+Ÿ¾ø[øb
+~û$Ÿù^Z
+¥
+ 
+ûïÉ÷HŸâŸâTp§Ÿ“Ÿø ÷€;
+û€2X÷Pw‰4
+÷Ûw™
+·ð¼ù^º
+ü–Ÿ©·ð¼“ ™
+÷p½~
+¨
+ÂŸ®
+÷wwÂŸ÷ÄŸ÷ÄŸÜÂÙ
+ñ÷¢;+ûÞŸ÷ÚëÈßï÷ªH&ûæŸ÷æ÷dØû<K[Cw‰z×Rº;ˆ<HO<y‰¼›Xw}
+Ø4
+¸›}\œwÂŸø+ŸöÚÔL÷÷!Ù÷÷$÷/8÷û"AI1p‰îy
+ýGŸ÷d÷Mû8å÷4ö÷×÷÷÷ÍûûûPûû œw§Ÿø+Ÿöø[÷–û481ûû P÷÷÷Í÷÷÷×ûû÷‰åpAÍ"û8ûû/û$Øû÷"÷ÔÊè£ûÕŸîùGwû¸wÂŸÐ]
+°­3Ÿ÷<Ã
+÷ÔŸ…ŸþHý4þ±ûÊŸw vø‚Ÿ÷6wåPU}
+¼%|šû$Ÿw©
+÷iŸÖ
+û[ø‚s÷hü–à÷Vø–u÷Ÿw©
+iû$™
+÷_÷­ûA÷}q÷OûŒûbûžà÷U÷÷Vûàûb÷ž÷P÷Œs¥E¯\
+ûn®÷1Ÿ÷¬ûEŸ[ezŸä÷6×oÎ_ ¾  ÝÆ÷8Þš£³»ŸYSzj?û9:o=_ƒwÆd˜V:û7?œhÃûÝûUvú|wðŸ÷ûjú|wþ|ûn®÷0ŸÀùow»°w2û6?§H·vXvv9Pû88|sc[w½Ãœ¬×÷9Ü§Ù·“²
+P°~ÂÜ÷7×z®S¼÷eŸˆvÔŸŽwø‹÷Áhstfbpgœc`džagˆSfc\rŸ…¶£¨©¸¿®v{®|®¨z¬¿©¶¶¦üû0vø­w÷ÞÞŸÞ÷üü­Ÿø­w÷J)Ÿí'v÷Ÿ÷;w÷_w÷;ŸãwÆŸ÷UŸ÷¸øèˆÓ\š*Ÿ~÷ 8Ã#Žãw3û!†CûûûÐû÷$†ûŸ÷÷ŒÚÐš÷	w+€DD)†wûN÷÷÷È÷÷zŸ©Ÿ÷¸¡
+v÷{Ÿ¸ŸçŸ÷øpÀ]ÍÈ÷	ñ¼ó÷ä9û)~Ÿ÷/›.ëû-ûûQûN·F¥YIw×Ÿh—YX;VEJSwª²²žºªª}€¬~¬­¬È¹¡ÎÆ~™[XfhJlk˜˜j–ki˜jbgyxr‰È¿±Ê×º„»t´÷)Ÿœ
+ v÷KŸñŸ‘wø'w÷ŸŸì÷³÷Å÷'Ÿû÷øuÜû~ü‰û~øuì÷üûw÷'%û'w÷'ûKŸ÷K÷'Ÿû'¶
+øÌŸ÷¬Ÿ÷­ø/÷Ÿû°÷LÔš­¢Èžˆˆ›žzxxC^m@|dûWû‡w÷0übLn`H}}}†w†›œŠœÙ®ÅË˜´
+÷BwøÚv÷9ŸÄŸ¥ŸŸ÷µŸ°Ÿû€øs÷aE?^cƒ]«:¿P°-Æ…½©ßÙ´¨“¦{Ñe¬u÷3¨dHf÷é÷IÕ"V"vûS¥m¦tTvUUKT˜^êLÆcÓb¸kÒY”qV]cG$ý€ûŒ_ÑŒòwûˆÌF÷ÝÔµç“Ž³³W¶´–×ÁÒÚl´û#çT­k—[®û€l¢t¤ˆ¾å†å¤¾ï½M$ŽçŸø\Ÿ©Ÿø\ŸøŽ÷èû$$ûû$ò÷÷òò÷÷ò$ûO÷J·\O¡NOOu_[RÄ}}ÄR`\uOŠNO¡O·[RR™}ÄÄ_»ÇuÇÈŒÇ¡º¶ÄR™™RÄ·»¡ÇÇÈuÇ_ºÄÄ}™Áø}Ÿ÷uwû¥”ÞŸÛŸ÷_ø}z;zû[°÷š÷0{
+.®{
+û¸°÷=÷0{
+û¸ŒûnÉ÷vÜŸâŸ÷+ŸâT÷«÷pº
+ü–ŸûnÉ÷HŸâŸ÷+Ÿ÷ªù^wÐûSTX÷–Ÿ÷–ÖüˆûvøãŸ÷‡Ø
+ù^û‡ûdw÷düãŸøãÛ
+÷‡ûv÷YŸø8Ÿ÷YØ
+ÄûYŸ÷YÛ
+ø8Û
+÷YwûYûdw÷dü8ûdw‹¼ûvøhwøŸ÷´Ÿ÷7Ÿ÷µù^û!9Fû#å5÷ühŸùÖ÷7ýÖŸùêX÷[v÷ùwÓÃ(Ú;îîÛÛîî;Ú((<<(ü)v÷mwÔŸÔí„
+û¥)v÷mwÖŸÛŸÖí„
+Û„
+û¥”ÖŸÛŸÖù^z
+Ûz
+û[Œèh{øUÐ
+÷1Ÿ÷ÍŸ÷ÍŸ8ùß¼
+ûá¼
+ûá¼
+øz¤ ÑÀÑäim÷8üÁK
+ûèK
+ûÈÌK
+X´
+÷nw÷ßw÷Þ¾Ÿ÷DŸ÷FŸ÷Œø²)Ÿí÷EüûE2û&?¿éñÝÀ››ÖÓ¢½åw*peCFjmK[& ãP÷÷ Ýí÷ †ˆ
+ðøàLˆ
+÷"s
+¬
+÷Nøã!øïˆ\øû"
+«
+ùà
+Qù^,Ì
+ùKq
+¹øúC¶ù26¨½w÷Ÿ°zl
+pv´ÃwRB^
+ˆ
+÷ùp?»
+{ŸÜ€¬
+Sùn'øU÷–Ÿùú÷ªýxwùx÷Á‹Ÿ÷’ŸÏ¡ywÇìø;ùLü&û–÷gø&ºü:û¦ø0Ÿü÷ê÷üŸûüô÷ÌøŸüiüý^¡÷%÷¦ûøŸw÷G<v÷vÄvßŸ‹Ÿ÷vŸ_÷ÀøzˆzŠ¢÷RÎˆZ¡J;bdJ„·
+¿’¬«ÏÎ©uP[M‘NˆN†M‚:OÁsÅÓ¸§·š¿’btœƒžU÷J\W4^\œº÷÷VJ§½ª
+Í
+øŸü5÷›÷Œ÷B£ûŒûB¿ü9AWsÕ¿û¡p
+Ž
+³œšÒÚKÃÙfðf
+ðpæTÏÈÏ|—PJÈS=±'b'§0ÀGøuø‹¼N¥7Œ(ûaˆûû)ûT,A®ÈW~š[ÈqÞŠîVèÕiOÀøhzŸˆqˆŸ«ŸÆ
+®øÂéHR?sLûUû÷(÷^ˆ÷lŽ÷
+÷"÷Qà½rLÈŸû…¶÷Ìø2ŸüFJ®ÇWJ¡<ûoûûFû\û[÷û?÷kÐÒ¤ÄÃvJøFŸü2÷êøŸûøŸ÷±Ÿ‹Ÿ÷™ŸŸø§Ñ»ÒÞÝ»DEC[C98[ÓÓ¸6Á<ëï¾ÚàßXØ()V>7÷æŸ÷'w¶wêŸg
+«Ÿ—Ÿ÷ÚŸø+Ÿïðß&
+äÊó Ë¦ ÕN÷Œ÷ãÙ÷–‹
+û~6P&÷ðû'V÷÷†ø?÷$F÷û0û EJ6p‰Ç
+;V
+ïð=
+÷ðŸn÷!–Ñç÷÷Ì"û vø–wÂŸ‡
+¨
+ÂŸÂù^ûÎBLrÔÊüŸøÔÊ¤BL÷½}­
+ø?øU»dS¨Cû+:ûû KœM¬\OM™}ÄÆ[²ÃlÖ÷+Ü÷÷!ÎzÉhºº¼}™[=ª^›SOûAû
+ûFW§ºh›n·|ÂÆ÷Ô÷÷Ï¼o_®÷çŸ÷)w¯wïŸØw÷DŸ«ŸÒÒ€ß€ùì÷‘š÷M÷û(ˆûˆPBx'‰ó{DÓûû0TûûûÆû÷,÷ÉÌó¢û ›ÓN÷¿€÷	ÎÔ÷ž‹
+3{Y>û	ûNá÷3Œwû^û
+û&ûW÷÷÷¿÷÷÷$ºûûŸ›÷¼ð÷÷¿ ûŽE‹ŸøŸ÷¿ŸÂŸ÷ÔŸœŸ÷^ø÷ëmû'û,,]û“w÷QƒÈå÷ô[Óû–àšµÊÞó2È,60aûüÀŸø½÷óš¿æÔU0û	/c&Žûn÷¾vø*v¢w÷IŸ°÷I÷©Ð³
+¼÷v÷‹Ÿø¨Ÿø¨èŸ÷ŸüŒwøxX
+øK÷×vøŸ÷|Ÿ÷ˆŸ÷ôŸø„÷ÂŸø÷8üŸ÷8øüŸø0iû6üû6øiûœü0Ÿø÷*ŸûÔw÷*W÷¯~v­Ÿ÷’w¢w÷Ÿ÷ v¢w¼w÷LŸ÷ §wŸ÷‚Ÿë°øƒŸt
+ÛÐÍüÞ÷•ÝÐ³
+4ýLm¼‹ŸÑw÷nŸ÷Zw÷¶Ÿ»øŒŸüŒ÷†÷´û†w÷†ûZŸ÷Z÷†Ÿû†÷Zw¢ v÷]Ÿ÷ñŸ÷ÝøfŸÕøâ÷¦÷]÷—Á
+û¡w£
+×
+÷/w÷@v÷§v¢w¼w÷qŸøŸûÀ÷q÷©ýÀ³
+>ýLmš„¼ vÝw÷IŸ‹÷5Ýw÷—Ý÷À«ø<«÷ûIÂûÝGv÷Žw÷·v÷ŽwðŸðù)ûŽŸ÷ŽüˆwûŽŸû+ø(Ÿ÷ŒŸÄŸ÷ŠŸ÷ëø¹ØLÍ;;LI>8ÊMÛÜÉÌÛ¸EUTFIRÀÓËÄÆÍÓ¾RIœ÷PÅ
+ø+ŸÚØLô÷-Í÷÷$÷/@÷û$ûIJ0p‰÷ìwþŸø+øGû\ûû,û4å÷4÷Ï÷÷ ÷ Æûû×
+÷(Ÿ÷v§vÓŸÔ
+¡wÂØ÷ÑŸúíã¦
+Œ‹—õ3ÌËtAŒ
+ù5Õúí3I]4Ž÷üåm”„ûn÷©Ÿ÷§v÷Ÿ§wŸ÷‚Ÿì´÷½t
+ôÍ÷zŸ÷w÷oŸ÷SŸ÷&Ÿ¥Ÿ÷xŸ÷‡Ÿ÷YY
+÷ ˆ÷S÷ËÇz<5;‚PûûoŸ÷[íš‘‹Œ÷û\àû÷^Ç¿­ÔÔ^¶*û!¼÷‡Ÿø¼÷‡Âk€ŸøSv¿Ÿ÷ow­
+»÷Œ÷Ô÷÷÷ÕûûûAûûûB÷÷Û÷áš|÷ÏºdÕ:³<‡¾dM Nû+:ûûûÜû÷*÷+Ü÷÷÷&L÷
+û"÷÷Î|›ûGsŸj£dŸ{}²w©v£x¼Ñv¿÷²÷‘ûRûR™}÷Q÷S÷SûS™™ûS÷R÷S÷R}˜ûSûSûQ÷S}~ûn÷¢Ÿ÷&vÒ Ô
+–Øí€·¦
+£Ò@ÌËv@Œ
+Ò€Õí€3I]4Ž÷zŸ÷	¡
+w÷Uv÷Ÿ÷Ÿ¥Ÿ÷%Ÿø³Y
+øËÒì~=Á-û:+ûûá&÷çÐËç ‹
+3vG[Bû@ê÷	÷	Óå÷ÛÓ`3˜Zóv÷$<
+Wù/(
+Z÷v÷<
+Yø¢!Zö‘
+÷_~2
+8ø¹CZóv÷$<
+ûAøŸLZµŸ•ŸõŸ•Ÿ÷\ŸzŸ÷ŸzŸú P÷ûùæ6ð æüû'
+Zîˆ*û¯øº"
+÷¨¬Ÿˆw÷Àw÷™v÷gŸ¤ŸøŸ÷VŸŸÀ÷“l
+_Àv¯À«²¶Œ³“®˜÷·Íð÷w0
+û5Öû÷	S¯{±‚³‰[S^
+c
+ßv÷$D÷åú(
+c
+äv÷D÷äù!c
+Öv¬vÐw«wÁŸöŸŸ÷ŸŸõ 
+Pøù¸D
+á ûüN9
+c
+ßv÷$D÷wùŠL‚óv÷$wÁŸÈÁ’
+‚÷v÷À
+0÷E
+‚ö‘
+sÚ
+Äw
+:íåC‚óv÷$À
+0‘ËL—îŸ±ŸW
+÷7æ"
+5
+øEøÉ(
+p
+Óv÷$øFø<!p
+Ñ‘
+«Ÿ÷s~÷oŸÉ 6ø#øSC5
+÷Äø9Lp
+ÉŸ‹vÆŸvR÷]øT"
+>
+ûïø*'C
+ûc™÷v÷:ûE
+™ö‘
+ÁŸ÷-~÷/ŸÉ$
+6û/åCC
+ûŒËL~‰
+óv÷$yû/c~‰
+ö‘
+÷IÚ
+ÄS:ûOåC»äv÷Šüú'<[øB(
+@
+âv÷w!
+i÷µ!@
+Ê×¡Ÿ—ŸÚŸ|Ÿ÷Ÿ|ŸÍŸ¿ý@#
+ý@(¿ý@3¿üÀI÷Ìh¿û@ûh<û1÷²L@
+Ç~¡Ÿ—ŸØ~ÔŸ¿ü#
+ü(¿ü3.ø6@
+ØŸ±Ÿ!
+û¥÷Í"
+X¨±Ÿƒw÷Ww÷_wß
+ªŸ÷¡Ÿ}ŸòŸŸ`÷>l
+_`v¯`¯·¤Œ¢ ’Ô¥¼É“áw5!¹1ßa¥¨„¬ŠXN
+Ÿ i
+N8ø_(
+M
+=÷Ò!Z
+à‘
+¤Ÿ÷~÷Ÿò@ 
+€û÷éCNûc÷ÏL•÷s
+™
+÷v÷³÷øã!™
+ê×tÚ
+ë€Á ‡
+€íøúC•øàLXw÷Ÿ±ŸMÚð"
+7
+÷õøo(
+}âv÷*
+÷õ÷â!}à‘
+§Ÿ÷~÷ŸÉ"6÷Ô÷ùC7
+÷v÷ßL}ØŸ‹vÆŸv\÷÷ú"
+B
+ûªø'>@s
+U÷v÷w-
+?øã!U÷	‘
+ÂŸà~äj
+ûøúC>û_øàL¥÷v÷$r
+N÷n(
+¥÷	‘
+÷~ÀE<+ïC¯îv÷Š
+ûÒùZ'Žw¢v÷°÷û	wøAw¢v¤øËïJTFk8û0*÷÷%sø””œü‰œŠœ›Œ›Œ›ø$¤”œü+÷,žð÷÷5Ó½v`Ã”›¨·SQ¡CûB ûû8vT„zÇŠxŠwxv”„Œ„Œ„Vd„zÈû0£ôû÷;ÝÑ¨ÆÅµ‹Ÿ÷÷:ø­÷ û§ã÷:÷OûEÒ÷{“?û û°y÷§2û:ûNy÷EDû›ƒÖ÷ ÷?÷	è¥èÁ÷©£÷©ü÷ñ÷„^\OPFKf¶ÊÃ¯¼ÇËÓJa¸÷ÁKg`HHMÊ¶^²¸ÓÎÊÇ°[RÐ\ÁDHAG`[¶XGÏDF[TG@¸Z×Þ¸ÊºÅZÄ½MÛÖ¸¿Ôµ
+Åžüa÷Wøa÷Yžüvûcyµ
+÷›üv÷cxøaûYüaûWx ~›ø%œ÷®œ¥Ÿ÷ëžø÷¹#UûNû%W÷ãë½ð÷ ÜÂ[L¸¢Ü÷c÷hû@Xdxob–{§²«¼÷,´ûYûtŠsŠtÇcH·BûM#û )Èû÷÷G©÷“÷µûjúXø¸ûjüu÷éøzûÚørø\üsy÷Úürûéüzy÷-ù”èøvø÷ûjú|üšþ|újøvþj‡ø9ð÷¾ø™©€~}†zcµ§÷ó×üvyÓüGøG÷¾ûðaŠZÄšš”™}ûj¦ú/½÷ž÷úùŠŸx“z&™û`RürQˆûd‚…¢w~‚~z››ð|÷\Çø{·‹··ŸŽ•Õ¨ŒŽ‰Œ€–Ž›˜•”˜ øPùyŒûgþVûHø	Qo‘|· ÷Pü•µ÷ôøœ÷f`~gc[^&¶–ek”k‘k“€Žs‚‡dxxkd³˜¯¶¹®Úm§º|¸€º¹
+y÷:`~gb[jI£–mXœ[šW–¸ƒŽ|z~QcYX{´™­µº¬Ýkƒ¦º|·€»¹
+ƒ
+G
+µøW÷øû/ûùû.÷ù÷.÷ù÷Cûùû?øƒû>ü÷>ü“ž÷Y+ž÷øü£ˆ
+ðù^Z÷Ÿ2
+TøçYZ÷Ÿâ<
+ûºù,£»
+´dødŸøj÷éûZiYaZ@¬¥ªÒÆ-rÎv÷$8ûNù(
+L
+ûNø‰!L
+ü@ù'rÑ‘
+¤Ÿ÷¿Ÿ÷šŸò€,
+ ûÒøñq
+ì¾ä¬ø–ŸÌk0å÷b'c
+äv÷Déú'c
+óŸÁŸè9÷ÝùÒYc
+ïŸâDãú,c
+â‘
+ÁŸ÷^A
+÷^ùõq
+}»
+Ÿ§
+÷¶Ÿø¨Ÿü^÷êI
+ø+€lÓv÷N
+÷øg!lÞŸâN
+ûøâ,lÑ‘
+«Ÿ÷ÈŸ÷¦Ÿ¿à)
+àŽzøÏq
+÷?)vñŸœvîwî…«Ÿ÷ÅŸ÷©Ÿßà)
+¿àŽwü +ìÊ÷àÓ¬øˆŸæ›
+øø7!ìÊåŸ÷rÝÖ¤
+û\üˆ÷\¦÷þŸ÷øˆû‚îˆÁŸw
+%æ"
+‚÷ŸÁŸÐw
+ ÷÷Y‚÷vÜÀ
+8÷O:ŸÜü;»
+´ qÉŸw
+ý^u3zŸ÷nwø•ÓU
+Ÿ÷îŸæø÷]_÷E
+µ
+ùwÁŸ÷rŸX
+¤÷rûÃ+E‹ŸùJwóXÁŸÈu
+0ûÄú(
+E‹ŸøàÅÁŸ¨u
+PûšßE)v÷ŸÙwùwÁŸ÷HŸXu
+¤ûE+—óv÷$wW
+øc—÷v÷wW
+÷*÷b'ì)v·¤wèwø÷w¸wÁŸ÷|Ÿ÷ŒŸß€a¿€|ß€÷ý+p
+âŸŽ
+Ø  ø@øYp
+ÞŸâ$÷Qø·,5
+øøÉ?´ßv÷$O÷ÇøË(
+´äv÷OÜøÉ'Ç
+÷•Ÿ÷çŸÁŸ÷iŸ÷uŸƒŸÿ J
+þ€B÷iü)+†
+Îv÷$/
+ûø,(
+>
+$÷Ÿ!Ç¨¬Ÿˆw÷•Ä÷¯Ÿ÷-¿
+Ÿà÷b†§²š:
+Ÿà‡ŸFŸÐ€
+¯à[
+‰ûÍ?ño¤„¥†¦‰_R^
+Ç)vñŸêw÷3Ä÷sŸ÷i¿
+ÿÀH
+ÿ .ÿÀ‡û}üÈ+X vùJŸäU
+÷„ŸÈo
+0÷&÷v'`X vølŸ÷^Ÿ÷„Ÿ÷„ßûfû:w÷:üdŸød÷:Ÿû:÷f÷•Ÿüªw™îŸ‹vÆŸvn
+ûñæ"
+™÷ŸŸ
+Ø$
+ û÷Y™÷Ÿâ:ûý÷R,™Ó~ÁŸ÷0~÷,ŸÉ$
+6û@÷6C
+d÷d?Ü´
+÷,ŸˆwùrwÁŸ÷3Ÿ÷ÅŸ¾øÂ÷žÞ7,¡D¸\¶^ÉtÜ‰‡ˆ‡ˆˆˆ^–šž¦¡ÖŽÄ¢´¶¸º¢Òê¢÷Ó÷U
+|’¼
+|ûÄE
+~‰
+÷v÷yû.E
+»ßv÷$Šûú(
+»â‘
+÷ƒŸÀ]8û¡ùõq
+@
+ñŸ|
+¿à#
+à(¿à3d÷úY@
+íŸâw!
+û­ø0,Eº³I¡Ÿ—Ÿ÷‡ŸÊŸÏø#
+~Ž€„††‘ˆy}€€‚R
+¯ø¬¤ªÖÆŸøŠ‹¯ø••‹Œ•Ÿø/Ïø3v
+Ýv÷$=2øÁ(
+Q8ø4!Qûàø¿'v
+à‘
+ªŸ÷bŸ÷@Ÿò€0 ûhøœq
+±˜ÝÅ§Ÿø+Ÿ»€ø[øb
+{€û$Ÿ½€‚
+ü^j÷ø^‡–§Ÿø+Ÿ¾ø[ùûGw÷Gû‡b
+~û$ŸøùÓŸCÜM
+ûÙø]'Z
+ñŸ¥
+ö 
+5øYZ
+íŸâ&ûØøM,Z
+à‘
+¤Ÿ÷WŸ÷WŸò€ 
+ ûkø:q
+Xº÷ZwêŸ÷}Ÿ¤Ÿ÷Ÿ÷œŸ¿€6
+ß€fŒs Ÿª¤œ›šÖ¥ÀÉ•ä+
+p÷v÷GQ÷Ñ!p÷ŸâGûÑøL,p÷	‘
+§Ÿ“Ÿ÷@Ÿ÷E ÷ð;
+ûð2ûYø9q
+k´
+ÒvçwÖŸ½wéw÷öŸw§Ÿ“Ÿ÷DŸ÷A ýð;
+þð2ûK÷ê£X÷PÓv÷w}
+æ4
+÷Ûw÷ÌE
+bÌŸòwÌš
+ÌùHwÎüù.
+÷v÷BŸûBÜw™
+÷ˆÂŸ‡
+$øû"
+™
+÷ŸÂŸÐ‡
+ ÷“
+™
+·ð¼‘ü–Ÿwuù^Æ©·ð¼ø–t©÷vµvðw°wÂŸÚÖø–t$öù.! 
+øHw÷pwÂŸ÷.Ÿ\~
+¢÷.ûˆ+‰
+óž
+ÈÂ’
+ûÿ vøôÅÂŸ¨®
+P÷
+ùwÂŸxŸX®
+¤Œý+Xw÷v÷$wM÷Æ÷n(
+Xw÷v÷wMÔ÷l'Xµ÷9Ÿ÷9Ÿ÷4
+ï›÷MüÈ+vw÷Œv÷mwÕŸ‚š
+Ûà1»›Ý€÷¨+}ñŸ½
+Ø" ÷ïø'Y}íŸâ*
+÷ ø],7
+øAøo?û¸w÷v÷$x
+÷	s
+û¸µxŸô]
+ì­òxY+û¸w÷v÷x
+cùn'3Ÿ÷<°
+Ýv÷$3
+\ø(
+B
+i÷y!3¨±Ÿƒw÷XÃ
+÷lŸß¿
+Ÿà÷†«·“Q
+Ÿà±ŸF
+ŸÐãvä|0¯àe
+J\®l©rµ|Â‡[M^
+3)vöŸåwíÃ
+÷/Ÿ÷%¿
+ÿÀHÿ 4ÿÀ±û9ü0+û°ŸwÉévÚvªwÖw÷+wåŸ÷.Ÿ{À÷’ù^XAÌh
+RûpÏ
+·ÀJO
+ûÊŸw v÷çŸ÷Ä
+÷vø‚Ï
+˜
+û($wòûzP
+÷v÷Ÿû÷(U÷Ÿ±Ÿ-
+ûÇøû"
+U÷Ÿ}
+¾%~š<“
+U÷Ÿâw-
+ûÑù^,Uç~ÂŸâ~âj
+ûù26>ùp?Xº´xÂŸãŸ÷†ŸÏ€)s¡ «¤–•Ž”ŽÉŸ³¼™Æª
+¿€š÷Ÿw©
+÷U
+Ài0ûfØ!¥÷v÷r
+LØ!¯év÷$Š
+Cù\(
+¯ì‘
+÷YŸÀ\
+8ûaù7q
+ÍzŸv÷qwø•wÁŸíŸ÷îŸXw
+¶øxü•_û‹ûEŸ÷F¾
+·ðwÂŸ÷.Ÿ|Öù^º
+ü–Ÿº÷B“E‹Ÿø.
+÷ˆwÁŸ÷RŸ˜u
+dûwø‚q
+ü vøB
+÷ˆwÂŸÂŸ˜®
+dÖû\q
+¼øÅ÷—÷6Š#÷û.û1&ûû/û.ðû÷1ôÉ³êÈh 7YOg8Q[Ÿ²d÷I¯÷%²²» ÄÃ¼wcµû%X}œùQœ÷M÷ œ÷²}®¯šª©‚–‰opknf[žÝ÷Eí÷	Æ÷êÔh³]Y_Zûû¦B8•ÈÒû83½p¾Äøÿ5Uû5#÷–ò±³±­©eNXü»û¥ˆ
+ðùžL§KW`O
+ˆ
+÷"ú.(
+¬
+÷Nùž!¬
+Sú)'øïˆ\ù¹"
+¹ù¸CùŸ÷IùæY«
+ùà
+Qú,¶ùæ6ˆ
+÷ú.?Ì
+ú	q
+‹œ
+ƒ
+G
+X
+zœø–—÷.—¡œûQ—øS’å’zœø™—÷Mœûf—øk’ï’	 G–ÿ	Ÿ
+Ÿ÷ø»Ä Á   # E Q i l  ™ œ é ô1<Yj›¯´ÅÉÒèñþCJZcov|Š“œŸ¸%-<`gpy‹ž¶ÊÓäðôÿ?ˆ“¤¾×Ûßñ#'-;DKO^j}Œ™ª²¸ÁÅñþ	3FOSw›¥¬°Òâæîöü 	+5;W[_gksŽ•œ¥©®¼ÇËÐ×Üàï&,048@FKOU[aenr‚†Š™¨¯µ¼ÁÅÉÒàäéñöúþ						#	(	-	1	5	9	C	M	P	T	]	f	n	t	z		„	ˆ	Œ	6
+f÷åÓ÷
+˜+
+|
+¿ð#
+ð(¿ð3¥š¬ª¶­Q½²¢¥¼’‹
+c„z|rdaÅ]dqcdÀÕ&
+×ÊÍ HøÂ÷ž7ûSè/÷=÷=èç÷S¢#÷÷ë’ÈÂ÷ ÷˜:N>Oû!ƒ5†0uû/Ð\òöéû¡-%
+ù"÷Îfû2ûûû2ûg ÷3÷W÷W÷÷3÷\÷(ó4û£Ÿ÷&sûéû5ûfûû9ûeûa÷û=÷p÷ ÷ Õ÷°w½
+Ì"0wûz>Q û&Uö÷ˆŸ÷$“âä÷÷Ñ ûù÷¬0
+ûi÷û/÷R÷H÷÷÷A£}
+¿%šÙ
+÷ãÖZûûæŸ÷é÷?Ì &IO<y‰w—
+Â
+H
+ÿ@.Â
+‡û2v%ûû?ûUû÷;÷I÷(Ü÷h÷÷/ñû $“·
+ãˆ.÷#ûQû‡.ûcûA‘û·ûK'û3@¼÷÷æð*w–
+Â
+Hÿ@4Â
+±Â1p
+Îv÷$$øo÷‘÷ E÷û4ûû)û?}Ýv÷$*
+V÷T÷û)ûaŽI
+ørŸü^S
+û¨ûš÷÷÷¯ïøRœûEQû/;´ðˆwûŽä]ó÷ÚÌ÷!ø…wû‰w2
+÷×žÜÜç‰¥±ª
+†
+Óv÷/
+÷_û÷?ûibEŸ—IŸä93Ÿ÷<°
+âv÷3
+™óv÷$:hûhÎ!÷D¼ûû]CRSžl¶x¨~°¼÷?‹žù@Èž÷Gž÷=÷Fù*žûY÷
+÷°Ëó÷÷<û÷ û?û=ûû!û:ûÎû÷hû	ûZx÷m÷,ûžE÷	÷÷0÷÷÷3÷4÷ûû0ûG!ûpû,ø»ø–Fø?Ÿü?÷ÌøZŸüný^Õ÷ãÝ
+÷8¤Gû	^?˜n¡~‡ã´÷wÎû›`
+wa
+rÓv÷8Z
+âv÷&w«ŸøîŸ¿À)
+ÀŽûÊ)_
+Ð
+ø4Ä
+¬P¬ü´+B°tºª‘Œ—²
+ˆ„z‹wleŽØSšc“gšhšu£¾•æ÷$jnnld@÷÷Ä÷÷)ûšû®ûUû÷)÷aˆ_
+&A)ûûeÇÆÎ¿a|¿û0v÷9Ÿ˜
+Íw¿øXŸÞøl1
+xýGŸ÷–GªÉrÎðÍÇÚ¾šŸ¹Ã÷W÷1÷3÷Y÷W÷3û3ûWûYû3û1ûWûYû1÷1÷Y¸ûc÷;û;÷c÷c÷;÷;÷c÷cû;÷;ûcûcû;û;ûcÑ
+÷>wêŸ÷}ŸûûZûû, Ê÷?w¥Ÿ÷üøi¤ûöw÷áûüüirø!ŸÖ÷·÷Ê÷÷!ƒ²
+ûŽOIx?‰
+i
+vƒã³Ìçç¶N/;]F22`ÏÜ3º:ôïÂÙçïUÓ&*TB'‰èsBÊûû">ûû$û/Þû÷ôÕÍå¦}m
+Ÿ‚
+30j@ûGÀ÷w÷i÷÷?÷_Ÿ wÔ 
+÷$¢©‚ilosapv‘–tŸ¿À%Àš÷#÷&EûŸûyû!û û=û`û>‚ž¨‚«À³«¹‹qÞ
+øxŸ$
+÷„ßýJŸùJ÷•Ÿüªw÷>zŸùXŸ:ŸÜwÀE0ùp(
+Ž³É¶Íµ÷Ó¡²ÂÔOª?$gY0ˆŸ×Š®¸ãÏ»pRIO_H`ÕŸùJwý^øIŸÑ
+÷;w÷_wß
+Ád
+wÂŸÜ]
+¼­÷$wû
+X†tw~w®ž•œÒ÷
+8÷Þ÷®$…
+{ò…
+¡Ÿ—Ÿ÷ÚŸ‰÷d÷Ä÷…ûÄ¦û‘÷Ò÷€÷Xnû÷û»øƒ¦÷V÷‚ø"÷öü"¦üø.÷í÷ÄmüƒüFøF¦÷‘÷p÷ û$)v÷ Þù^wÇ‹øÑü¬÷žù"÷½ý4û¹ù\„ûµý\)T…pxzw®¢•ÛûÇzŸ÷~”
+Ö©
+ü–øô[  wÀ\
+0wILiH3O´ß’‹
+.†ÌWñÛÐ·×ÑX©Pš”š «ŸøþŸ÷gý^¦÷bË
+÷fýE¦÷cù^wv›
+d
+0÷cù(Yw÷½w÷mŸû++ûû+ë÷÷ëë÷÷ë+û²÷Ô¿
+±
+ø\¿
+÷6wû6,wê ¾
+Ÿ÷òŸ¤
+ûàüˆ÷à¦÷þü~É
+û:imvÜwXÂŸÁŸøxŸw÷?ŸŸ÷w÷ûvíŸ÷)ø4Ê
+Ÿ÷¡÷ÌMûû6Lûû¡øÒÌûþŸ‚
+¤Ÿø.ŸøÃÚ¹­ßÇÇ~HKPvOqvqÁŸ‰
+ø–wùŸ÷I“
+øù_
+½
+Âd
+t~w÷bÜ
+­ŸŒŸŸ¶—½¤£®ª
+ûQŸµˆø­ˆüvyøvûEŸŸT„pzzw¬¢–¯Ç€–ˆ¢”–²žž«—²Æ(w´
+÷=wíw)Ÿ§ŸÇv©
+Ÿ…ŸwÁŸÈw
+÷êÏ÷÷;Íûÿ€°
+²Ÿ÷6wåŸwÂŸøŽŸ÷‹§
+vù€wíw)ùEø÷vÜ½ÂE‹ŸùJÝŸ÷FvŸû ÞXŸ÷•ûÝû0vú w÷Wûv÷Ÿh
+‰÷¯~vÂvñŸw÷ Ÿ÷ Ÿ÷·Ç
+ËïŸÅŸÅŸ÷dŸûdw÷8Ÿ÷¡ÁŸ÷<ŸŸâw      
+ Àž latn   AFK  <NLD  XROM  tTRK  ’  ÿÿ           % * / 4 5  ÿÿ        ! & + 0 6  ÿÿ   	     " ' , 1 7  ÿÿ     
+     # ( - 2 8  ÿÿ        $ ) . 3 9 :    ^aaltdcaselcasetcase|case„caseŒcrcy”crcyšcrcy crcy¦crcy¬dlig²dligºdligÂdligÊdligÒdnomÚdnomàdnomædnomìdnomòdpngødpngþdpngdpng
+dpngfracfracfrac"frac(frac.liga4liga<ligaHligaRligaZlocl`loclflocllloclrloclxnumr~numr„numrŠnumrnumr–ordnœordn¢ordn¨ordn®ordn´ornmºsupsÀsupsÆsupsÌsupsÒsupsØ                                                                                                                                                       	 
+      	                                                                                               . 6 > F N V ^ n v ~ † Ž – ž ® ¶ ¾ Æ Î Ö Þ æ    ¢    ¶     °     ®    °    ²    ´ÊÞò    
+            4    Â        $6H\    `    Ü    ä    ì    ø    "    ª    Ê Ì  Î ‚ " # $ % & ' ( ) + , - . / 0 1 2 3 4 5 6 7 8 9 : ;ntuwy{~x|}v Š Œ  Ž  š « ¬ ­ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Çv ÷ ø ù ú û ü ý þq ÿ 	
+ !"#$%&'()*+,egry 4  * * *  *    (.((                              úð          øÜì       ê     m  J Ø     n  M Ì  
+   e  +  f  K ¶   ( 2 < F P Z d n x ‚ Œ  M  O  M  O  M  O  M  O  M  O  M  O  M  O  M  O  M  O  M  O  M  O  M  O <    & 0 : D   Š  &  e  +   Ž  &     F  f  K   ”  F þ     y     ˜˜ ð      æ à        Ô Þ        Â¶ ¼        ®¢ ¸       ª   $ 4 D T d t  g a  b e d å  g a  b e d å  g a  b e d å  g a  b e d å  g a  b e d å  g a  b e d å  g a  b e d å 8     c€ (     c€   – ¤ © ‹  ‹   pp   y – ¤ © ‹  ‹ ƒ‚     : J V ^ n ~ Ž ž ® È â ü   h A  i w u v k l j x  g a  b e d å  o o ‰ ¦   c€  g a  b e d å  g a  b e d å  g a  b e d å  g a  b e d å  g a  b e d å   h A  i w u v k l j x   h A  i w u v k l j x   h A  i w u v k l j x  g a  b e d å *   2 p     z     z  c   z €       & . 6 ›    ž    ›  c  ž  c  › €  ž €      £    £  c  £ €   ²             c   €  |  ‹   V   B I   K [  | „  † † " ˆ ˆ #   $ ’ ” % ¢ ¢ ( § § ) È ä * ö ö G-C HEL _Nd gff ~hh ss €zz    J ‘       c€               G   * J     A h i j k l u v w x   " * 0 B J P      B         P    a b d e g å         " 0 B P    t       " 0 B P ˜ ñ ò       a b d e g h | } å        B P   à533238303234373739                                                                                                                                                                                                               4D2622B11655965725F1343B74ADFB7503D1D76D6ABDDED89CC8E Õ  ŠX   KŠX  ^ 26  €  ¯P  [        LINO    ûÊþâ È£ Ö   ›    Ê                        ø   	 ÷                                                    h 	 
+                        ! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ | B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ] ^ _   ­ ¯ ± ² º ½ Ã È Ë É Ê Í Ì Î Ï Ò Ð Ñ Ó Ö Ô Õ × Ø Û Ù Ú Ü Þ á ß à p ¡ a b f t s • ¥ ª ™ } ƒ æ Š  ç œ è é d ˜ ê ë ì í î ‹ ‚  “ { ` — ï e ð ñ j x ym ® ° ¿ Ž ” o ‰ i w A  Ÿ ó ã Æ c å k l m n q r u v z ¬ ³ « ´ µ ¶ · ¸ ¹ » ¼p ¾ Á Â Ä ‘ ~  €  ‚ „ … † ‡ ˆ ¨   l @  ,    & ' _ ` ~   £+7I~’ÇÉÝ”©¼À    " & 0 : D ¬!!"!&!.""""""""+"H"`"e%Êðö¾öÃøÿûûÿÿ        ' ( ` a   ¡ ¤.9L’ÆÉØ”©¼À      & 0 9 D ¬!!"!&!.""""""""+"H"`"d%Êðö¾öÁøÿûûÿÿk_ÿá Aÿá ÿá Íÿ¿        þÓ    þ±  ýíýÙýÇý-        àSàJà2àà9àWßwßÌà;ÞèÞëÞÝ  ßk  ÞÉÞÃÞ¨Þ†Þ„Û)ð
+†  ql5                    Zhzš  ü          
+                        ú  ú                ì         g d   f ƒ ª ‹ j —o ¥ € ¡ œ ¤ © } ˜ s r … –  x ž › £ { ® « ¬ ° ­ ¯ Š ± µ ² ³ ´ ¹ ¶ · ¸ š º ¾ » ¼ ¿ ½ ¨  Ä Á Â Ã Å  • Ë È É Í Ê Ì  Î Ò Ï Ð Ñ Ö Ó Ô Õ § × Û Ø Ù Ü Ú Ÿ “ á Þ ß à â ¢ ã ÷- ø. ù/ ú0 û1 ý3 ü2 þ4q5 789: ÿ6;<=>?	@
+ABC ‘efEFGIHgh Œ ’JLKMNOP Ž ”QRSTUV À Ý!Y X"Z#[$\%]&^'_(`)a*b Æ+c,d Ç äWrs ~ ˆ  ‚ „ ‡  † o ‰ A  u i w v p q t ë ¦ ïV ô      Œâê_<õ è    »í    »ùù“ÿZÿ%øª             Êþâ ÈÿZÿZø               „      ¹ S I, #, ­ > , § 1 Þ D Þ `  X 0 iM O Mÿù, , s, 7, ', ", %, ', =, , '  iX .X 0X .ô #  9?ÿôc /­ ˆ 6 6á 6Ò  ˆ 6 € 6Ï Q 6á 6 6ˆ 6Ñ  > 6Ñ  c 6c "ôÿïx 6ÿîfÿöÿåÿâôÿí Þ `Mÿù Þ X ;ô   § Iá  7ô  ô  Ìÿÿ ô 7 ‚ 7 ‚ÿÏ¼ 7 ‚ 7
+ 7ô 7  7  7Ï  ñÿûô 7—ÿô­ÿø—ÿñ—ÿô— M U Þ eM 5X M ¹ S, ;, ' §ÿZ, , , 9,  § J S` B B ZMÿÿMÿÿô  , <, < kX Bô H § 0 2 2` Zè  ô 3 ‚ÿÚ ‚ 
+ ‚ÿÈ ‚ÿ½ ‚ÿÍ ‚ÿÆ ‚ 7 ‚ÿé ‚ÿé ‚ÿï ‚ÿÓ ‚ÿñ ‚ÿÈè ‚Tÿô,  áÿìÑ  û  ,  y   ‚ 7 ‚ÿî z  á 7M >X 0, SÞ RˆÿöB AX 0> 6B fX 0 Þ e 9 7B 6M   X 0 X `M 
+  ?ÿô?ÿô?ÿô?ÿô?ÿô?ÿô­  6 6 6 6 € 6 €ÿÇ €ÿè €ÿ±ˆ 6Ñ  Ñ  Ñ  Ñ  Ñ  c "x 6x 6x 6x 6ÿâÿâôÿíá á á á á á ô ô ô ô ô  ‚ 6 ‚ÿÈ ‚ÿé ‚ÿ±ô 7     Ï ô 7ô 7ô 7ô 7—ÿô—ÿô— ,  Q 7Ò 6Q 7Q 7¼ Q ,À ],  ˆ¼ÿéQ c Ò =Q z [ w ‚ 2?ÿô?ÿô?ÿô­ ­ ­ ­ ˆ 6 6 6 6 6 6Ò  Ò  Ò  Ò  ˆ 6ˆ 6 €ÿ¼ €ÿÌ € 6 €ÿæÏ Q 6á 6á 6á 6ˆ 6ˆ 6ˆ 6Ñ  Ñ  Ñ  c 6c 6c 6c "c "c "c "ôÿïôÿïôÿïx 6x 6x 6x 6x 6x 6fÿöÿâôÿíôÿíá á á ô ô ô ô M # ô ô ô ô ô     ô 7þÿþ ‚ÿ¼ ‚ÿÌ ‚ÿç ‚ÿÏ ‚ÿÄ¼ 7 ‚ 7 ¼ 7 ‚ ô 7ô 7ô 7 $    7  #Ï Ï Ï Ï ÿû ñÿû ñÿóô 7ô 7ô 7ô 7ô 7ô 7­ÿø—ÿô— — i 60 7á 6 ´ 7X ,ô pô         ‚ÿÚM O   ˆÿöôÿï ñÿû ‚ 
+ ‚ÿÈ ‚ÿÈ ‚ÿ½ ‚ÿé ‚ÿÍ ‚ÿÍ ‚ÿÆ ‚ÿé ‚ÿÓ ‚ 7 k §ÿZc Ò =, S  P „     J        ®          ®        Ã       # Ñ       $ ô       $       <       íT      	 A      
+ ®         V       V       m  	  \‰  	  8å  	    	  F+  	  0q  	  H¡  	  0q  	 Úé  	 	 *Ã  	 
+\‰  	  .í  	  .í  	  *  	  ECopyright © 1988, 1990, 1993, 2003 Linotype Library GmbH, www.linotype.com. All rights reserved. Copyright © 1988, 1990, 1993 Adobe Systems Incorporated. All Rights Reserved.Helvetica Neue LT Pro25 Ultra Light1.000;LINO;HelveticaNeueLTPro-UltLtHelvetica Neue LT Pro 25 Ultra LightVersion 1.000;PS 001.000;Core 1.0.38HelveticaNeueLTPro-UltLtHelvetica, Neue Helvetica is a trademark of Heidelberger Druckmaschinen AG which may be registered in certain jurisdictions, exclusively licensed through Linotype Library GmbH, a wholly owned subsidiary of Heidelberger Druckmaschinen AG.Linotype Library GmbHhttp://www.Linotype.comHelveticaNeueLT Pro 25 UltLt C o p y r i g h t   ©   1 9 8 8 ,   1 9 9 0 ,   1 9 9 3 ,   2 0 0 3   L i n o t y p e   L i b r a r y   G m b H ,   w w w . l i n o t y p e . c o m .   A l l   r i g h t s   r e s e r v e d .   C o p y r i g h t   ©   1 9 8 8 ,   1 9 9 0 ,   1 9 9 3   A d o b e   S y s t e m s   I n c o r p o r a t e d .   A l l   R i g h t s   R e s e r v e d . H e l v e t i c a N e u e L T   P r o   2 5   U l t L t R e g u l a r 1 . 0 0 0 ; L I N O ; H e l v e t i c a N e u e L T P r o - U l t L t H e l v e t i c a N e u e L T P r o - U l t L t V e r s i o n   1 . 0 0 0 ; P S   0 0 1 . 0 0 0 ; C o r e   1 . 0 . 3 8 H e l v e t i c a ,   N e u e   H e l v e t i c a   i s   a   t r a d e m a r k   o f   H e i d e l b e r g e r   D r u c k m a s c h i n e n   A G   w h i c h   m a y   b e   r e g i s t e r e d   i n   c e r t a i n   j u r i s d i c t i o n s ,   e x c l u s i v e l y   l i c e n s e d   t h r o u g h   L i n o t y p e   L i b r a r y   G m b H ,   a   w h o l l y   o w n e d   s u b s i d i a r y   o f   H e i d e l b e r g e r   D r u c k m a s c h i n e n   A G . L i n o t y p e   L i b r a r y   G m b H h t t p : / / w w w . L i n o t y p e . c o m H e l v e t i c a   N e u e   L T   P r o 2 5   U l t r a   L i g h t        ÿµ 2                              5         -0‚)	*†H†÷ ‚0‚1	0+0a
++‚7 S0Q0,
++‚7¢€ < < < O b s o l e t e > > >0!0	+ 2Œ”k3wûÏ8Ê<µ9±ž–]„ ‚Ý0‚ÿ0‚ç é+ðÔØ)ˆ2	^švˆ0	*†H†÷ 0S10	UUS10U
+VeriSign, Inc.1+0)U"VeriSign Time Stamping Services CA0031204000000Z081203235959Z0W10	UUS10U
+VeriSign, Inc.1/0-U&VeriSign Time Stamping Services Signer0‚"0	*†H†÷ ‚ 0‚
+‚ ²P(HÝÓhz„Dfu]~Ä¸Ÿc&ÿ=Cœ|8%UsÙu'iýN¹ \Ó
+ù *íUV!aØÛä¼3kÇïÝ£7eŽ“¶S\|f5_ŠEþvNßS€¢ ®ˆ\¢÷å0ùî"7LB
+ÎßÆÄÖUé?µR£,ªzò¢ª5þŸæ]jŸ=kã¿–ÀþÌ`ù@ç DëQn¥*ò¶Š(íÜ †Pš{J0Êžk÷éX®©@™²(è¬<ãSoKÓ5µod³–,»=çyëmzùæ&­¯ï™S·@,•¸yªþÔR«)t~Bì9¢jæY»$hØ €C‡€k £Ê0Ç04+(0&0$+0†http://ocsp.verisign.com0Uÿ0 03U,0*0( & $†"http://crl.verisign.com/tss-ca.crl0U%ÿ0
++0UÿÀ0$U0¤010UTSA2048-1-540	*†H†÷ ‚ ‡xpÚNR [àyÉ‚0Äý¹–½‘ Ã½ÍÍÆôØÿùMÀ3b0ÅõtÔ’Þ_œ ±|E¾PÍƒç€ƒ§'“gFûÊ¸˜AÌ›Q[‹¨oóP$.òil"÷»Ê•ítÀhwÙë™b‡Ásø‰tz#«£˜{—±÷)qM.uHAÚðµ TÖw —‚ciý	ÏŠðu»	›ÙùU&ša2¾z°{†¾¢Ã‹",xÑ5v¼’s\ù¹æL
+#ÌäÒÔ4.I@<`z$Æ¥fï–Ïpë>çô~ÜÑ|£vqiÁœOG05!±¢¯b<+ÙŽª*{Ø³\{â¥oþ<‰­0‚Ä0‚- G¿•ßRFC÷ÛmH1¤0	*†H†÷ 0‹10	UZA10UWestern Cape10UDurbanville10U
+Thawte10UThawte Certification10UThawte Timestamping CA0031204000000Z131203235959Z0S10	UUS10U
+VeriSign, Inc.1+0)U"VeriSign Time Stamping Services CA0‚"0	*†H†÷ ‚ 0‚
+‚ ©Ê²¤ÌÍ ¯
+}‰¬‡uð´NñßÁ¿ga½£dÚ»ùÊ3«„0‰X~ŒÛkÝ6ž¿Ñìxòw¦~o<¿“¯ºhôl”Ê½R-«H=õ¶Õ]_Ÿú/k¤÷£š¦ÈáLRã`ì@~¹Þ?Ç´ß‡½_zj1.™¨G Î1sW-Íx43•™¹Þh/ªæãÂŠŒ*Ã‹!‡f½ƒXWou¿<ª&‡]Ê<Ÿ„êTÁ
+nÄþÅJÝ¹—"|Û>'ÑxìŸ1Éñæ"ÛÄ³GCš_ ä^õî|ñ}«bõMÞÐ"V¨•Í®ˆv®îºóäMÙ ûh ®;³‡Á» £Û0Ø04+(0&0$+0†http://ocsp.verisign.com0Uÿ0ÿ 0AU:0806 4 2†0http://crl.verisign.com/ThawteTimestampingCA.crl0U%0
++0Uÿ0$U0¤010UTSA2048-1-530	*†H†÷  JkùêXÂD1‰y™+–¿‚¬ÖLÍ°ŠXnß)£^ÈÊ“çRïG'/ 8°äÉ“NšÔ"b÷?7!Op1€ñ‹8‡³èè— þÏU–N$Ò©'Nz®·aAó*ÎçÉÙ^Ý»+…>µµÙáWÿ¾´Å~õÏžð—þ+Ó;R8'÷?J0‚¦0‚ m¢zé).¶ÝÀ¨ Gn;i0	*†H†÷ 0_10	UUS10U
+VeriSign, Inc.1705U.Class 3 Public Primary Certification Authority0011203000000Z111202235959Z0§10U
+VeriSign, Inc.10UVeriSign Trust Network1;09U2Terms of use at https://www.verisign.com/rpa (c)011.0,U%VeriSign Class 3 Code Signing 2001 CA0Ÿ0	*†H†÷  0‰ Äëuíç˜„›p—vb±bÁÞs?Q¦¿ Ñ)ŽìÚãƒ‰b)ÒXíÝe	<âÄÇg‹­Ü]MÅ^g–A6DºøD/³Ÿ~x²*lÈ Ù	#l(ÍÌÛnejÑén‡oe¬‡ÝF‹ ]µbKû.í,Œ¼@ÀÞNl5 £‚0‚0Uÿ0ÿ 0DU =0;09`†H†øE0*0(+https://www.verisign.com/rpa0U%0++0Uÿ0	`†H†øB 0$U0¤010UClass3CA1-120U5+ôdsœmg`kÝ<»a01U*0(0& $ "† http://crl.verisign.com/pca3.crl0	*†H†÷  "Xm:dzö`R‚í°³Ä–*Å3©to³v×„
+,d'—0º*²º™»#‡Å3‘€-7§Ü´‹Îº9”t;~¶&cp!ü9ö™oØŸ%‰$Dià”o,ç°W”‘šþ£õÝ÷÷P%$_®à“„Ö-q7Ú1ÒZÅø0‚d0‚Í ÚO\"Œ#Æ-U˜`C0	*†H†÷ 0§10U
+VeriSign, Inc.10UVeriSign Trust Network1;09U2Terms of use at https://www.verisign.com/rpa (c)011.0,U%VeriSign Class 3 Code Signing 2001 CA0040519000000Z050602235959Z0ô10	UDE10UHessen10UBad Homburg10U
+Linotype Library GmbH1>0<U5Digital ID Class 3 - Microsoft Software Validation v21>0<U5Digital ID Class 3 - Microsoft Software Validation v210ULinotype Library GmbH0Ÿ0	*†H†÷  0‰ Ô„ÔÖì3M‰‚zK.À"’!O4J·Dõ’œfä¹×ÏÍWó?ï%XÍQÐgj—èœL	¬ºîUÑÑd=/"×oÔòài\§?YY™Ÿä(ô5¯ùHs¨v%øõgy=½¦ëd®) õVeùüz{Q”~ £‚@0‚<0	U0 0Uÿ€0BU;0907 5 3†1http://crl.verisign.com/Class3CodeSigning2001.crl0DU =0;09`†H†øE0*0(+https://www.verisign.com/rpa0U%0
++04+(0&0$+0†http://ocsp.verisign.com0U#0€5+ôdsœmg`kÝ<»a0	`†H†øB0
++‚70 ÿ0	*†H†÷  ‹š£þ`.?Kªyl¢&	FZ5y4ßÞ¨?Úºüaƒœz(+ï*·ñ‘±~X˜}óx\wOæñâ P¿1ôN½¦ž‰g’e4ä%k•ëö7üodtà˜soð¸}V<	eîùîSÐÍ¯TP«®ÞØà¥Ç³#m¬c=Ø1‚À0‚¼0¼0§10U
+VeriSign, Inc.10UVeriSign Trust Network1;09U2Terms of use at https://www.verisign.com/rpa (c)011.0,U%VeriSign Class 3 Code Signing 2001 CAÚO\"Œ#Æ-U˜`C0+ ‚^0	*†H†÷	1
++‚70
++‚710
++‚70ß
++‚71Ð0Í ¯€¬ T h i s   f o n t   w a s   d i g i t a l l y   s i g n e d   b y   L i n o t p y e   L i b r a r y   G m b H   -   T h e   s o u r c e   o f   t h e   o r i g i n a l s .¡€http://www.linotype.com0	*†H†÷	1050316135537Z0#	*†H†÷	1sxÂB«nüBÅÕnÐ'àìÒ-Ú0	*†H†÷€ºJ€6k~bÑÎTÖKyóÿX!Î<J÷Ãd¿eó¦¿÷ÁaÄ8äPN,š°wìBÚ@!°"	*ˆ‰À#
+]ÀŠºÝ-HLã`±1 ¸P^î€Ñ²[ o…0iƒ!r°ÖEÜ°ÂgMÎ'Ë£ÞÜHYüÁA™õ^¾$ýñÞ­„`¤|B¡‚û0‚÷	*†H†÷	1‚è0‚ä0g0S10	UUS10U
+VeriSign, Inc.1+0)U"VeriSign Time Stamping Services CAé+ðÔØ)ˆ2	^švˆ0
+*†H†÷ Y0	*†H†÷	1	*†H†÷0	*†H†÷	1050316125540Z0	*†H†÷	1~±pQKC|d"4thö0	*†H†÷‚ Rñ¹%«±]e·5ëru&R˜°³›¡°hJgÅŸÕá`„éZbÿ•A»±EL†Â_uÅpµ¦…¹[ü|ú+‰×ºÆïÑ­YÜ2XFõ#¾žøJ·<ª!1"uX§¾¿A±GzÉá kÀ­Ê‡ŠäØ‚zùÙÚ?=Ú¼ÇUµå˜vÒQßƒ”v_^” @¯o~¶ºmûX£UœY¸¸7%¦EP±ÛÑxxTà^y3ÄÖ;f¦é7 À•nÄ†Àj&ª€TwX"Î¼S±¦^¦xÉ7 –á
+q(ØÅú	C8’˜5ž)†Œ¨ùdˆ3-G@êiÖ
+/ˆ’û>NŽ*¯     €A´È6A          Helvetica Neue LT Pro          '                  HelveticaNeueLTPro-Lt         €?š™™A       þÿÿÿ                              ÍÌÌ=«  OTTO  €  PCFF ™× è   Ü  OÅDSIG÷^„W  •Ì  LGPOS)³tÜ  P¤  ^GSUB¯Í×9  f  ÒLINOKIS‹  qØ  OS/2†It  rð   `cmapÏÓ¼  sP  ¼headÚr?à  y   6hhea	  yD   $hmtx=2j  yh  maxp„P   x   name…5Žâ  €  ,postÿ¸ 2  •¬      HelveticaNeueLTPro-Lt 0ø øºøº ø»ø¼øû:ûjú®ú[  ¡¶½ÄD  ¢      * 5 > E G O T [ f k r } † • œ ¢ © ¯ º À Ê Ð Ö Ý ã í ô ÿ&*07AHS_ekw}ƒ–œ©¯µÁÇÒÚæìøü	!(3>DNU[bhsyƒ‰•œ¢¬³¾ÄÎÚåéïöý"(4:@LW^dqwƒ‰š¢®´ÀÄÊÑ×Üéðû"+49;BIOV]fo}†›¥¬µ½ÍÚáèïöý²ÐåEuronotequalinfinitylessequalgreaterequalpartialdiffsummationproductpiintegralOmegaradicalapproxequalDeltalozengecommaaccentcaron.altcommaaccent.altAmacronAbreveAogonekCacuteCcircumflexCcaronCdotaccentDcaronEcaronEmacronEbreveEdotaccentEogonekGcircumflexGbreveGdotaccentGcommaaccentHcircumflexHbarItildeImacronIdotaccentIogonekJcircumflexKcommaaccentLacuteLcaronLcommaaccentNacuteNcaronNcommaaccentOmacronObreveOhungarumlautRacuteRcaronRcommaaccentSacuteScircumflexScedillaScommaaccentTcaronTcommaaccentTbarUtildeUmacronUbreveUringUhungarumlautUogonekWcircumflexYcircumflexZacuteZdotaccentamacronabreveaogonekcacuteccircumflexccaroncdotaccentdcarondcroatecaronemacronebreveedotaccenteogonekgcircumflexgbrevegdotaccentgcommaaccenthcircumflexhbaritildeimacroniogonekdotlessjjcircumflexkcommaaccentlacutelcaronlcommaaccentnacutencaronncommaaccentnapostropheomacronobreveohungarumlautracutercommaaccentrcaronsacutescircumflexscedillascommaaccenttcarontcommaaccenttbarutildeumacronubreveuringuhungarumlautuogonekwcircumflexycircumflexzacutezdotaccentIJijLdotldotestimatedafii61289.nullCRuni00A0uni00ADDcroatuni021Auni021Bgrave.capacute.capcircumflex.capcaron.captilde.capdieresis.capmacron.capuni02C9breve.capring.caphungarumlaut.capdotaccent.capuni2219uni2215uni0394uni03A9uni03BCuniF8FFCopyright © 1988, 1990, 1993, 2003 Linotype Library GmbH, www.linotype.com. All rights reserved. Copyright © 1988, 1990, 1993 Adobe Systems Incorporated. All Rights Reserved.Helvetica Neue LT Pro 45 LightHelvetica Neue LT Pro ¿    I a w „ ˜ É ì #<@FJNS_p•¢¦Ûê!2DKdt}‰Çâñü#*‘Ÿ¦´¾Ë×óÿ1NS[`eot~ƒ¦½ÓÙßèù Un¤³ÀÈÕßéõü
+(8EKW]ez€¦­²½ßãéôú#-5AGNXsz…‹’–¯³¸ÂÐÓàäìó÷-48=ORZbgmsw{Œ–š¢¨±¸¾ÄÈÐ×Ûàäïû				#	'	1	7	>	E	J	T	X	_	e	n	q	u	~	‡		™	¢	¨	­	±	µñ÷ùNû0;û2ûPûQ;÷2÷0GE
+g
+F÷ªør÷ÈûûûNûû2
+Ç
+5
+÷1â÷÷(÷(4÷û1w~Ÿ`1
+Ÿ 6
+`$Ÿ /Ì÷•û'Ûû÷Y÷[Ú÷÷',
+V•fËœ”ŒŽš'÷ÐRûHû¬K
+Ôû¬ù^²
+ù>÷ÿûÃQ÷‡û,Ž/ûû28
+÷â*9“Ï÷0pûÜû*9
+òë¶ñ»¼
+Àˆ„…Š„r˜¤÷¦÷(¦0û8Wû„÷äû2ù*ø†ÞxûÝû9
+l
+;Ê÷ÁðŽÅ×ðñ¨G3ûÖÊ÷à÷_×û%BGaMs‰ø{Ý
+÷|8Åû5
+÷ÛÖ÷œ>
+)Ïò(Æ+4
+?]w
+Ñ4
+±,÷|Åù¾
+°Ì 0X|ÀøLµ
+÷þÊÌ!0tû(Ïû	÷99Óø†<w¹
+¿#
+.Åý$
+÷duP[v~jS|~Ž|V–‡—‹¤ŠÚŸ¤â°÷tøçLû3üLû>øLH"\%û 'h¼èˆ÷äLÖÇµË¨EûZGû	FF¦×~Lû“ò\ò÷;Éè÷/ßŽÃ¯ÚÖÇv6Sn‚W†û~7%û8
+óæLû£ÅüB÷®ø"Åü"÷–ø=Åü{
+÷‰T
+[«iÆ¶«›¾¢n˜v€xwrtvš«&8N*OT²Êï÷‹öžûuûûDûXx
+ñãSû CûËûv÷Àmv¤—ø”
+ûßŸ ŽûõÏ ©
+®€ Ï {ž€ôÀŸ "ž@süÊ$
+Ï÷'ûÖû"û]^ûEûØdßv÷3dL<wYV/ÂY÷çŒ
+ô4
+.
+÷Xû÷Dût@ùZ"
+Êûðýð3ûðŒýðf3|ÀzR
+,÷r÷	ÎÃHV÷	‰œ°¦”œ”œšŸ¡¡¶´’œ¤»h°bbjpGƒY“ê”ÁµÓÒÀW<`mX\ru}z‡~‡~‰sh÷SûLøýü0üýøbù0ýbü”ùb%Mˆdw>©‘¤×É]
+#Ø\ëw¹
+ï-ßäLG
+÷PÛû2û0œ
+{Vi`Ç€
+Á¿à&à¨
+º
+÷’ò¾U34DW8û’GüÏ÷Ñ÷–ù÷üû­V
+ðG&ÚœJPPzJ<:|ÌÆÆšÌÜ¸û bB++´B÷ ÷ ´ÔëëbÔû `ƒkZ€ŠŒ€ŒWš™‰šä ÍØøÈLûdû14ûû(¬
+ E|Z
+Êò€ 
+ ¯!œŽ§“šwô.ÇÊ÷§÷ ÙÝ÷†Ê.E[k7‰Î{Ûk:gøDÜ
+üV÷Îûåü0XøCÀû÷XWøÎÅ÷ß@ÏTr
+è÷„6ÏÈP
+v÷2—bd‡vy>ö½ö÷÷¹û&#R&û#ûb@û"¸÷'Žì v÷wø«v÷^ÒÏø>ÏóJ
+÷ZÕ÷Hù÷IýÓ÷Yù^Gû7ýÁ
+ûCù6ûBýÁ
+û6ùBû¸ vø4vÌÊ„ŠÇÊî_Þ÷QÆ¥ÂÔÂ»mWh}vrs>Cûnˆû÷Â²ûŒ›ÈØ©¶§Æ®Ã¶ÒàM³7#ZN/Ž vø˜ŠÈÊÈv
+0C:qO7L·à†Løù‰
+÷gGÊ¿€#
+€.ÅüsØ…0s÷£c0XûbÀòw×ÀÀ•
+ vù^^ÄrLº?û)7û
+û"j±
+à.ÀU
+0çžºÓæ÷'Äû	ûÛLûvý^ÊøcñÀd
+‰yyŠy^Ž…£´øõ4
+­è.Àa0x÷ð»ýVõaˆ¬›»­˜¶O{nMQ ÷¥ÊÓÏ÷‰÷÷÷½üãûâø7÷Ó÷»/ü3üøG vøTÎ
+ø˜LwÒÏø>ÏJ
+Î‹ÓøºÓüB÷iøÀ÷Ýýû³ù\8û«ý\Æ
+ÏÈy
+w÷WÅ÷*v÷GÅ»Š
+Î-äéäÎûûMö¼÷÷÷»û w÷. šûyœû	Vðóø„2‰÷4ù3Lû/1Vå«ÊbÊŽ
+÷Kwžö»÷÷·Da·ËŽ\,„ÍWîãÔ¹áÃi²O“jÌ
+Ç–û|À÷w÷ßÀE€|ww÷ývÇÀvõwûFûû!ûGûIû÷!÷F÷F÷÷!÷Iùc
+vù^wørû£8üL~vù‹wû:i‡O Zûûû[÷öÈ¨žžÁÙ|Åù3wOû]9  ¹9÷÷¹Ýöö]Ýû À
+²÷²ÀzvÞ¢:KLt;86vÛÊË ÜàÊù^L‹Ï÷Ï÷~êË\((K\,û~GØ
+û$‹Àø.ÀwìÊL÷<Æ
+­Ïø­Ïõ7!vðwù$÷÷ßÖ÷÷7ÖûÇ v÷ÑÅ÷­Å­Ê÷¼û £
+÷¹ÊÓÏø%ÈUÏûRv÷iwÊðLˆYLÉûSÀv÷w®w»
+v÷8Å²¯÷ûù²ÆÏ÷ª÷rYlûrv÷õÏßÑßÏ vøcÀ÷%ÀéÊûRv÷XøçÔ
+X²X‹
+ûv÷Åu—½ù"wü‹Vø‹E‹Åù$wÊ÷òÊÅÓÏøKÏÓ@w÷ßÀ°
+·
+¯
+Àü½ùÂÀŠ
+X v÷G÷û!ûF˜v‚zwt÷w~vÂvï²w÷ŠÊ÷Šûb²÷,Àew÷[Àû[÷öw¶÷) ã‡ž„    - O ™9~M~²ÙàâèúCg½2fÁ+XãJ[r•ªÊ'êðW`lu“¤³¼ÓÜå		*	/	J	–	§	Â	Ï	×	ú
+	
+9
+C
+J
+j
+}
+œ
+À
+Ð
+æ
+ÿ,5GSg†—¡±¾Æ%49d™²Ãèö)Y_eÅÛ9ƒ­µ·k‚™³ÄÏÙ !@lnŸ½ÈÑÛêE¢©±¹»½ÃÉÏÕêõ]älç#¨±Õ8È6Kfh¼¾6W|¤ÇÿYqÏÜY‹´06\h¾ÄÊëòøý/7?Yas{‡ž¥­ÂÉÐ×
+8DŠ’š³»ÃÊçîü &8@GOcksˆ 2 p á û!!~!«!Ë""V"X"w"Ò"Ô"ÿ####"#3#U#\#d#l##—#ž#°#Ä#Ù#ú$$)$=$\$q$$¬$¾$Í%%"%8%K%_%|%‚%‰%©%µ%Î%Û%á%è&&&&x&­&Ã&Å&ñ'''$'='I'†'œ'£'©'½'Ü((U(\(d(l(€(ª(Æ(Î(ã(õ)	)M)q)„)˜)Ø)ï** *2*i*z*•*­*»*Ð*ã*ë*ò++9+D+\+g+o++–++¤+ò, ,d,f,š,¥,¯,Â,à,í--%---5-J-k-ƒ-Ÿ-»..l.n.q.t.v.x.z.|.ƒ.‹.“.š.œ.¢.¬.®.´.º.Å.Ë.Í.Ï.Ñ.Ó.Õ.×JûÝü‹õÓwøÀwÚß?Ïð÷7±¢÷F±èš÷×÷iGûiûø€v÷‡wâÊÑÊ÷pÕ
+Ê÷‡Lûû‡Ê÷‡LÕ÷s¸÷0¸÷rwø ø<uû0û!¡÷0÷¦û0"¡÷0÷¸"Äû!Äû^÷uû0û^÷Ã
+÷!Ã
+÷X<vá¿kv÷‡w÷Ùv÷8ÀÙw¨Ê^Ê÷'²÷)Ê_Êß`¨÷xû,Î@÷0|5²¿Pà÷	÷Ï÷÷ û²û£÷´ÞàãÇK'ŒÊ÷Ž(áûÙd=û-@ûû ìg÷sû¼ß`"—PÉŠ÷÷9÷=ÞÐ@žCèôÎ·Û²ûòÙxåo,#7a7÷®|¸`v÷ô¸h¸÷´¸žwÐÀ÷hÀ÷À÷hÀ›À÷xùV£«ÀøKü§¸£gÀüqü!‡›Àü3K§Í
+÷ÐwøÀ²Ê£Ê‹÷R‹Ê÷°ù)¿¶kOEOaYkk±[Ã½Ç¶«¿÷•ý)Úû÷%¬È”Ñ³LT‡mzhû0÷PÒ¸Ð¾äâDÅ44DQ4F¼V²Y;`,G&¿ûèD÷ßÕ¶Ì¿dº¿RcR^C;@ÄßáØÁÐ°ûÝø€dîßîù^Ñ
+¾Ê÷†ûS>÷X÷<÷$÷E²÷:ä÷#Y3ûVû0û?ûB¿ûäû(Ñ
+÷ÊŠùmÖûÀû6û&ûEdû:2û#½ã÷À÷0÷?÷BW÷2÷(û“ø\v÷«w÷0²÷"øÀB)«tÔïÔ'«¢Cí÷
+²|°ûb÷dûû´}f„ v÷uÀ÷uw÷¦À÷¦÷ªûuV÷uûuÀ÷u÷uÀûu÷uV’
+ìõ
+§
+ûÝ‹½
+×
+´|÷Åù|XûÈý|¦
+øûÀ¯÷ªùVû`cûYû8û7³ûY÷`÷`³÷Y÷8÷7c÷Yû`V÷4 ûNûûvûNû4û4v÷N÷÷ ÷N÷4Õøœ¸÷w÷®Êìøœ÷MüœÊùPXxûG‡ûˆX‹Åø9v÷WÀÀÊ÷ÏÊø…Åü›è÷ËÏ¸çÆßÔ÷	÷,Îûû,@#û$ŽÊòˆ¹ç÷àÓW0Sxfddû
+û
+ûkW‡ûdøa¦
+÷Mw÷Àòv÷EÀ¬Ê\Ê÷ÌÊfÊü€¬÷sû*€õ3÷$÷÷×÷çWÍ/šû ×žµÇ×÷û Áûû6)ûÊóˆÅÔóßÐc/2>eJVVÀü€èÖ[''4T/ûGÕ÷Õ÷BÀø&vçw÷õÅâ÷w÷œøüû×V÷×ûBÅ÷BôÀ"ømRûØüe¦
+÷6w÷(wòÀ÷=Å¯Ê÷ïÊ¯÷\ûŽì9÷÷÷ð÷÷!0ðû$TQsbh‰¸÷|÷ÆÅûòGûÿÁÀ®Å©ÊóÖ<$%H2û +BÌìˆ¦
+øÀÎw÷*À³ÊL×÷ëÊúøøŸ÷|?Çûûyvûž8û¥Ö(÷>÷íð÷÷0íû ;B\Fj‰÷¨÷N÷8ÜÁV>–û,ûöÉ8%*G8'öûWÛïòËÝ÷ÕùÅ÷*Ï¾ùøûVûq=ûC{ûÏ›÷Ù÷G÷mãæÅüV¦
+÷ÊÀ÷À°ÊhÊ÷¿ÊiÊì÷ªø%@ˆ@³èÛÔµØßÌa;1C`>Ž÷h÷÷ûÂ##û Tû>´UÔt‰ò4{WDˆ/û!÷E÷÷÷Ñ÷!êWÌ0žôÓ µÄ×ûhü(<ÀôñÝÀëˆòéŽßT'û <Y(¦
+÷wâÀøÀ¶÷ë×LÊú¾÷<ûš×O÷÷y ÷žÞ÷¥@îû>û)&ûûæ)÷ ÛÔºÐ¬¼
+ûnûNû8:UÀØ€÷,÷ MÞñìÏÞïü÷¿;'$K9ûûÝ‹õ÷´½
+ßøõ7!…
+÷Èõìß÷Iøõ7!û´
+„˜vøžwø¾ºüR÷bøR÷bÂüû~Uøû~„÷À÷$Àø¼÷IÌ÷ŽÌ„˜vøžw¹ºTø÷~Áü÷~TøRûbE‹õÔw÷øv÷JÀÁÊ÷ßAÊ÷	Êý÷{ßõ7ûøòˆÃÚ÷ ØÍT;Woafhû6>jiŽûÊŽ÷‘€ßß¾»¯ºÖ÷/Ðûû$8-û!÷U|¸íw ·_Àxw¿w÷ãÀxw÷4¸ºÀèÊøPÀåðøúø´VrJæðÇtd£_û",û+û<¼IÞ¾¸­«ª¼
+_§t®÷÷÷÷5÷Lû'÷ûTû`û7û5ûdûg÷/û8÷lÎð÷÷Ð÷ÈX9Q%X)ûJû÷"÷I÷L÷÷'÷O÷/÷)û9åðû;û2j’³¶˜Òð/÷’²³]\3Aû'/[h°ÇèÏ÷ñŒ
+%Ç‹Å÷±Å÷“ÅÓÏøÏbÏøº
+÷~öÁ^2HVUû û~Gü%÷Âô÷|£÷ÏèPÐ/—øÕ›½ÐÖ÷ûµûûÂÏü÷~ô÷Ï]/û4l&û~w
+±Ï(Ù‹ÅøêÏ:
+f
+ÓÏ4E v÷è¥
+ÓÏÓÏ÷è÷êÅûê÷–øÅüYp
+±ÏøžÁ¿&¨
+Ë
+÷ÊwÓÏø<Ï¢
+Ÿ
+ØÏy
+ |Å÷Nwøw Ï÷£Ï÷ü÷xb
+´©ÓÏÍÓÏ}
+÷v vùvìwÑÏøÁÏÑÏøý÷‰üýË÷ˆøýüýÏù^'ûŠýû‹ù'ì v÷wø«v÷‚s
+Y¢ v÷ÆÅ÷¸ÅÏ
+ù$«ü Ï÷Æ´ûÑ÷rvªÅùÅ¬
+ùQ‡%ÙÓÐ¯ò÷÷Xû÷Dût9
+ÖÈ®¼÷7ûs÷‚h`éDtf_X8
+÷PÛû2û0/p/KOµ¹ôQøN
+ôv¢|Å÷Tž
+ø
+Ï`ÏùÁM
+öAù`Õù$Å÷ˆÏr
+Ù|Åù3o
+} vÖwù'w÷–Ú÷ù^CûzýÁ
+û|ùB÷À väwøãvÖwij©÷‰øû•üØ÷p÷Ï÷mûÏÝû–ø÷ˆ÷ð²
+ûeû¿û^÷¿;©÷£ÏP
+j±
+U
+Ó×ÊL÷5Ð÷ûSÀà)ùÂÐíÀû5þ,×
+÷î|ûÈù|X÷Åý|Ó÷5LÊàùmVÐíýÂà)V÷5ú,„÷—vøYwñ÷‚÷Yø÷\üÄûzøYWûzüY û½øˆû½üˆYûÝø€v÷v÷wêß÷GÕ
+}I~€1
+ž€6
+}€$ž€/jÇÎÇÅí¿D¨Òaß
+?>dAq‰÷¼Lø1ü\¿‘Ò­Ê*j±Î¿ø–ù^Lû¼_
+Y
+­Ê÷âÊ 
+ûðÆ÷—ø˜d
+ücÊøcñr­Ê÷äÊû€ý€3û€Œý€fE€÷Kw„-÷³L Ò
+ÈÊ³
+ûSÀù"Ê
+ÈÊÈøù| ¤÷nwÇÊ
+©ÈÊŸ÷v vøVv¼À|wÇÊ÷šÊ÷šÊîÇÊ÷´÷ ¹Ý÷ Ü¦QEûòÊ÷¸ëªå÷æª]6ûïÊ÷ò÷RÇûGJjGlÏxN¬G8VdLjˆÞâQ•¹
+ì-ÜäL~
+\“|wÇÎû
+7DaDn‰÷íQø1û–žû÷	´ò÷ ·“|w±Î÷ø–ø˜Q)‰ûÏp9¸@z
+××±Ö¦ûµÊ÷ü1øUû‰ƒ
+û¸ vø4vÌÊ„wÇÊè_Ø÷Q”“
+ìD
+òC
+ì\
+ûË…Àmvøg”
+¸Žûõ©
+t ¸{´ôÀ¸"E|¸¼#
+|.Åû$ vÊwømw÷]Î÷Uø˜Jû4üYÁ
+û6øYE÷ vÕwø%vÝwh
+û¤ŒÙ÷3÷m÷6ûmÛû]÷¡÷N÷‹<û$ûXû'÷X<÷MûŒÚ
+7­aû¦½øÀøÀ÷/ÊL÷è÷¹ûSÀwðc|¼Á÷!÷R·~“˜“Ä·÷÷!Àš½³èŸÀYSkZ?û):~<PVÆ˜<:û(?«ZÃüûUvú|wàÀàûjÀú|Vû¦½øÀøÀ³÷LÊð³ùmVŸè³šYVû!ûÄ_˜ƒ‰~ƒR_ûû!U|ZcðwV½Ã«¼×÷)Ü˜ÚÆÀP~ÚÜ÷(×k¼S„÷UÀgvÐÀwøƒ÷Ïhtricri›œd`›fb›fIe``v¯g®›£­·²¬{{®z®®{³É­¶¶¨üû>vøíõÚß?ÏàÚø˜!ßõtûFeÐ|û×ûbÏ÷bX,vñ¿¯
+¾äwÁÊ‹÷-‹²‹÷øÝ
+~÷:Ç#Žâd2û ~?ûûû×û÷ ~%²ð÷ØÖ›÷Lƒ:PLCˆøL×ˆ¶]›@ûBûÏ$›Yòïð½ðò›¦
+À÷«÷+v÷LÀÁÊ±Ê÷}Ê¿¹÷ÞÜ›p—\l;VRPZ¯U£³žœ¾¿Ü²bâÇµ¡²·k»lo_r`jr•–o–pl”_hj||n‰ÂµÂÍÕ§‚¸|£÷"«û4sÆh§ÑöÜ½ß÷Ä?û Ê÷(Ž4äû(ûûLû#O£WªZLœÕ÷D¸Þ¸øw÷‰Ê÷÷Ä÷‘Bû^÷ûDÊ÷D÷¸ûÔ‘•÷¸û÷gøFû]üû[øC÷fü!XûAÀøŽÀ÷rÀ’û<ˆœš‰˜÷-ˆ”÷£÷È÷×÷”Àû™Î›Ð“ÞáŽš›Šˆš—¿Žvwvû}&"s~F&‚Vï@ü€ZvOOˆyzzXû5À÷wøÕv÷À¸ÊÊRÊ÷rÊRÊÊò@ø“÷{÷Xûì•÷*ÊÃ¥Ãò€Ñ¼SGˆÊ÷CÉû76X/`œf¬nù PsYZHûX÷ìû*LSqSõ EZÃÏŽLûÓM÷ßà¾ç¶z°j¨ø@Æ£½¼ÎLŠSgk[w6Æû?ÄðÃ­«»ŸàQ÷AU"XíÅøÅªÊøÊé÷î÷ ÞÝññÞ9û û 89%%8Ý÷ Jûf±eÃÃh¶ÀvÇÇ¿Ÿ®´ÂT±±UÁ®¶ ÀÇÇvÀh¶ÁÁe±TT®`XŸPOTvhbSÃeeÃSh`xWPPŸX®`ûÝø€v÷‡w÷ Ê÷ Õ
+Ê÷‡Lûøkõ÷wËßÑß÷(Õ
+}÷‚}ûI®
+÷U÷ˆ÷ºûˆûð®
+÷N÷ˆûð®
+Ô÷|
+û7 vøcÀ÷
+v»ÀéÊ÷7Ê÷ÔøùÊðw÷vücÊø˜Lû7Æ÷7Ê÷ÔÊù^w ÷ŠÅøˆ÷ŠÅüˆQXûvøãÀ÷qÙøLüãÊøãÛ÷qLûqûZVXûv÷ZÀ÷ÿÀ÷ZÙºûZÊ÷ZÛ÷ÿÛ÷ZLûZûZV÷ZûÿûZV‚
+„û0vøw÷õÀ÷¥Ê÷Ê÷¥ûEÊùÚ÷ýÚÊúûzû!9Fû#å5÷	 ÷[v÷ùwÓ÷ù(Ú;îîÛÛîî;Ú((<<(…
+îßîõûûÅõt
+ûø€Åù^t
+ûI®
+Ó÷|
+÷5H|
+ø‹õ÷ß÷ß÷ßpùÿ±û±û±øŒ|¸`v÷Ì¸¸¸÷Œ¸žwÌÀ÷TÀ®À÷TÀÃÀ÷TÀ»ð÷jù)UùCü@Uûö^Uwðü6ûù‡EûbÀ÷Jwø%õÁÊõßBÊ÷Êú÷Çø˜7!ß÷ü$ŽS<û >IÂÛ¿§µ°®ößÙ­ªˆ÷Lˆû…–77X[g\@ûçF÷÷$Þè÷"yðøàSy÷lùo-
+y÷ùn!
+n´
+Èùh'
+Ãøön
+Ä
+øö=¸
+ù<0
+ûb²÷;w÷ ÅæN?q
+·Áøà÷!÷BøâB
+º°Ê÷+KyÁøâ*
+ø÷ŠÅùú÷ŠÅýxQ÷À‹Å÷<ÅÃ¥
+øQÏ÷l÷°÷Qø³üÏÃ÷ìÅûì÷–øÅü•ü
+ý^Ø÷÷v÷—ûvøKÅüû¼ø²‚vÂv¶v÷vÐvÑ²†º÷Nº¿€Áøé»Œ±¡º»³}Vty‡h‡2ƒ0‡.G½oÏÂ´¡¶¦š
+€g’w´–”Œ’­‰‡‡Š†|‚“šŠ÷@ÞMœI:Tk>‡÷q,¿€PTgMle¢¯ÃÐŠÜ™–Žž”ÍÓÏÓ÷Æ9SSÝÄûøhÅü$÷„÷‡÷;Ãû‡û<÷ýGs
+¬
+ù4ùcD=ÂS@¬(Ð+¥0ÃF<3¦r×áSÃÖjïg
+ìqèSÏÔÜü®ü¶cÄyÕ×G
+ÞÈl\¶¡o´R@?û0;û2ûP8N©¼_øg|Å`Å÷®¥
+`Å°ÏødÏ¶ù³ø*ÅünP®¿\D¡?ûhûû@û\û\÷û@÷hÑ×¨Ã»vEøqÅü-÷®øÅüGûqŠw‡x~{®O\SxBûB+÷&÷<÷<ë÷&÷BÏìhN£{Œykû¥ø²÷˜²Žº÷~º÷;ø+>cÍËË³ÍØØ³IKKcI>†d÷ÃÖééSÖû$S@--Ã@ò÷›|ÀØwÓwéÀw÷KvÁÀ~÷ÙÊöàùÝ÷…÷*V÷ û>A;hCp‰ã~2žEû8Wû„Ê:÷`Læ÷·á›š
+4ªÍ`ç÷ÙÍ÷¦L:xZ[6ÂSè÷“Lb?ï`]÷`Ê—ìˆÈâóïÊ2,¤ÈÊv
+©ÈÊÈøHTTÎÂûèÊøÎÂÂHT÷ŸL~
+¯øˆø›WS¶cQ¤CÖ
+FžJ°[NH¡wÆË`³ÃrÓ÷1â÷÷(ÏyÊg¾ÁÆ) £d–\[ûNûûS`£®oy¥r³€º»÷È÷÷Ã¶sg¨÷®|ÀÙwÑwêÀ÷vÕÀ¯Ê÷ÑÊ÷ÕÊøs÷ºíÁáöóÃ4*Šû;t[[3ûZñðø÷SGîû-/EX?o‰âpF³3û0Aûû#û$Ëû÷7äÒ¶ã¤¼
+6 Ú]ß÷ÜÌ÷§üé÷Ì÷¦û#"rûûû]ôò÷ ®÷÷EƒÀsvø¬jÀ÷“ÀÈÊ÷¡ÊpÊ^ÈÊø¦ê°¾ïÓÇY@$6p3V­÷ásûû;_9{|ŒŽ{TŠ”“Š“¤÷ŽêÕ÷'æWá*“nÓ›´ÉÓ÷2É û;Lûû¦÷»v÷Ê²Õw÷0º®øÜª
+„÷v÷jÀø‡Àø‡÷À÷Ÿü‹VøV[
+ø÷×vø¸pv÷lÀ÷cÀ÷ÚÀ¼ø¥÷Âø ÷&ü ©÷&ø ü ÀÜø06ûûâû÷â6ü0ûcø÷¸ûÕ^÷üS
+÷w~v­²÷÷2û-w÷²÷,Ð
+÷¥º÷^ºÝàø¬÷«küM÷Å÷æàûÊºø;c~F`‰Cˆàý%»åàÔ„‹À°w÷\À÷Hw÷¦À¼ø‹Àü‹÷u÷¢ûtV÷tûHÀ÷H÷uÀûu÷HV¢ v÷QÅ÷¸Å÷	wÏ
+ø¯«û‹Ï÷Q´û÷	GØ÷w÷Rv÷5Ð
+ø>ºþÀ„
+üæøxª
+àý%»ýÀÔ„…÷÷À÷÷÷ˆ÷à÷ˆ½«
+ø'«
+÷ÈûxÀü‹VüGv÷Žw÷·v÷ŽwàÀàø/À÷ŽVý‚À÷ŽVûcø6²÷f²Ã²÷f²êøÆÅ¹ºÆÅº\QP\]QP]¹Æd:ÊLÜÚÌÊÜÚJÌ<:LJ<“÷KwÇÎ
+?>dAq‰÷¼Lø1ü\‘Ø÷²÷v«vÂ²Ïvò²žwÉ
+÷Ïº÷f„
+üiû‡üû‹®Ç½oSRQjRû¦’ûš
+û¦÷¦²÷™v÷²£º÷^ºÒø½k÷U|Àów÷g¸÷)¸óÀ§Å÷GÀ÷[À÷$Å÷ÒøÞì¿½}OBK‰JE^ä÷ûSÉû÷SÆ–¼¬×Ø`µ*û9üBÀÝøªÖ˜Ç
+—
+Ù
+„÷uÀø¼÷ªÌ¦
+ø3Àxv÷¨Ý÷øÊ¼÷øè¬kôÆÂ_¸Y¬L‰ÜªnT”Zû,6û
+ûû(×û÷5÷;Ù÷÷*÷A6÷ûå÷Èj«ûKj¤gŸhžgh«{©xªw´û[÷½$'ûM3û	ûWð÷÷¾ê÷„¹vøXw÷š÷ûPûQ°f÷Q÷P÷QûP°°ûQ÷Q÷Q÷Qf°ûQûQûQ÷Qffû¦÷²÷vÍ²Ïvò²É
+ü€÷ør®Ç½oSRQjR’û 
+÷U|Àå¸õw÷Yvõ¸åÀ§ÅõÀøiÅøæøGì~=Á-û:*ûûÜ*÷éÙÁì˜XO[]Bû RÛóóÄÛ÷ ÔŠ»^—O÷?=˜ÖÅÙ
+—
+E÷KQ
+EÑ?
+Œ
+ðð÷Vª.
+xá=E¥ËSŒ
+Ã²g²÷²g²÷e²f²÷²f²ë@à % l÷&0
+Œ
+÷‰
+%÷/F
+ìûb²÷.Ã`w¥v÷³w÷Ÿv÷AÅ±Ï÷¹ÅRÅ¯€ù*ø†ÞxûÝûÐû(Êû÷MÏ€¬|±µ¼¯@7
+Ÿ€«²Œl
+Ï€;@
+øQ
+@
+÷¯?
+f
+Õð-ðÓÏ­Ï\ÏãÏ\Ïö€ä 4	@÷Sá=@
+÷ˆËSp÷KQ
+pÐ?
+Ÿ
+ðð€ÏŸÏ …4wá=pœËSì v÷wø«v÷w÷ºlv¾¸‚ø+F
+1ø‚øÈ-
+1ø	øÇ!
+s
+Íð­Ï÷$ª÷(ÏÒ ,÷¬øO=1÷åø9Ss
+Õºlv¾¸wYø]ø³"
+)
+÷Eøµ*
+A
+øDQ
+A
+÷Ì?
+¡ððÌÏâªâÏÒ#,÷sá=A
+÷­ËSq÷Rù-
+‹ðð÷KÏŸÏ c4wøŽ=u÷kÍ*
+%
+ŸøU-
+%
++øT!
+IÕðžÏHÏ÷ ÏHÏ“Êž¬1
+Ÿ,6
+~¬$ŸL/ûN÷Ü{
+Ÿ4÷‰T
+%
+û÷ÆSI²¥¬¥¥ÊŸx1
+Ÿ¸6
+x$Ÿ¸/û]ø"0
+IÝº»"~ø@"
+3Ú÷a»
+À¶÷fÅSÅ¾ø{Ý
+÷|8ÅûÖ
+û¼-å_¢€¤…§¼½7
+Þ«²ÂŒ¹°­±®¢¼”Ê>
+(
+÷Ôø~-
+(
+÷bø}!
+Y
+Õð¶¼ª³Êô€ 
+ ÷	ø=(
+÷<÷ïSl÷Iùo-
+lÎùn!
+¤÷ðmÏHÏ¡Ê¢ÏHÏöÄv
+)uøö=l˜øàS•÷	º»M÷Ü÷V"
+2÷-÷\-
+2¯÷[!
+~
+Õð¶ÇªÄÊÒ!,VÚ=2ÄV
+~
+Ýºlv¾¸w\÷÷G"
++
+û2÷u*
+<
+Sùo-
+<
+ûCùn!
+Z÷ðÆÊ£ª£oûœøö=<
+û`øàS^
+ø÷k-
+Ú
+÷ð÷	ªÀ78÷Ké=zõø­*
+X|Ã÷ˆ¸Æ¸÷qÄøÁù¾bM¥8<JpTX][lJ|8Xy^ËŠ{Š€€ˆ‹ˆŒˆ_x^Í•3¦E¸VP¾ÏmÞÍÆ¡¶¾Ønnqvt~|nkƒhJV¤½cj¶vÃ‚Ñ÷®ž¸ûÄŠŽ‹Ž“–Œšœ÷Õ¸ûá—Ê¢¿­²¸²½¡ÈÊÀqV·}÷Ó÷Òøº÷ÓûŽÎ÷÷KÒû&È÷M«>û(û¯D÷‰HûûFC÷!PûÉk×÷&÷,íÏ´âºÎµÌ÷zá÷yÌ÷å÷ggRZUWl®¾º¨µ¾ÁÆSi°÷ÏŒ[oeXM]¹²a®±ÀÃÃÀ¨dXÌŽâQÏ1:TLVVÁUQÇ:0UD63ÅJäÜÀÄ¾ÄV½ËS×çÂÐã¶
+÷Øü,÷%ø,÷&ÙüûO@¶
+÷¼Öü÷O=ø,û&ü,û%>+Ç÷ÑÉ÷{Ê¬Õ÷²×ø÷¬2dû#û2`àØÛ¸ÖäÇÀe\®ÛÝ÷5T÷ZûXOZvd_µY¦®­Ÿ¸÷´û/ |Š||ºcQ¨Lû@*û	ûÙ"÷÷Z­÷q÷-“ûjÓùìÓøáûjÓüg÷ÓøDûÁø<øIÓü®K÷ÈüDûÖüLK÷ù^ÓÏÙø>Ùùûjú|üÚþ|Ùú4ø>þ4f…Ë÷ôÐÒÖ÷ŠÖø·Ï„|}ˆ~hˆ£¨÷¿×Ðü±FÐü.Öø.÷Šû¼JTÜ¦ž‘–¢Vûi¹ú¾÷kÙø8ùn´_šhû' ûQ+üƒu“ûg}„µlxyzxg²{©÷…÷9çø“Š²š€÷´›“`«¢ž™£I
+$ø–ù¦?ûLþû+÷ÑûW§Oº¡÷6ûâÖ}äÒŒÑ÷Òø’÷~cƒui^<û Ò46j?C€¿²¦²¶Í÷Càà¯ÑÖ“Z÷Icƒuh^<ûÒ56g?Cƒ¾²’¥±¶Î÷	Dâà°ÒÖ“ƒ}ø@÷øûûÏû÷Ï÷÷Ï÷dûÏû@øCû?ü÷?üÓ’
+ìY$
+y÷qÅ
+’
+÷Hù›
+Œ
+÷¸.
+÷[˜
+Œ
+æ¿
+÷C².
+!÷\'
+¢º² 
+øVÊùû¬ù^²
+û´ý^K
+Kû²R0Gø;-
+0ûMø:!
+0û˜÷®*
+w
+âÀ±Ï÷{,ûQ÷Ân
+Ù±
+à‘
+øKÏÌÓ:
+0÷ùf*
+@
+÷dÍ*
+f
+÷¸ÓÏè4ø1˜
+f
+Ò¿
+ÓÏ­²ä4ñ÷\'
+f
+ñÀÓÏ÷%Ïä4÷­án
+}ûRv÷gÅSw÷ú¥
+ÓÏ÷|ÊøÎ<ý^ø2Kp
+Ñ4
+±ÏøžÁ¿À&À¨
+û¦ú,!
+p
+Ã¿
+±Ï÷²÷úPüWú&'
+p
+âÀ±Ï÷€Ï÷nPû¤ù´n
+÷Ê·†±Ï÷uß÷iÁßà&¿à¨
+ûóY$
+Ë
+÷Êwô‘
+ø<Ïæ¢
+÷Ð?
+Ë
+Ê¸÷^wÓÏø<ÏÓÏ÷äø<ûä™
+ûZü<÷ZGø€û‡>ü<ØŸ
+÷‰
+ØÏy
+÷-F
+Ÿ
+÷¸ØÏÐy
+ ÷[˜
+Ÿ
+÷ÀØ…8Ïán
+üº²š’Ä˜ÏÜ÷%ù^G¼ý^­-MŠdw[¨iÀ²¨›¾ p×vxš«ª‘¢ÏÊ |Å÷Nwø^ Ï÷£Ïæ÷ü÷xb
+Ì?
+´WùwÓÏ÷+ßXä÷o6E‹Åù$wô‘
+È}
+0÷RQ
+E‹Åø»¾ÓÏ¨}
+P÷Æ¬Eûv÷Åf—ùwÓÏ÷ßL}
+²÷F6hø>Q
+h÷„Í*
+ìW£wø«v÷wÒÏ÷8ß÷FÏ^€J
+á ÷|6s
+ê¸W
+ø‹økc
+s
+Ã¿
+­Ï÷²øÏÊ 4÷WøÁ'
+s
+¼÷!W
+øHø;B
+H
+ø Q
+H
+÷_Í*
+ÇW÷{Å÷­ÅÓÏ÷.ß÷7ÈUÏþ€Qÿ N
+þ€v÷r6)
+÷øùB-
+)
+÷ŒùA!
+¢ûb²÷,Å`w÷“ž
+÷sÅèÏ`Ï¾ÀÁ…ûÏ=õp¦„§†©‰ZMq
+Ý «²´Œ®¨’÷,°˜÷´÷7¸&¦ûB¶x
+ÝÀ‡
+Þ `¢Ê÷)ž
+÷(ß÷"Ï`Ï¿`ÁÞÐM
+x
+¾à‡
+¿PÎ{Ûk:ß`g÷?û±$
+Õù$Åà.÷ˆÏÈr
+0÷ŽÍ*
+bÕøI¸÷BÅ÷ˆÏ†³÷û>û8^÷8üMÏøM÷9¸û9÷>÷ÅüÊ¡÷ºlv¾¸o
+ø F
+¡÷¸k
+øL˜
+¡æ¿
+ÌÏË²÷ÐÏÊ#4÷÷\'
+¡Ã¥ÌÏï¥ôÏÉ#6÷c÷&0
+¡ß÷!k
+ø	ÍB
+ÙÇÅbwùpwÌÏôÊ÷Ï¾Ì÷•û¸-ô_Þ«~±ƒ¶u
+’””•”°Ž¬’¦–õ·¸é÷,
+÷À väwøãvÖ^ðiø}?
+qÕù!
+uø%Q
+j±
+ñÀ÷—ÏÀU
+8÷¶án
+Iò¸~žÀ1
+Ÿ@6
+~À$Ÿ@/±÷øc
+IË¸ÝwŒ²÷}ÊŸp1
+Ÿ°6
+p$Ÿ°/û¤øN'
+Ó
+²R
+÷XÊ™Ê¯p1
+¯°]
+Ç°#Ø\ëï¶±Î¸š
+b‘o¨|ŒŒ‹ŠŒlxu{~~eŸp©‘¤×Éœ”ŒŽš'Ç°/3
+ø-
+3
+ûø!
+3
+ûJ÷€*
+ÒêvðÝ÷%Ï/
+û÷”n
+±Ž
+Ù¾±Î¾Àø–ù^Lû¼e
+}À)Å¾Àˆ
+ƒ
+øèø\¬‚±Î¿ø–øÜß¸7àL6ûA^÷Aû:_
+(
+÷÷ñ*
+Y
+ò¸¶÷âÊö 
+÷âø!c
+Y
+Ë¸ÝÝª²÷œ[ªøw'
+Y
+êvðÝ÷Ï÷[÷_øn
+Ó
+÷PwæÀ÷LÀ¶ÐÊ÷^Ê¿€ø‚÷…;
+û²+ã_ß€¦~ªƒ°u
+“””–”¼²š¨¥¯¬¤¸˜ÆDÀO
+r÷m
+÷äÊûàýà3ûàŒýàfÅù3!
+rî¸ÝÝ§²÷¡Hû"ù-'
+r÷vðÝ÷&Ï÷H·ø»n
+XûbÀ°vâw×Àe—¥•
+­Ê÷"ß÷Êíxí¸tõ¸û(Ïû	Â
+ëx9õ¸ŒfÂøÈ›
+E€÷Kwô†
+ó-÷³L÷…?
+\€¼¸äwÝ
+Ýù	9^ÝüÜ)÷1÷-¸û-àL¤÷	‰
+ÈÊv
+÷+G¤÷¸ÈÊÐv
+ ÷Y™º²È
+~ÄœÊß÷¿ü˜¨0M‡dw[©i¿²¨›¾Ÿq×wwš«©‘¤ÏÉL­
+ûSÀù"Ê
+ÈÊÈLVË÷v¹²®wÈÊÚÈLV$Ë÷j!
+ WøBw÷nwÇÊíß\
+â÷56sÈÊÈŸ0÷KQ
+ûô vøõ¾ÈÊ¨ŸP÷Š¬Wùw½ßBÊTŸè€6a
+÷ü÷k-
+a
+÷BÕ*
+EW÷þÎ
+|wÆÊ÷ßïÊû€-÷€äL÷@üÊ$
+W€|w÷‡d¡ßn
+îÀØ+ÞÀäLï@T÷µ$
+~
+ò¸X
+÷=öc
+~
+Ë¸ÝÝ´²÷®ÊÊ!4û ÷U'
+~
+Ä÷!X
+ïÆB
+j÷Q÷k-
+û¸W÷ÞvÌÊ„w½ßAÊù_õ÷QúüÊ$
+jåÕ*
++
+¤ø-
++
+2ø!
+ûÚ÷OÑ÷:Å¬Ê^Ê»€D
+½@¡
+Ý@mL¡\°n¬r³}¼ˆZMq
+«² Œ Ž¡ÒšÊ»Þå@µC–7ž»€\
+ûûv÷Àz—ÜÑâßáÊ^Ê½ÀD
+¾ ¡
+Þ =
+½À\
+û>ü3$
+û§…ÀmvøgÀèvÇv·wÙw×võ®©ß¿ÐøÅ
+ûíLû/1Våûõ©
+° ¿Ð{¿°ôÀ¿Ð"BûË…Àmv÷Ó¸ò”
+¼Ž('^ïûe©
+z ¼x÷`÷	¸û	îºôÀ¼"Z÷	º»51GZ÷¸j
+`™Zî¿
+ÆÊ‘²÷Œoûòùh'
+ZÕ¥ÆÊ´¥±Ê¿À#
+À.Åû¨ù<0
+Zç÷!j
+û øâB
+EÇ£
+÷LÊ¹Ê¿ørø˜Lû£ß&
+¿.K÷ vÕwø%vÝŠðh
+ø!÷j!
+^
+÷£÷j!
+z÷¹ù:-
+­÷À÷[ÏÀa8÷DøÁn
+÷|Åuv÷ywøwØÏòÏ÷£ÏXy
+¶ø’üzb
+û~½÷3È
+ÈÊ÷Ê|³
+º÷Pì|E‹Åø	²÷swÓÏ÷(Ï˜}
+d÷°û¿n
+ûË vøC²÷swÈÊËÏ˜Ÿd÷Wû¿n
+„øÅ÷—÷6Š#÷û.û1&ûû/û.ðû÷1ôÉ³êÈh 7YOg8Q[Ÿ²d÷I¯÷%²²» ÄÃ¼wcµû% }³ù&°÷;¾÷¶ø*±w¦Á
+pnloh`žÔ÷3õ÷Ç÷ìÙb¸QJVPûûœ97 pÆËû4ÀfÍ¶´œ®¯Jø¿<^*=/÷}ã«±­ª¥fU üóûÝ§
+S
+bByðùžSy÷lú+-
+y÷ú+!
+yÁùž*
+nÄ
+ù´=ù¸÷•ùÐc
+´
+Èú&'
+¸
+ùð0
+øà÷!÷Bù¢B
+Ãù´n
+‚
+œƒI
+[
+J|šø˜š÷4š“šûbšø\”é”zœø™—÷Mœûf—øk’ï’	 9cÿ	À
+Ê÷MøóÄ ¾   . R ^ t }  ¬ ¼ ä ö&.38^fu„‰“ÅÐÕ!;LP\lty“œ ¨¾%@NXs”¡ÀÄÐíð)4<ar|Œ›Ÿ©ÌÓòIMYcptwŠ ¨®¿ÉÖáç÷û"FNr” ÃÈÏÙáêòü(-29AGOSlpuy•¢§¬´»ÏÕÛàäõü',19>DJNZbgw{†Š“—¡¦ª¯³·ÃÍÓÙÝáìòù	 					&	,	3	7	;	?	H	P	Y	^	d	h	lì÷ºO
+ÊV;
+û'Ðû÷8÷ÎÏ÷	¦DFû`
+Åãñá%Ìpƒ~vlfb·RWkZ\†²¬“š¦²·]ÂÀ¥½¸“ørø˜Lû£&
+0²‰zp†oº²œÁÛIÙv÷!"8ûãû½@÷ØÏ²Ð¬š
+:’Á]ÜÛÁ»Ú–dWƒ\mXYY§ÁˆY
+Ùi
+Ê÷âÊó 
+¢|Å÷Tw÷Ív÷8¾
+¯Ï^Ïø
+Ï`Ïþ@ÁM
+ý€Aþ@`Ð÷÷!Q3%5ñJ”Ùv÷!w“
+û D
+ü€C
+û \
+ø]GüNû9>Kûû>ËÂ
+øNG–
+"`
+¾à%ä*²¨¨²²¨nddnnddn¨²dP»[ÆÆ»»ÆÆ[»PP[[P÷	÷ú:ûN÷÷÷È÷÷3|À÷'w÷Íµ
+/
+v÷!wXû(âû÷1Lï¶±Î¸š
+¢Ÿ}slronj’’z}k|¨¬…«¾Æ¥ÇºbšrzŒ}‹x‡ûQ;÷2÷0G
+@E
+÷‹÷l÷÷÷€÷€û÷ûlû‹ÏQ÷%÷aä6ûjûj26ûaû%÷%H÷%û9û8FûûZ÷v÷!5mû–ÛT÷ë÷¶÷å@µC–7žL6ƒJM>2
+Þ¹\>œ÷b!
+f
+à‘
+ä4Ù|Åù3^¤
+Ì#0L
+"L
+¡
+=
+øDø÷†;Á#0$c"4ÉmÝvÜyûX÷ûD÷u÷N"
+÷0Û÷2÷Qµàv÷!w¹ýQþN
+ýv÷!‹ÎøÚÓºÛ÷Ë÷Ë÷ÛùDÎûTÓ÷®Î÷÷÷Hû%÷ûCûCû&ûûHûÐû÷iCûUH÷•÷KûžNê÷÷óñ÷÷ð&ûûO3ûtûKÒÏøðø4üð×ù^Güð‰ü4øð²
+Ôá÷r÷Ùâûr÷÷!²
+&`
+ûBƒ÷?÷=÷‘Ÿ÷/¼÷7¸&¦ûB¶÷•û'Žm‹U›pÖm®‹îˆ¼†ápÉ.˜é–ÂåóðÇ2,Ž÷£Ï÷º÷®ø8:û~ûþû÷þ:÷­ü8÷c-
+vÀwÄw÷hw÷lÀÙ‹Å÷¶¸÷›ÏøC^Óûð:
+÷¶÷€¸û€T°³øJüjüèOøÀÅütøjøèÇü–¾"÷!=°Ø  Æ
+Ø! ·
+÷wæÀ÷LÀ¦èwøOwEû>v÷D¸Þ›ýWË÷gs«µ€¶ØÏ²Ð¬¼
+¾.Å_–L ÂÎÍ¡ÃÓÇh=Žû{û!…û$û$ûSÀù"ŠÀ70e
+)Åˆ
+¿ƒ
+û!•÷v÷!MûpU û!’÷ÈˆGû®û÷8÷.ÁÐ÷%ø—G¸ûÝ^%¸Â‹¸Ðš™‰ˆœÁŽw}Œx%tM2\3Vã‰Õq>²?z
+ÖÝ¸Ï¦¼
+}‹Å÷®¥
+÷t÷÷D÷X÷BÐ÷øF÷üFÐ÷:ø˜HûüNÁ
+ûøNDûüNÁ
+ûøNH.­¹
+¾#
+~.Å¤
+Ø# ÷;÷÷÷DžGi
+ÊT
+w¤
+#÷|Åuv÷†‹
+7
+†³÷ý$Ïù$÷ÅüÊ÷|ÅùÅ¢ÑŠ|‚‚‚e¢®°“÷ø˜Lü˜ì|Å÷yw÷Ÿv÷AÅP˜Z¨Îõá¯èØ™
+û1@ûû'û'Öû÷1T÷÷Éû÷Hé2-2ÓøhÅü$ù$G¦
+øLÀ¼–§®ºØE­@.VQ7ŠºÇŠ¯¶Ì¿¹sWXYt`h›¨ÉÅöÇÊ÷Xñà÷`û­Úû÷Ù÷p÷S7û²ûŽøTLûÝ÷•÷
+Û÷
+÷øloplk¦o«ª§¦ª«p§k [ûûûZÜù÷÷ûlû8÷8ûºïÏ²G÷°_ûiû°d÷fûÝWv÷!w¹
+ñãSû Cü1÷–‰ºlv¾¸wøXù‹\›|–œŽ¢¢  
+ÇûSÊ÷µ@¦×e×
+Í
+í–÷1Ö÷÷'÷'@÷û1Ê÷¹Ê.ÓÏ…
+ìß°
+÷•Ê^ÊÀ÷/®w÷øÎ
+|w=ûgû5û7ûeûe÷5û7÷g÷g÷5÷7÷e÷c
+Ïù^Gædœ•—¦§\‰dzU;!µŽlœ
+zWk€`Æ€
+¿Û
+ü‹v÷rÅøFwÄ}ÃwOÓÏ÷îø<ûî™
+ûÊü<÷ÊGZ
+ÆÊÌÏø7ÏÅ÷–ÅX|Àû÷ŠÅ÷Ê÷ŠÅûŽQ”û¼3Š¨oß÷ûÊºø;c~F`‰Cˆl¥rª¨¥§§ªr¤llrrl°øù»÷ v÷Ìw÷'»
+ªÊ^Ê‹ÅøêÅ?È­
+ý^Êø˜Lù¸÷•™ÀÙm
+}mÓøºmÓüCø3|ÀøÎ¥}¥¤„÷ ³w÷Íõìß÷I±ÅÑ.Ô
+vø˜w‰÷9lûs½ª÷søñðmª±ù^Ø
+­Ê÷þÊÀÒ
+“ºfº÷Zºmºw÷²ì v÷îÅû>v÷DÀ|¦v¾ÀÓÏøÏ÷ ²êv§w÷=ºüû>vú,wvø˜Ê
+3ÇÀgw¸ÝwøkXû¦‘vù|w=T`
+º÷eû5÷7ûgû$Ë¯Ï^ÏÕ
+¸÷ö       
+  , latn      ÿÿ    kern              Æ    . f  ÞR„Âú 
+ ª´¾Z¨öD’	ˆ
+~
+ˆ
+’
+à.|¾ B€¾ü>€vl˜.8B„ 
+ ÿ‰ Tÿ‘ Uÿî Ýÿ‘Tÿ‘Uÿ‘Vÿ‘Wÿ‘Yÿîqÿî  ÿª 5ÿ¼ 7ÿÎ 8ÿû :ÿ¶ Wÿî Xÿî Zÿî Åÿ¶ Æÿ¶ âÿî ãÿî ÿ¼!ÿ¼)ÿû*ÿ¶aÿîbÿîpÿ¼  ÿ ÿ "ÿÉ «ÿÉ ¬ÿÉ ­ÿÉ ®ÿÉ ¯ÿÉ °ÿÉ ÷ÿÉ øÿÉ ùÿÉ  ÿž 5ÿ¤ 7ÿ¤ 8ÿÉ :ÿ‘ ZÿÛ Åÿ‘ Æÿ‘ âÿÛ ãÿÛ ÿ¤!ÿ¤)ÿÉ*ÿ‘bÿÛpÿ¤  ÿg ÿg "ÿ¶ «ÿ¶ ¬ÿ¶ ­ÿ¶ ®ÿ¶ ¯ÿ¶ °ÿ¶ ÷ÿ¶ øÿ¶ ùÿ¶  5  7  8  :ÿó Z  Åÿó Æÿó â  ã   ! ) *ÿób p  P ÿ‘ ÿ ÿ‘ ÿ‘ ÿ‘ "ÿ¼ Bÿ‘ Dÿ‘ Fÿ‘ J  Pÿ‘ Sÿ¤ Tÿ‘ Vÿ¤ Xÿ‘ Zÿ‘ «ÿ¼ ¬ÿ¼ ­ÿ¼ ®ÿ¼ ¯ÿ¼ °ÿ¼ Èÿ‘ Éÿ‘ Êÿ‘ Ëÿ‘ Ìÿ‘ Íÿ‘ Îÿ‘ Ïÿ‘ Ðÿ‘ Ñÿ‘ Òÿ‘ Øÿ‘ Ùÿ‘ Úÿ‘ Ûÿ‘ Üÿ‘ Ýÿ‘ Þÿ¤ ßÿ¤ àÿ¤ áÿ¤ âÿ‘ ãÿ‘ ÷ÿ¼ øÿ¼ ùÿ¼-ÿ‘.ÿ‘/ÿ‘0ÿ‘1ÿ‘2ÿ‘3ÿ‘6ÿ‘7ÿ‘8ÿ‘9ÿ‘:ÿ‘C Nÿ‘Oÿ‘Pÿ‘Qÿ¤Rÿ¤Sÿ¤Tÿ‘Uÿ‘Vÿ‘Wÿ‘[ÿ¤\ÿ¤]ÿ¤^ÿ¤_ÿ¤`ÿ¤aÿ‘bÿ‘f  B ÿ ÿÉ ÿ ÿ¶ ÿ¶ "ÿÉ BÿÉ FÿÉ J  PÿÉ SÿÛ VÿÛ Zÿî «ÿÉ ¬ÿÉ ­ÿÉ ®ÿÉ ¯ÿÉ °ÿÉ ÈÿÉ ÉÿÉ ÊÿÉ ËÿÉ ÌÿÉ ÍÿÉ ÏÿÉ ÐÿÉ ÑÿÉ ÒÿÉ ØÿÉ ÙÿÉ ÚÿÉ ÛÿÉ ÜÿÉ ÞÿÛ ßÿÛ àÿÛ áÿÛ âÿî ãÿî ÷ÿÉ øÿÉ ùÿÉ-ÿÉ.ÿÉ/ÿÉ6ÿÉ7ÿÉ8ÿÉ9ÿÉ:ÿÉC NÿÉOÿÉPÿÉQÿÛRÿÛSÿÛ[ÿÛ\ÿÛ]ÿÛ^ÿÛ_ÿÛ`ÿÛbÿîf  = ÿ¶ ÿ¶ ÿî ÿî "ÿî BÿÛ Fÿî J  Pÿî Sÿî Vÿî «ÿî ¬ÿî ­ÿî ®ÿî ¯ÿî °ÿî ÈÿÛ ÉÿÛ ÊÿÛ ËÿÛ ÌÿÛ ÍÿÛ Ïÿî Ðÿî Ñÿî Òÿî Øÿî Ùÿî Úÿî Ûÿî Üÿî Þÿî ßÿî àÿî áÿî ÷ÿî øÿî ùÿî-ÿÛ.ÿÛ/ÿÛ6ÿî7ÿî8ÿî9ÿî:ÿîC NÿîOÿîPÿîQÿîRÿîSÿî[ÿî\ÿî]ÿî^ÿî_ÿî`ÿîf  = ÿ… ÿ‘ ÿ ÿ¤ ÿ¤ "ÿ¶ Bÿ¤ Fÿ¤ Jÿù Pÿ¤ Qÿ¶ Rÿ¤ Vÿ¶ WÿÉ «ÿ¶ ¬ÿ¶ ­ÿ¶ ®ÿ¶ ¯ÿ¶ °ÿ¶ Èÿ¤ Éÿ¤ Êÿ¤ Ëÿ¤ Ìÿ¤ Íÿ¤ Ïÿ¤ Ðÿ¤ Ñÿ¤ Òÿ¤ Øÿ¤ Ùÿ¤ Úÿ¤ Ûÿ¤ Üÿ¤ Þÿ¶ ßÿ¶ àÿ¶ áÿ¶ ÷ÿ¶ øÿ¶ ùÿ¶-ÿ¤.ÿ¤/ÿ¤6ÿ¤7ÿ¤8ÿ¤9ÿ¤:ÿ¤CÿùNÿ¤Oÿ¤Pÿ¤[ÿ¶\ÿ¶]ÿ¶^ÿ¶_ÿ¶`ÿ¶fÿù  Aÿ‰    Gÿî % ÿ¤ ÿÉ ÿ¤ Dÿî Eÿî Fÿî O  Pÿî Rÿî Îÿî Ïÿî Ðÿî Ñÿî Òÿî ×  Øÿî Ùÿî Úÿî Ûÿî Üÿî0ÿî1ÿî2ÿî3ÿî4ÿî6ÿî7ÿî8ÿî9ÿî:ÿîJ K L M NÿîOÿîPÿî  ÿ¶ ÿ¶  ÿÉ ÿÉ  ÿ¤ ÿ¤  ÿª 5ÿ¼ 7ÿÎ 8ÿû :ÿ¶ Wÿî Xÿî Zÿî Åÿ¶ Æÿ¶ âÿî ãÿî ÿ¼!ÿ¼)ÿû*ÿ¶aÿîbÿîpÿ¼  ÿª 5ÿ¼ 7ÿÎ 8ÿû :ÿ¶ Wÿî Xÿî Zÿî Åÿ¶ Æÿ¶ âÿî ãÿî ÿ¼!ÿ¼)ÿû*ÿ¶aÿîbÿîpÿ¼  ÿª 5ÿ¼ 7ÿÎ 8ÿû :ÿ¶ Wÿî Xÿî Zÿî Åÿ¶ Æÿ¶ âÿî ãÿî ÿ¼!ÿ¼)ÿû*ÿ¶aÿîbÿîpÿ¼  ÿª 5ÿ¼ 7ÿÎ 8ÿû :ÿ¶ Wÿî Xÿî Zÿî Åÿ¶ Æÿ¶ âÿî ãÿî ÿ¼!ÿ¼)ÿû*ÿ¶aÿîbÿîpÿ¼  ÿª 5ÿ¼ 7ÿÎ 8ÿû :ÿ¶ Wÿî Xÿî Zÿî Åÿ¶ Æÿ¶ âÿî ãÿî ÿ¼!ÿ¼)ÿû*ÿ¶aÿîbÿîpÿ¼  ÿª 5ÿ¼ 7ÿÎ 8ÿû :ÿ¶ Wÿî Xÿî Zÿî Åÿ¶ Æÿ¶ âÿî ãÿî ÿ¼!ÿ¼)ÿû*ÿ¶aÿîbÿîpÿ¼ = ÿ… ÿ‘ ÿ ÿ¤ ÿ¤ "ÿ¶ Bÿ¤ Fÿ¤ Jÿù Pÿ¤ Qÿ¶ Rÿ¤ Vÿ¶ WÿÉ «ÿ¶ ¬ÿ¶ ­ÿ¶ ®ÿ¶ ¯ÿ¶ °ÿ¶ Èÿ¤ Éÿ¤ Êÿ¤ Ëÿ¤ Ìÿ¤ Íÿ¤ Ïÿ¤ Ðÿ¤ Ñÿ¤ Òÿ¤ Øÿ¤ Ùÿ¤ Úÿ¤ Ûÿ¤ Üÿ¤ Þÿ¶ ßÿ¶ àÿ¶ áÿ¶ ÷ÿ¶ øÿ¶ ùÿ¶-ÿ¤.ÿ¤/ÿ¤6ÿ¤7ÿ¤8ÿ¤9ÿ¤:ÿ¤CÿùNÿ¤Oÿ¤Pÿ¤[ÿ¶\ÿ¶]ÿ¶^ÿ¶_ÿ¶`ÿ¶fÿù = ÿ… ÿ‘ ÿ ÿ¤ ÿ¤ "ÿ¶ Bÿ¤ Fÿ¤ Jÿù Pÿ¤ Qÿ¶ Rÿ¤ Vÿ¶ WÿÉ «ÿ¶ ¬ÿ¶ ­ÿ¶ ®ÿ¶ ¯ÿ¶ °ÿ¶ Èÿ¤ Éÿ¤ Êÿ¤ Ëÿ¤ Ìÿ¤ Íÿ¤ Ïÿ¤ Ðÿ¤ Ñÿ¤ Òÿ¤ Øÿ¤ Ùÿ¤ Úÿ¤ Ûÿ¤ Üÿ¤ Þÿ¶ ßÿ¶ àÿ¶ áÿ¶ ÷ÿ¶ øÿ¶ ùÿ¶-ÿ¤.ÿ¤/ÿ¤6ÿ¤7ÿ¤8ÿ¤9ÿ¤:ÿ¤CÿùNÿ¤Oÿ¤Pÿ¤[ÿ¶\ÿ¶]ÿ¶^ÿ¶_ÿ¶`ÿ¶fÿù  ÿ¤ ÿ¤  ÿ¤ ÿ¤  ÿª 5ÿ¼ 7ÿÎ 8ÿû :ÿ¶ Wÿî Xÿî Zÿî Åÿ¶ Æÿ¶ âÿî ãÿî ÿ¼!ÿ¼)ÿû*ÿ¶aÿîbÿîpÿ¼  ÿª 5ÿ¼ 7ÿÎ 8ÿû :ÿ¶ Wÿî Xÿî Zÿî Åÿ¶ Æÿ¶ âÿî ãÿî ÿ¼!ÿ¼)ÿû*ÿ¶aÿîbÿîpÿ¼  ÿª 5ÿ¼ 7ÿÎ 8ÿû :ÿ¶ Wÿî Xÿî Zÿî Åÿ¶ Æÿ¶ âÿî ãÿî ÿ¼!ÿ¼)ÿû*ÿ¶aÿîbÿîpÿ¼  ÿž 5ÿ¤ 7ÿ¤ 8ÿÉ :ÿ‘ ZÿÛ Åÿ‘ Æÿ‘ âÿÛ ãÿÛ ÿ¤!ÿ¤)ÿÉ*ÿ‘bÿÛpÿ¤  ÿž 5ÿ¤ 7ÿ¤ 8ÿÉ :ÿ‘ ZÿÛ Åÿ‘ Æÿ‘ âÿÛ ãÿÛ ÿ¤!ÿ¤)ÿÉ*ÿ‘bÿÛpÿ¤  ÿž 5ÿ¤ 7ÿ¤ 8ÿÉ :ÿ‘ ZÿÛ Åÿ‘ Æÿ‘ âÿÛ ãÿÛ ÿ¤!ÿ¤)ÿÉ*ÿ‘bÿÛpÿ¤  5  7  8  :ÿó Z  Åÿó Æÿó â  ã   ! ) *ÿób p   5  7  8  :ÿó Z  Åÿó Æÿó â  ã   ! ) *ÿób p   5  7  8  :ÿó Z  Åÿó Æÿó â  ã   ! ) *ÿób p  P ÿ‘ ÿ ÿ‘ ÿ‘ ÿ‘ "ÿ¼ Bÿ‘ Dÿ‘ Fÿ‘ J  Pÿ‘ Sÿ¤ Tÿ‘ Vÿ¤ Xÿ‘ Zÿ‘ «ÿ¼ ¬ÿ¼ ­ÿ¼ ®ÿ¼ ¯ÿ¼ °ÿ¼ Èÿ‘ Éÿ‘ Êÿ‘ Ëÿ‘ Ìÿ‘ Íÿ‘ Îÿ‘ Ïÿ‘ Ðÿ‘ Ñÿ‘ Òÿ‘ Øÿ‘ Ùÿ‘ Úÿ‘ Ûÿ‘ Üÿ‘ Ýÿ‘ Þÿ¤ ßÿ¤ àÿ¤ áÿ¤ âÿ‘ ãÿ‘ ÷ÿ¼ øÿ¼ ùÿ¼-ÿ‘.ÿ‘/ÿ‘0ÿ‘1ÿ‘2ÿ‘3ÿ‘6ÿ‘7ÿ‘8ÿ‘9ÿ‘:ÿ‘C Nÿ‘Oÿ‘Pÿ‘Qÿ¤Rÿ¤Sÿ¤Tÿ‘Uÿ‘Vÿ‘Wÿ‘[ÿ¤\ÿ¤]ÿ¤^ÿ¤_ÿ¤`ÿ¤aÿ‘bÿ‘f  P ÿ‘ ÿ ÿ‘ ÿ‘ ÿ‘ "ÿ¼ Bÿ‘ Dÿ‘ Fÿ‘ J  Pÿ‘ Sÿ¤ Tÿ‘ Vÿ¤ Xÿ‘ Zÿ‘ «ÿ¼ ¬ÿ¼ ­ÿ¼ ®ÿ¼ ¯ÿ¼ °ÿ¼ Èÿ‘ Éÿ‘ Êÿ‘ Ëÿ‘ Ìÿ‘ Íÿ‘ Îÿ‘ Ïÿ‘ Ðÿ‘ Ñÿ‘ Òÿ‘ Øÿ‘ Ùÿ‘ Úÿ‘ Ûÿ‘ Üÿ‘ Ýÿ‘ Þÿ¤ ßÿ¤ àÿ¤ áÿ¤ âÿ‘ ãÿ‘ ÷ÿ¼ øÿ¼ ùÿ¼-ÿ‘.ÿ‘/ÿ‘0ÿ‘1ÿ‘2ÿ‘3ÿ‘6ÿ‘7ÿ‘8ÿ‘9ÿ‘:ÿ‘C Nÿ‘Oÿ‘Pÿ‘Qÿ¤Rÿ¤Sÿ¤Tÿ‘Uÿ‘Vÿ‘Wÿ‘[ÿ¤\ÿ¤]ÿ¤^ÿ¤_ÿ¤`ÿ¤aÿ‘bÿ‘f  = ÿ¶ ÿ¶ ÿî ÿî "ÿî BÿÛ Fÿî J  Pÿî Sÿî Vÿî «ÿî ¬ÿî ­ÿî ®ÿî ¯ÿî °ÿî ÈÿÛ ÉÿÛ ÊÿÛ ËÿÛ ÌÿÛ ÍÿÛ Ïÿî Ðÿî Ñÿî Òÿî Øÿî Ùÿî Úÿî Ûÿî Üÿî Þÿî ßÿî àÿî áÿî ÷ÿî øÿî ùÿî-ÿÛ.ÿÛ/ÿÛ6ÿî7ÿî8ÿî9ÿî:ÿîC NÿîOÿîPÿîQÿîRÿîSÿî[ÿî\ÿî]ÿî^ÿî_ÿî`ÿîf  = ÿ… ÿ‘ ÿ ÿ¤ ÿ¤ "ÿ¶ Bÿ¤ Fÿ¤ Jÿù Pÿ¤ Qÿ¶ Rÿ¤ Vÿ¶ WÿÉ «ÿ¶ ¬ÿ¶ ­ÿ¶ ®ÿ¶ ¯ÿ¶ °ÿ¶ Èÿ¤ Éÿ¤ Êÿ¤ Ëÿ¤ Ìÿ¤ Íÿ¤ Ïÿ¤ Ðÿ¤ Ñÿ¤ Òÿ¤ Øÿ¤ Ùÿ¤ Úÿ¤ Ûÿ¤ Üÿ¤ Þÿ¶ ßÿ¶ àÿ¶ áÿ¶ ÷ÿ¶ øÿ¶ ùÿ¶-ÿ¤.ÿ¤/ÿ¤6ÿ¤7ÿ¤8ÿ¤9ÿ¤:ÿ¤CÿùNÿ¤Oÿ¤Pÿ¤[ÿ¶\ÿ¶]ÿ¶^ÿ¶_ÿ¶`ÿ¶fÿù % ÿ¤ ÿÉ ÿ¤ Dÿî Eÿî Fÿî O  Pÿî Rÿî Îÿî Ïÿî Ðÿî Ñÿî Òÿî ×  Øÿî Ùÿî Úÿî Ûÿî Üÿî0ÿî1ÿî2ÿî3ÿî4ÿî6ÿî7ÿî8ÿî9ÿî:ÿîJ K L M NÿîOÿîPÿî % ÿ¤ ÿÉ ÿ¤ Dÿî Eÿî Fÿî O  Pÿî Rÿî Îÿî Ïÿî Ðÿî Ñÿî Òÿî ×  Øÿî Ùÿî Úÿî Ûÿî Üÿî0ÿî1ÿî2ÿî3ÿî4ÿî6ÿî7ÿî8ÿî9ÿî:ÿîJ K L M NÿîOÿîPÿî % ÿ¤ ÿÉ ÿ¤ Dÿî Eÿî Fÿî O  Pÿî Rÿî Îÿî Ïÿî Ðÿî Ñÿî Òÿî ×  Øÿî Ùÿî Úÿî Ûÿî Üÿî0ÿî1ÿî2ÿî3ÿî4ÿî6ÿî7ÿî8ÿî9ÿî:ÿîJ K L M NÿîOÿîPÿî  ÿÉ ÿÉ  ÿ¤ ÿ¤  ÿž 5ÿ¤ 7ÿ¤ 8ÿÉ :ÿ‘ ZÿÛ Åÿ‘ Æÿ‘ âÿÛ ãÿÛ ÿ¤!ÿ¤)ÿÉ*ÿ‘bÿÛpÿ¤ P ÿ‘ ÿ ÿ‘ ÿ‘ ÿ‘ "ÿ¼ Bÿ‘ Dÿ‘ Fÿ‘ J  Pÿ‘ Sÿ¤ Tÿ‘ Vÿ¤ Xÿ‘ Zÿ‘ «ÿ¼ ¬ÿ¼ ­ÿ¼ ®ÿ¼ ¯ÿ¼ °ÿ¼ Èÿ‘ Éÿ‘ Êÿ‘ Ëÿ‘ Ìÿ‘ Íÿ‘ Îÿ‘ Ïÿ‘ Ðÿ‘ Ñÿ‘ Òÿ‘ Øÿ‘ Ùÿ‘ Úÿ‘ Ûÿ‘ Üÿ‘ Ýÿ‘ Þÿ¤ ßÿ¤ àÿ¤ áÿ¤ âÿ‘ ãÿ‘ ÷ÿ¼ øÿ¼ ùÿ¼-ÿ‘.ÿ‘/ÿ‘0ÿ‘1ÿ‘2ÿ‘3ÿ‘6ÿ‘7ÿ‘8ÿ‘9ÿ‘:ÿ‘C Nÿ‘Oÿ‘Pÿ‘Qÿ¤Rÿ¤Sÿ¤Tÿ‘Uÿ‘Vÿ‘Wÿ‘[ÿ¤\ÿ¤]ÿ¤^ÿ¤_ÿ¤`ÿ¤aÿ‘bÿ‘f   .  " ' - 1 3 5 7 8 : A G S W X Z « ¬ ­ ® ¯ ° Å Æ â ã ÷ ø ù !)*QRSabgp      
+ Àž latn   AFK  <NLD  XROM  tTRK  ’  ÿÿ           % * / 4 5  ÿÿ        ! & + 0 6  ÿÿ   	     " ' , 1 7  ÿÿ     
+     # ( - 2 8  ÿÿ        $ ) . 3 9 :    ^aaltdcaselcasetcase|case„caseŒcrcy”crcyšcrcy crcy¦crcy¬dlig²dligºdligÂdligÊdligÒdnomÚdnomàdnomædnomìdnomòdpngødpngþdpngdpng
+dpngfracfracfrac"frac(frac.liga4liga<ligaHligaRligaZlocl`loclflocllloclrloclxnumr~numr„numrŠnumrnumr–ordnœordn¢ordn¨ordn®ordn´ornmºsupsÀsupsÆsupsÌsupsÒsupsØ                                                                                                                                                       	 
+      	                                                                                               . 6 > F N V ^ n v ~ † Ž – ž ® ¶ ¾ Æ Î Ö Þ æ    ¢    ¶     °     ®    °    ²    ´ÊÞò    
+            4    Â        $6H\    `    Ü    ä    ì    ø    "    ª    Ê Ì  Î ‚ " # $ % & ' ( ) + , - . / 0 1 2 3 4 5 6 7 8 9 : ;rstvxz}w{|u Š Œ  Ž  š « ¬ ­ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Çu ÷ ø ù ú û ü ý þo ÿ 	
+ !"#$%&'()*+,egpx 4  * * *  *    (.((                              úð          øÜì       ê     m  J Ø     n  M Ì  
+   e  +  f  K ¶   ( 2 < F P Z d n x ‚ Œ  M  O  M  O  M  O  M  O  M  O  M  O  M  O  M  O  M  O  M  O  M  O  M  O <    & 0 : D   Š  &  e  +   Ž  &     F  f  K   ”  F þ     y     ˜˜ ð      æ à        Ô Þ        Â¶ ¼        ®¢ ¸       ª   $ 4 D T d t  g a  b e d å  g a  b e d å  g a  b e d å  g a  b e d å  g a  b e d å  g a  b e d å  g a  b e d å 8     c (     c   – ¤ © ‹  ‹   ƒƒ   y – ¤ © ‹  ‹ ‚€     : J V ^ n ~ Ž ž ® È â ü   h A  i w u v k l j x  g a  b e d å  n o ‰ ¦   c  g a  b e d å  g a  b e d å  g a  b e d å  g a  b e d å  g a  b e d å   h A  i w u v k l j x   h A  i w u v k l j x   h A  i w u v k l j x  g a  b e d å *   2 p     z     z  c   z        & . 6 ›    ž    ›  c  ž  c  ›   ž       £    £  c  £    ²             c     |  ‹   V   B I   K [  | „  † † " ˆ ˆ #   $ ’ ” % ¢ ¢ ( § § ) È ä * õ õ G-C HEL _Nd gff ~hh qq €yy    J ‘       c               G   * J     A h i j k l u v w x   " * 0 B J P      B         P    a b d e g å         " 0 B P    t       " 0 B P ˜ ï ò       a b d e g h | } å        B P   à533238303234373739                                                                                                                                                                                                               4D2622B11655965725F1343B74ADFB7503D1D76D6ABDDED89CC8E û,  ŠX   KŠX  ^ 26  €  ¯P  [        LINO    ûÊþâ ÈÇ Ö   ›    Ê                        ø   	 ÷                                                    h 	 
+                        ! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ | B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ] ^ _   ­ ¯ ± ² º ½ Ã È Ë É Ê Í Ì Î Ï Ò Ð Ñ Ó Ö Ô Õ × Ø Û Ù Ú Ü Þ á ß à p ¡ a b f t s • ¥ ª ™ } ƒ æ Š  ç œ è é d ˜ ê ë ì í î ‹   “ { ` — ð e ñ ò j x ym ® ° ¿ Ž ” o ‰ i w A  Ÿ ó ã Æ c å k l m n q r u v z ¬ ³ « ´ µ ¶ · ¸ ¹ » ¼ƒ ¾ Á Â Ä ‘ ~  €  ‚ „ … † ‡ ˆ ¨   l @  ,    & ' _ ` ~   £+7I~’ÇÉÝ”©¼À    " & 0 : D ¬!!"!&!.""""""""+"H"`"e%Êðö¾öÃøÿûûÿÿ        ' ( ` a   ¡ ¤.9L’ÆÉØ”©¼À      & 0 9 D ¬!!"!&!.""""""""+"H"`"d%Êðö¾öÁøÿûûÿÿk_ÿá Aÿá ÿá Íÿ¿        þÓ    þ°  ýìýØýÆý-        àSàJà2àà9àWßwßÉà;ÞèÞìÞÝ  ßj  ÞÉÞÃÞ©Þ†Þ„Û)ð
+†  „l5                    Zhzš  ü          
+                        ú  ú                ì         g d   f ƒ ª ‹ j —n ¥ € ¡ œ ¤ © } ˜ s r … –  x ž › £ { ® « ¬ ° ­ ¯ Š ± µ ² ³ ´ ¹ ¶ · ¸ š º ¾ » ¼ ¿ ½ ¨  Ä Á Â Ã Å  • Ë È É Í Ê Ì  Î Ò Ï Ð Ñ Ö Ó Ô Õ § × Û Ø Ù Ü Ú Ÿ “ á Þ ß à â ¢ ã ÷- ø. ù/ ú0 û1 ý3 ü2 þ4o5 789: ÿ6;<=>?	@
+ABC ‘efEFGIHgh Œ ’JLKMNOP Ž ”QRSTUV À Ý!Y X"Z#[$\%]&^'_(`)a*b Æ+c,d Ç äWpq ~ ˆ  ‚ „ ‡  † o ‰ A  u i w v p q t ë ¦~ ðV ô      Ý]"¥_<õ è    »í?    »ùùÐÿZÿ*Ç             Êþâ ÈWÿZÿY               „      ñ Or W, #, y Ec ' ^ ñ 3 ñÿÿ` X 1 ]r < aMÿó, ", a, $,  , , $, (, 3, %, " a ]X .X 1X . 6  /vÿù› HÀ &­ HQ H Hå &À H Þ Mô ˆ H HA FÀ Gå "v Hå "› Hv #,ÿû­ AQÿù‹  >ÿôcÿö>  ñ LMÿó ñ X ,ô   _  > < "> & " , " ; ¹ = ¹ÿâô < ¹ =A < ;, "> <> &; <á (  ;Ï å á Ï Ï M S Þ UM (X E ñ O, 6, + §ÿZ, , , -,  lr @ª < 5 I¼ ¼ ô  , 0, 0 PX Bô H ^r ?r ?ª Hè }W A 6 ¹ÿá ¹ ! ¹ÿË ¹ÿ¿ ¹ÿ¸ ¹ÿÍ ¹ ; ¹ÿâ ¹ÿò ¹ÿú ¹ÿß ¹ . ¹ÿÄè ‚‹ÿù7ÿûÿöå "2 %N f   ¹ = ¹ÿú, y $ =M #X 1 ;Þ R­  B 0X 1v HB 0X 1 Þ U 8> <B M   X 1, "X JM   vÿùvÿùvÿùvÿùvÿùvÿùÀ &Q HQ HQ HQ H Þ M ÞÿÛ Þÿõ ÞÿÚÀ Gå "å "å "å "å "v #­ A­ A­ A­ Acÿöcÿö>              " " " " " ¹ ; ¹ÿÉ ¹ÿã ¹ÿÆ ;, ", ", ", ", "á  ; ; ; ;Ï Ï Ï , Q +÷ *Q +Q +ÿ !g Ï D: * bì /øÿ÷Q  ¢ Q Y a ¹ X ^vÿùvÿùvÿùÀ &À &À &À &­ HQ HQ HQ HQ HQ Hå &å &å &å &À HÀ H ÞÿÒ ÞÿË Þ M Þ ô ˆ H H H HÀ GÀ GÀ Gå "å "å "› H› H› Hv #v #v #v #,ÿû,ÿû,ÿû­ A­ A­ A­ A­ A­ A‹  cÿö> >        " " " "… &V & " " " " ", ", ", ", " ;0   ¹ÿÀ ¹ÿ¹ ¹ÿû ¹ÿâ ¹ÿÆô < ¹ = ÿ = ¹ 2 ; ; ;+ , ", ", "; <; 2; $á á á á L ( (ÿý ; ; ; ; ; ;å Ï Ï Ï × Mu = H( =X ,ô Uô        r <­  ,ÿû(  ¹ÿá ¹ ! ¹ÿË ¹ÿÄ ¹ÿ¿ ¹ÿâ ¹ÿ¸ ¹ÿ¸ ¹ÿÍ ¹ÿò ¹ÿß ¹ ; P §ÿZ¢ ì / ;     P „     #ª        ®          ®        Ã         Ë        ë       $	       -       íB       /      	 /      
+ ®         D       D      o[       D        ®       Ê       Ñ  	  \ê  	  2F  	  x  	  @†  	  *Æ  	  Hð  	  *Æ  	 Ú	8  	  *  	 	 *  	 
+\ê  	  .<  	  .<  	 Þj  	  .<  	  *H  	  rCopyright © 1988, 1990, 1993, 2003 Linotype Library GmbH, www.linotype.com. All rights reserved. Copyright © 1988, 1990, 1993 Adobe Systems Incorporated. All Rights Reserved.Helvetica Neue LT Pro45 Light1.000;LINO;HelveticaNeueLTPro-LtHelvetica Neue LT Pro 45 LightVersion 1.000;PS 001.000;Core 1.0.38HelveticaNeueLTPro-LtHelvetica, Neue Helvetica is a trademark of Heidelberger Druckmaschinen AG which may be registered in certain jurisdictions, exclusively licensed through Linotype Library GmbH, a wholly owned subsidiary of Heidelberger Druckmaschinen AG.Linotype Library GmbHhttp://www.Linotype.comNOTIFICATION OF LICENSE AGREEMENT
+
+This typeface is the property of Heidelberger Druckmaschinen AG and its use by you is covered under the terms of a license agreement respectively font software license agreement. We are fully authorized and empowered to use and commercially exploit these intellectual property rights in their business of licensing, manufacturing and selling typefaces.
+
+You have obtained this typeface software either directly from Linotype Library GmbH or together with software distributed by one of Linotype Library’s licensees.
+
+This software is a valuable asset of the Linotype Library GmbH. Unless you have entered into a specific license agreement granting you additional rights, your use of this software is limited to your workstation(s) for your own publishing use. You may not copy or distribute this software.
+
+If you have any question concerning your rights you should review the license agreement you received with the software or contact Linotype Library GmbH for a copy of the license agreement.
+
+Linotype Library can be contacted at:
+
+Tel.: +49(6172) 484-401  or http://www.linotype.com RegularHelveticaNeueLT Pro 45 Lt C o p y r i g h t   ©   1 9 8 8 ,   1 9 9 0 ,   1 9 9 3 ,   2 0 0 3   L i n o t y p e   L i b r a r y   G m b H ,   w w w . l i n o t y p e . c o m .   A l l   r i g h t s   r e s e r v e d .   C o p y r i g h t   ©   1 9 8 8 ,   1 9 9 0 ,   1 9 9 3   A d o b e   S y s t e m s   I n c o r p o r a t e d .   A l l   R i g h t s   R e s e r v e d . H e l v e t i c a N e u e L T   P r o   4 5   L t R e g u l a r 1 . 0 0 0 ; L I N O ; H e l v e t i c a N e u e L T P r o - L t H e l v e t i c a N e u e L T P r o - L t V e r s i o n   1 . 0 0 0 ; P S   0 0 1 . 0 0 0 ; C o r e   1 . 0 . 3 8 H e l v e t i c a ,   N e u e   H e l v e t i c a   i s   a   t r a d e m a r k   o f   H e i d e l b e r g e r   D r u c k m a s c h i n e n   A G   w h i c h   m a y   b e   r e g i s t e r e d   i n   c e r t a i n   j u r i s d i c t i o n s ,   e x c l u s i v e l y   l i c e n s e d   t h r o u g h   L i n o t y p e   L i b r a r y   G m b H ,   a   w h o l l y   o w n e d   s u b s i d i a r y   o f   H e i d e l b e r g e r   D r u c k m a s c h i n e n   A G . L i n o t y p e   L i b r a r y   G m b H h t t p : / / w w w . L i n o t y p e . c o m N O T I F I C A T I O N   O F   L I C E N S E   A G R E E M E N T  
+  
+ T h i s   t y p e f a c e   i s   t h e   p r o p e r t y   o f   H e i d e l b e r g e r   D r u c k m a s c h i n e n   A G   a n d   i t s   u s e   b y   y o u   i s   c o v e r e d   u n d e r   t h e   t e r m s   o f   a   l i c e n s e   a g r e e m e n t   r e s p e c t i v e l y   f o n t   s o f t w a r e   l i c e n s e   a g r e e m e n t .   W e   a r e   f u l l y   a u t h o r i z e d   a n d   e m p o w e r e d   t o   u s e   a n d   c o m m e r c i a l l y   e x p l o i t   t h e s e   i n t e l l e c t u a l   p r o p e r t y   r i g h t s   i n   t h e i r   b u s i n e s s   o f   l i c e n s i n g ,   m a n u f a c t u r i n g   a n d   s e l l i n g   t y p e f a c e s .  
+  
+ Y o u   h a v e   o b t a i n e d   t h i s   t y p e f a c e   s o f t w a r e   e i t h e r   d i r e c t l y   f r o m   L i n o t y p e   L i b r a r y   G m b H   o r   t o g e t h e r   w i t h   s o f t w a r e   d i s t r i b u t e d   b y   o n e   o f   L i n o t y p e   L i b r a r y ’ s   l i c e n s e e s .  
+  
+ T h i s   s o f t w a r e   i s   a   v a l u a b l e   a s s e t   o f   t h e   L i n o t y p e   L i b r a r y   G m b H .   U n l e s s   y o u   h a v e   e n t e r e d   i n t o   a   s p e c i f i c   l i c e n s e   a g r e e m e n t   g r a n t i n g   y o u   a d d i t i o n a l   r i g h t s ,   y o u r   u s e   o f   t h i s   s o f t w a r e   i s   l i m i t e d   t o   y o u r   w o r k s t a t i o n ( s )   f o r   y o u r   o w n   p u b l i s h i n g   u s e .   Y o u   m a y   n o t   c o p y   o r   d i s t r i b u t e   t h i s   s o f t w a r e .  
+  
+ I f   y o u   h a v e   a n y   q u e s t i o n   c o n c e r n i n g   y o u r   r i g h t s   y o u   s h o u l d   r e v i e w   t h e   l i c e n s e   a g r e e m e n t   y o u   r e c e i v e d   w i t h   t h e   s o f t w a r e   o r   c o n t a c t   L i n o t y p e   L i b r a r y   G m b H   f o r   a   c o p y   o f   t h e   l i c e n s e   a g r e e m e n t .  
+  
+ L i n o t y p e   L i b r a r y   c a n   b e   c o n t a c t e d   a t :  
+  
+ T e l . :   + 4 9 ( 6 1 7 2 )   4 8 4 - 4 0 1     o r   h t t p : / / w w w . l i n o t y p e . c o m   H e l v e t i c a   N e u e   L T   P r o 4 5   L i g h t       ÿµ 2                              5         -0‚)	*†H†÷ ‚0‚1	0+0a
++‚7 S0Q0,
++‚7¢€ < < < O b s o l e t e > > >0!0	+ ,‚ÆØºÎs)‡öÔd€ ‚Ý0‚ÿ0‚ç é+ðÔØ)ˆ2	^švˆ0	*†H†÷ 0S10	UUS10U
+VeriSign, Inc.1+0)U"VeriSign Time Stamping Services CA0031204000000Z081203235959Z0W10	UUS10U
+VeriSign, Inc.1/0-U&VeriSign Time Stamping Services Signer0‚"0	*†H†÷ ‚ 0‚
+‚ ²P(HÝÓhz„Dfu]~Ä¸Ÿc&ÿ=Cœ|8%UsÙu'iýN¹ \Ó
+ù *íUV!aØÛä¼3kÇïÝ£7eŽ“¶S\|f5_ŠEþvNßS€¢ ®ˆ\¢÷å0ùî"7LB
+ÎßÆÄÖUé?µR£,ªzò¢ª5þŸæ]jŸ=kã¿–ÀþÌ`ù@ç DëQn¥*ò¶Š(íÜ †Pš{J0Êžk÷éX®©@™²(è¬<ãSoKÓ5µod³–,»=çyëmzùæ&­¯ï™S·@,•¸yªþÔR«)t~Bì9¢jæY»$hØ €C‡€k £Ê0Ç04+(0&0$+0†http://ocsp.verisign.com0Uÿ0 03U,0*0( & $†"http://crl.verisign.com/tss-ca.crl0U%ÿ0
++0UÿÀ0$U0¤010UTSA2048-1-540	*†H†÷ ‚ ‡xpÚNR [àyÉ‚0Äý¹–½‘ Ã½ÍÍÆôØÿùMÀ3b0ÅõtÔ’Þ_œ ±|E¾PÍƒç€ƒ§'“gFûÊ¸˜AÌ›Q[‹¨oóP$.òil"÷»Ê•ítÀhwÙë™b‡Ásø‰tz#«£˜{—±÷)qM.uHAÚðµ TÖw —‚ciý	ÏŠðu»	›ÙùU&ša2¾z°{†¾¢Ã‹",xÑ5v¼’s\ù¹æL
+#ÌäÒÔ4.I@<`z$Æ¥fï–Ïpë>çô~ÜÑ|£vqiÁœOG05!±¢¯b<+ÙŽª*{Ø³\{â¥oþ<‰­0‚Ä0‚- G¿•ßRFC÷ÛmH1¤0	*†H†÷ 0‹10	UZA10UWestern Cape10UDurbanville10U
+Thawte10UThawte Certification10UThawte Timestamping CA0031204000000Z131203235959Z0S10	UUS10U
+VeriSign, Inc.1+0)U"VeriSign Time Stamping Services CA0‚"0	*†H†÷ ‚ 0‚
+‚ ©Ê²¤ÌÍ ¯
+}‰¬‡uð´NñßÁ¿ga½£dÚ»ùÊ3«„0‰X~ŒÛkÝ6ž¿Ñìxòw¦~o<¿“¯ºhôl”Ê½R-«H=õ¶Õ]_Ÿú/k¤÷£š¦ÈáLRã`ì@~¹Þ?Ç´ß‡½_zj1.™¨G Î1sW-Íx43•™¹Þh/ªæãÂŠŒ*Ã‹!‡f½ƒXWou¿<ª&‡]Ê<Ÿ„êTÁ
+nÄþÅJÝ¹—"|Û>'ÑxìŸ1Éñæ"ÛÄ³GCš_ ä^õî|ñ}«bõMÞÐ"V¨•Í®ˆv®îºóäMÙ ûh ®;³‡Á» £Û0Ø04+(0&0$+0†http://ocsp.verisign.com0Uÿ0ÿ 0AU:0806 4 2†0http://crl.verisign.com/ThawteTimestampingCA.crl0U%0
++0Uÿ0$U0¤010UTSA2048-1-530	*†H†÷  JkùêXÂD1‰y™+–¿‚¬ÖLÍ°ŠXnß)£^ÈÊ“çRïG'/ 8°äÉ“NšÔ"b÷?7!Op1€ñ‹8‡³èè— þÏU–N$Ò©'Nz®·aAó*ÎçÉÙ^Ý»+…>µµÙáWÿ¾´Å~õÏžð—þ+Ó;R8'÷?J0‚¦0‚ m¢zé).¶ÝÀ¨ Gn;i0	*†H†÷ 0_10	UUS10U
+VeriSign, Inc.1705U.Class 3 Public Primary Certification Authority0011203000000Z111202235959Z0§10U
+VeriSign, Inc.10UVeriSign Trust Network1;09U2Terms of use at https://www.verisign.com/rpa (c)011.0,U%VeriSign Class 3 Code Signing 2001 CA0Ÿ0	*†H†÷  0‰ Äëuíç˜„›p—vb±bÁÞs?Q¦¿ Ñ)ŽìÚãƒ‰b)ÒXíÝe	<âÄÇg‹­Ü]MÅ^g–A6DºøD/³Ÿ~x²*lÈ Ù	#l(ÍÌÛnejÑén‡oe¬‡ÝF‹ ]µbKû.í,Œ¼@ÀÞNl5 £‚0‚0Uÿ0ÿ 0DU =0;09`†H†øE0*0(+https://www.verisign.com/rpa0U%0++0Uÿ0	`†H†øB 0$U0¤010UClass3CA1-120U5+ôdsœmg`kÝ<»a01U*0(0& $ "† http://crl.verisign.com/pca3.crl0	*†H†÷  "Xm:dzö`R‚í°³Ä–*Å3©to³v×„
+,d'—0º*²º™»#‡Å3‘€-7§Ü´‹Îº9”t;~¶&cp!ü9ö™oØŸ%‰$Dià”o,ç°W”‘šþ£õÝ÷÷P%$_®à“„Ö-q7Ú1ÒZÅø0‚d0‚Í ÚO\"Œ#Æ-U˜`C0	*†H†÷ 0§10U
+VeriSign, Inc.10UVeriSign Trust Network1;09U2Terms of use at https://www.verisign.com/rpa (c)011.0,U%VeriSign Class 3 Code Signing 2001 CA0040519000000Z050602235959Z0ô10	UDE10UHessen10UBad Homburg10U
+Linotype Library GmbH1>0<U5Digital ID Class 3 - Microsoft Software Validation v21>0<U5Digital ID Class 3 - Microsoft Software Validation v210ULinotype Library GmbH0Ÿ0	*†H†÷  0‰ Ô„ÔÖì3M‰‚zK.À"’!O4J·Dõ’œfä¹×ÏÍWó?ï%XÍQÐgj—èœL	¬ºîUÑÑd=/"×oÔòài\§?YY™Ÿä(ô5¯ùHs¨v%øõgy=½¦ëd®) õVeùüz{Q”~ £‚@0‚<0	U0 0Uÿ€0BU;0907 5 3†1http://crl.verisign.com/Class3CodeSigning2001.crl0DU =0;09`†H†øE0*0(+https://www.verisign.com/rpa0U%0
++04+(0&0$+0†http://ocsp.verisign.com0U#0€5+ôdsœmg`kÝ<»a0	`†H†øB0
++‚70 ÿ0	*†H†÷  ‹š£þ`.?Kªyl¢&	FZ5y4ßÞ¨?Úºüaƒœz(+ï*·ñ‘±~X˜}óx\wOæñâ P¿1ôN½¦ž‰g’e4ä%k•ëö7üodtà˜soð¸}V<	eîùîSÐÍ¯TP«®ÞØà¥Ç³#m¬c=Ø1‚À0‚¼0¼0§10U
+VeriSign, Inc.10UVeriSign Trust Network1;09U2Terms of use at https://www.verisign.com/rpa (c)011.0,U%VeriSign Class 3 Code Signing 2001 CAÚO\"Œ#Æ-U˜`C0+ ‚^0	*†H†÷	1
++‚70
++‚710
++‚70ß
++‚71Ð0Í ¯€¬ T h i s   f o n t   w a s   d i g i t a l l y   s i g n e d   b y   L i n o t p y e   L i b r a r y   G m b H   -   T h e   s o u r c e   o f   t h e   o r i g i n a l s .¡€http://www.linotype.com0	*†H†÷	1050316135456Z0#	*†H†÷	1Êr.X·ÉAöïœO½ ·ð99¸*0	*†H†÷€’ùÒ‹~p9Ì*«¢x4Ü¤ë^žØ[æ d›öÒ>µ4­ä”ã(kŸ²%ŒÐ‚ZúxÔ[Ã{õ+`ÿsJ½ã¦tºžá4KÈ&S[w+6&ç¨vä¯‹0„»yÒšó?füa¾¼‡•ÃAZ8K0’—§þo"&Y—“¡‚û0‚÷	*†H†÷	1‚è0‚ä0g0S10	UUS10U
+VeriSign, Inc.1+0)U"VeriSign Time Stamping Services CAé+ðÔØ)ˆ2	^švˆ0
+*†H†÷ Y0	*†H†÷	1	*†H†÷0	*†H†÷	1050316125458Z0	*†H†÷	1‰3~6¶[W„dArf¿í+0	*†H†÷‚ 3‚î£à2oÛ¸É|—(´
+¡d#‹óxƒ•D|´½îQ}>h‰µæÙsö²}aehk‚-bä@…©áÖRvØKE ˜zc.Á÷xësvr*vù45É9þB?Ü¹ž¾[EÆbÄýÀ²l®eXwnh¾‚ÊÄ.uP'²dcô€ñŠÚòC=¸¢@ ÓZÖâ=cÁo;
+W•ÝÝïv¯?² »»ñ OíÓõÑËtúŽ$zÄÌÞ‘=iWÀ‹šˆ7e èï8ƒ5[µîAuR‘„Ä ç9PºÂfŠ>pŽ›p/Kjû¦¥wÀR¦ê_6j=ŽP£Cì_Ñ     €A´È6A          Helvetica Neue LT Pro          &               	   game over             €D«ªbC                        VUUB                 ™™Á33@    ™™A33À    ™™A33@    ™™Á33À                         €D  cC        @   VUUB   DVUUB  ãB    	   bg divide             €D  D                        VUUB                 ™™ÁÌÌ¬@    ™™AÌÌ¬À    ™™AÌÌ¬@    ™™ÁÌÌ¬À                         €D  D        @   VUUB   DVUUB  C              ,       !       0              .       =       2       r       4              brick   "N           -       !       1              /       D       3              colli_Plane !N         *                     €?            33³?)\>  €?       -                       +                     €?    ÍÌ?    ÍÌÌ=   @ÍÌÌ=        ,               *            ÿÿÿÿ  €?  €?          €?  €?               	                                                                  +               ÿÿÿÿ  €?  €?          €?  €?                                                                                 *          Ú'          +          á'          *                                  €?  €?    +                                        À       @            *             ;           

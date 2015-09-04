@@ -155,31 +155,44 @@ public class spawn_brick : MonoBehaviour {
 				{
 					Destroy (g.gameObject);
 				}*/
-				pupcount = Random.Range(0,6);
+				pupcount = Random.Range(0,7);
 				if((i-1)%19 == 0)
 				{
 
-					if(pupcount % 3 == 0 )
+					if(pupcount % 4 == 0 )
 					{
 						g = Instantiate (Resources.Load ("Prefabs/magnet")) as GameObject;
 					}
-					else if(pupcount % 3 == 1 )
+					else if(pupcount % 4 == 1 )
 					{
 						g = Instantiate (Resources.Load ("Prefabs/Tele_main")) as GameObject;
 					}
-					else if(pupcount % 3== 2 )
+					else if(pupcount % 4 == 2 )
 					{
 						g = Instantiate (Resources.Load ("Prefabs/Rocket_inv")) as GameObject;
+					}
+					else if(pupcount % 4 == 3 )
+					{
+						g = Instantiate (Resources.Load ("Prefabs/shield")) as GameObject;
 					}
 					g.transform.Translate (0,prevy + 1.25f,-5);
 				}
 								
 				if((i%2==0) )
 				{
+					float p;
+					/*if(i%4 == 0)
+					{
+						p = prevx;
+					}
+					else{
+						p = posx;
+					}*/
+					p = prevx;
 								pup = Instantiate (Resources.Load ("Prefabs/Coin")) as GameObject;
-								pup.transform.Translate (((prevx+posx)/2),(prevy+1.25f),5);
+								pup.transform.Translate (p,(prevy+1.25f),5);
 								pup = Instantiate (Resources.Load ("Prefabs/Coin")) as GameObject;
-								pup.transform.Translate ((-(prevx+posx)/2),(prevy+1.25f), -5);
+								pup.transform.Translate (-p,(prevy+1.25f), -5);
 
 								/*g = Instantiate (Resources.Load ("Prefabs/score")) as GameObject;
 						g.transform.Translate (posx, /*transform.position.y + 7.7f prevy + 2.6f, -2);*/

@@ -12,6 +12,8 @@ public class collisions : MonoBehaviour {
 	public Text coincounter;
 	public GameObject cam = null;
 
+	public GameObject shield = null;
+
 	public Color c1;
 	public Color c2;
 	private int i=0;
@@ -21,8 +23,10 @@ public class collisions : MonoBehaviour {
 	private bool hypered = false;
 	private float curtime = 1000000f;
 	private float curtime2 = 1000000f;
-	private int co;
-	private int co2;
+	private float curtimehyp = 1000000f;
+	private float curtimeshi = 1000000f;
+	private int co = 0;
+	private int co2 = 0;
 	public GameObject controlleft;
 	public GameObject controlright;
 
@@ -68,17 +72,30 @@ public class collisions : MonoBehaviour {
 								//GetComponent<Rigidbody2D> ().AddForce (Vector2.right * -7000f);
 				GetComponent<Rigidbody2D>().velocity = new Vector2(-GetComponent<Rigidbody2D>().velocity.x,GetComponent<Rigidbody2D>().velocity.y);
 						}
-				
-						if (this.GetComponent<Rigidbody2D> ().velocity.y <= 0 && hypered) {
-								c.isTrigger = false;
-				ballref.gameObject.GetComponent <TrailRenderer> ().enabled = false;
-								hypered = false;
-						}
+			GetComponent<Rigidbody2D> ().velocity = new Vector2(GetComponent<Rigidbody2D> ().velocity.x,20);
+			Debug.Log((Time.time - curtimehyp).ToString());
+
+			if (Time.time - curtimehyp >= 2.0f) {
+				GetComponent<Rigidbody2D> ().velocity = new Vector2(GetComponent<Rigidbody2D> ().velocity.x,GetComponent<Rigidbody2D> ().velocity.y/2);
+				hypered = false;
+				curtimehyp = 1000000f;
+			}
+				}
+		if (this.GetComponent<Rigidbody2D> ().velocity.y <= 0) {
+			c.isTrigger = false;
+			ballref.gameObject.GetComponent <TrailRenderer> ().enabled = false;
+			
+		}
+			//GetComponent<Rigidbody2D> ().velocity = new Vector2(GetComponent<Rigidbody2D> ().velocity.x,10);
+			if (Time.time - curtimeshi >= 10.0f) {
+			shield.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+			shield.gameObject.GetComponent<MeshRenderer>().enabled = false;
+			curtimeshi = 1000000f;
 				}
 		co++;
 			if(Time.time-curtime >= 7)
 			{
-					if(co%10!=0){
+					if(co%2==0){
 				this.gameObject.GetComponent<MeshRenderer>().enabled = false;
 			}
 			else{
@@ -88,7 +105,7 @@ public class collisions : MonoBehaviour {
 		co2++;
 		if(Time.time-curtime2 >= 7)
 		{
-			if(co2%10!=0){
+			if(co2%2==0){
 				maghalo.gameObject.GetComponent<MeshRenderer>().enabled = false;
 			}
 			else{
@@ -171,6 +188,14 @@ public class collisions : MonoBehaviour {
 			Activatepupmag();
 			Destroy(col.gameObject);
 				}
+		if (col.gameObject.tag == "pupshield") {
+			shield.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+			shield.gameObject.GetComponent<MeshRenderer>().enabled = true;
+			GameObject halo2 = Instantiate(Resources.Load("Prefabs/halocontrol")) as GameObject;
+			halo2.transform.Translate(-transform.position.x,transform.position.y,transform.position.z);
+			curtimeshi = Time.time;
+			Destroy(col.gameObject);
+				}
 
 		if (score == 10) {
 			Social.ReportProgress("CgkI1OiZi54dEAIQAA", 100.0f,(bool success) =>{
@@ -228,7 +253,7 @@ public class collisions : MonoBehaviour {
 		ballref.gameObject.GetComponent <TrailRenderer> ().time = 0.5f;
 		//beforepup = cam.transform.position.y;
 		ballref.gameObject.GetComponent <TrailRenderer>().enabled = true;
-		GetComponent<Rigidbody2D>().AddForce( Vector2.up * 10000);
+		curtimehyp = Time.time;
 		/*for(int i =0;i<1000;i++)
 		{
 			Debug.Log(Time.time);
