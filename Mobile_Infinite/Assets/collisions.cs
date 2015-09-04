@@ -5,7 +5,6 @@ using System.Collections;
 public class collisions : MonoBehaviour {
 	public Color trailcolor;
 	public float height;
-	public GameObject g;
 	public GameObject ballref;
 	private int score;
 	public Text st;
@@ -39,8 +38,6 @@ public class collisions : MonoBehaviour {
 		PlayerPrefs.SetInt("COINCOUNT",0);
 		i = 0;
 		st.color = c1;
-		Physics2D.IgnoreCollision (GetComponent<Collider2D>(), g.GetComponent<Collider2D>());
-		//transform.Translate (0.17f, 0, 0);
 	}
 	void Update()
 	{	
@@ -81,10 +78,10 @@ public class collisions : MonoBehaviour {
 				curtimehyp = 1000000f;
 			}
 				}
-		if (this.GetComponent<Rigidbody2D> ().velocity.y <= 0) {
+		if (this.GetComponent<Rigidbody2D> ().velocity.y <= 0 && !hypered) {
 			c.isTrigger = false;
 			ballref.gameObject.GetComponent <TrailRenderer> ().enabled = false;
-			
+			//this.GetComponent<MeshRenderer>().enabled = true;
 		}
 			//GetComponent<Rigidbody2D> ().velocity = new Vector2(GetComponent<Rigidbody2D> ().velocity.x,10);
 			if (Time.time - curtimeshi >= 10.0f) {
@@ -117,8 +114,7 @@ public class collisions : MonoBehaviour {
 			{
 			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
 			ballref.gameObject.GetComponent<MeshRenderer>().enabled = true;
-				curtime = 1000000f;
-			//this.gameObject.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0,0);
+			curtime = 1000000f;
 			GameObject halo1 = Instantiate(Resources.Load("Prefabs/halocontrol")) as GameObject;
 			halo1.transform.Translate(transform.position.x,transform.position.y,transform.position.z);
 			GameObject halo2 = Instantiate(Resources.Load("Prefabs/halocontrol")) as GameObject;
@@ -136,15 +132,12 @@ public class collisions : MonoBehaviour {
 		}
 	void OnCollisionEnter2D(Collision2D col)
 	{
-		//t = transform.position
 		if (col.gameObject.tag == "wall") {
 						GetComponent<Rigidbody2D>().AddForce (Vector2.right * -1);
 				} 
 		if (col.gameObject.tag == "brick" || col.gameObject.tag == "updown") {
 			GetComponent<AudioSource>().Play ();
 		} 
-		/*GameObject halo = Instantiate(Resources.Load("Prefabs/halocontrol")) as GameObject;
-		halo.transform.Translate(-transform.position.x,transform.position.y,transform.position.z);*/
 	}
 	void OnCollisionStay2D(Collision2D col)
 	{
@@ -153,31 +146,14 @@ public class collisions : MonoBehaviour {
 			//transform.Translate(0,height,0);
 			//rigidbody2D.position += (Vector2.up * height );
 			GetComponent<Rigidbody2D>().AddForce( Vector2.up * height * 55);
-
-		}
-
+			}
 	}
 	void OnTriggerEnter2D(Collider2D col)
 	{
-				/*if (col.gameObject.tag == "score") {
-						Destroy (col.gameObject);
-						score++;
-						//Debug.Log (score);
-				}*/
-		/*if (col.gameObject.tag == "coin") {
-			coincount++;
-			//coincount++;
-			coincounter.text = coincount.ToString();
-			Destroy(col.gameObject);
-		}*/
 		if (col.gameObject.tag == "puphyper") {
 			GameObject halo = Instantiate(Resources.Load("Prefabs/halocontrol")) as GameObject;
 			halo.transform.Translate(-transform.position.x,transform.position.y,transform.position.z);
 			Activatepuphyper();
-			/*for(int i=0;i<1000;i++)
-			{
-				Debug.Log("waiting"+i.ToString());
-			}*/
 			Destroy(col.gameObject,0);
 		}
 		if (col.gameObject.tag == "puptele") {
@@ -251,23 +227,13 @@ public class collisions : MonoBehaviour {
 		ballref.gameObject.GetComponent <TrailRenderer> ().startWidth = 0.7f;
 		ballref.gameObject.GetComponent <TrailRenderer> ().endWidth = 0.7f;
 		ballref.gameObject.GetComponent <TrailRenderer> ().time = 0.5f;
-		//beforepup = cam.transform.position.y;
 		ballref.gameObject.GetComponent <TrailRenderer>().enabled = true;
 		curtimehyp = Time.time;
-		/*for(int i =0;i<1000;i++)
-		{
-			Debug.Log(Time.time);
-		}*/
-
-		//this.gameObject.GetComponent<TrailRenderer>
 	}
 	public void Activatepuptele()
 	{
 		this.gameObject.GetComponent<MeshRenderer>().enabled = true;
 		ballref.gameObject.GetComponent<MeshRenderer>().enabled = false;
-		//GetComponent<Rigidbody2D>().AddForce( Vector2.up * 2000f);
-		//this.gameObject.GetComponent<Collider2D> ().isTrigger = true;
-		//this.transform.position = new Vector3(this.transform.position.x,this.transform.position.y + 3.0f,this.transform.position.z);
 		GetComponent<Rigidbody2D> ().velocity = new Vector2 (-GetComponent<Rigidbody2D> ().velocity.x,GetComponent<Rigidbody2D> ().velocity.y);
 		GameObject halo = Instantiate(Resources.Load("Prefabs/halocontrol")) as GameObject;
 		halo.transform.Translate(transform.position.x,transform.position.y,transform.position.z);
@@ -285,6 +251,5 @@ public class collisions : MonoBehaviour {
 		magged = true;
 		maghalo.gameObject.GetComponent<MeshRenderer> ().enabled = true;
 		curtime2 = Time.time;
-		//Debug.Log("FU");
 	}
 }
