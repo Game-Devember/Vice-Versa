@@ -68,7 +68,7 @@ public class gameover : MonoBehaviour {
 			textdisp.color = Color.Lerp(textdisp.color,best_c,Time.deltaTime);
 			cointext.color = Color.Lerp(cointext.color,best_c,Time.deltaTime);
 			//coindisp.GetComponent<Renderer>().material.color = Color.Lerp (c1,best_c,Time.deltaTime);
-			Debug.Log((Time.time-curtime).ToString());
+			//Debug.Log((Time.time-curtime).ToString());
 			if(Time.time - curtime >= 0 && Time.time - curtime < 3.0f)//Vector3.Distance(coindisp.transform.position,new Vector3(2.736585f,3.568293f,-8.297561f)) >= 1)
 			{
 				coindisp.GetComponent<Rigidbody2D> ().velocity = ((new Vector3(56.1f,-19.1f,-6.1f) - new Vector3(158,89.7f,25f)).normalized) * 10;

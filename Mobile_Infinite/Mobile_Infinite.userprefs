@@ -1,13 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\spawn_brick.cs">
     <Files>
-      <File FileName="Mobile_Infinite.sln" Line="1" Column="1" />
-      <File FileName="Assets\spawn_brick.cs" Line="116" Column="19" />
+      <File FileName="Assets\spawn_brick.cs" Line="169" Column="6" />
       <File FileName="Assets\color_changer.cs" Line="1" Column="1" />
-      <File FileName="Assets\collisions.cs" Line="81" Column="68" />
+      <File FileName="Assets\collisions.cs" Line="218" Column="3" />
       <File FileName="Assets\Control.cs" Line="1" Column="1" />
-      <File FileName="Assets\gameover.cs" Line="1" Column="1" />
+      <File FileName="Assets\gameover.cs" Line="71" Column="6" />
       <File FileName="Assets\magnet.cs" Line="1" Column="1" />
       <File FileName="Assets\menu_exit_control.cs" Line="1" Column="1" />
       <File FileName="Assets\cammove.cs" Line="1" Column="1" />

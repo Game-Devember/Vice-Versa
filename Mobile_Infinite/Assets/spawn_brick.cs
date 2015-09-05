@@ -165,8 +165,9 @@ public class spawn_brick : MonoBehaviour {
 				pupcount = Random.Range(0,7);
 				if((i-1)%19 == 0)
 				{
+					g = Instantiate (Resources.Load ("Prefabs/magnet")) as GameObject;
 
-					if(pupcount % 4 == 0 )
+					/*if(pupcount % 4 == 0 )
 					{
 						g = Instantiate (Resources.Load ("Prefabs/magnet")) as GameObject;
 					}
@@ -181,7 +182,7 @@ public class spawn_brick : MonoBehaviour {
 					else if(pupcount % 4 == 3 )
 					{
 						g = Instantiate (Resources.Load ("Prefabs/shield")) as GameObject;
-					}
+					}*/
 					g.transform.Translate (0,prevy + 1.25f,-5);
 				}
 								

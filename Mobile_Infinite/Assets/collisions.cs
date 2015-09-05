@@ -113,7 +113,9 @@ public class collisions : MonoBehaviour {
 			if(Time.time-curtime >= 10.0f)
 			{
 			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+			this.gameObject.GetComponent<TrailRenderer> ().enabled = false;
 			ballref.gameObject.GetComponent<MeshRenderer>().enabled = true;
+			ballref.transform.FindChild("halocontrol").gameObject.GetComponent<TrailRenderer>().enabled = true;
 			curtime = 1000000f;
 			GameObject halo1 = Instantiate(Resources.Load("Prefabs/halocontrol")) as GameObject;
 			halo1.transform.Translate(transform.position.x,transform.position.y,transform.position.z);
@@ -233,7 +235,9 @@ public class collisions : MonoBehaviour {
 	public void Activatepuptele()
 	{
 		this.gameObject.GetComponent<MeshRenderer>().enabled = true;
+		this.gameObject.GetComponent<TrailRenderer> ().enabled = true;
 		ballref.gameObject.GetComponent<MeshRenderer>().enabled = false;
+		ballref.transform.FindChild("halocontrol").gameObject.GetComponent<TrailRenderer>().enabled = false;
 		GetComponent<Rigidbody2D> ().velocity = new Vector2 (-GetComponent<Rigidbody2D> ().velocity.x,GetComponent<Rigidbody2D> ().velocity.y);
 		GameObject halo = Instantiate(Resources.Load("Prefabs/halocontrol")) as GameObject;
 		halo.transform.Translate(transform.position.x,transform.position.y,transform.position.z);
