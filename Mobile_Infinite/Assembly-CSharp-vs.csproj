@@ -203,9 +203,9 @@
      <Compile Include="Assets\cammove.cs" />
      <Compile Include="Assets\collisions.cs" />
      <Compile Include="Assets\color_changer.cs" />
+     <Compile Include="Assets\continue_control.cs" />
      <Compile Include="Assets\copyTrans.cs" />
      <Compile Include="Assets\end_menu_control.cs" />
-     <Compile Include="Assets\exit_control.cs" />
      <Compile Include="Assets\fadeout.cs" />
      <Compile Include="Assets\gameover.cs" />
      <Compile Include="Assets\halobehave.cs" />
@@ -216,6 +216,7 @@
      <Compile Include="Assets\menu_control.cs" />
      <Compile Include="Assets\menu_exit_control.cs" />
      <Compile Include="Assets\pause_control.cs" />
+     <Compile Include="Assets\retry_control.cs" />
      <Compile Include="Assets\rotate.cs" />
      <Compile Include="Assets\setting_control.cs" />
      <Compile Include="Assets\signin_control.cs" />

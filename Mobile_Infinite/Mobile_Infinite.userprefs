@@ -1,21 +1,21 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\spawn_brick.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\brickbehave.cs">
     <Files>
-      <File FileName="Assets\spawn_brick.cs" Line="169" Column="6" />
-      <File FileName="Assets\color_changer.cs" Line="1" Column="1" />
-      <File FileName="Assets\collisions.cs" Line="218" Column="3" />
-      <File FileName="Assets\Control.cs" Line="1" Column="1" />
-      <File FileName="Assets\gameover.cs" Line="71" Column="6" />
-      <File FileName="Assets\magnet.cs" Line="1" Column="1" />
-      <File FileName="Assets\menu_exit_control.cs" Line="1" Column="1" />
+      <File FileName="Assets\spawn_brick.cs" Line="31" Column="18" />
+      <File FileName="Assets\collisions.cs" Line="43" Column="49" />
+      <File FileName="Assets\gameover.cs" Line="104" Column="38" />
       <File FileName="Assets\cammove.cs" Line="1" Column="1" />
-      <File FileName="Assets\splashcolor.cs" Line="1" Column="1" />
+      <File FileName="Assets\splashcolor.cs" Line="1" Column="2" />
       <File FileName="Assets\visitus.cs" Line="1" Column="1" />
       <File FileName="Assets\LookAtBall.cs" Line="1" Column="1" />
       <File FileName="Assets\PortalCopyRot.cs" Line="1" Column="1" />
       <File FileName="Assets\copyTrans.cs" Line="1" Column="1" />
-      <File FileName="Assets\ach_control.cs" Line="1" Column="1" />
+      <File FileName="Assets\ach_control.cs" Line="23" Column="45" />
+      <File FileName="Assets\continue_control.cs" Line="20" Column="40" />
+      <File FileName="Assets\retry_control.cs" Line="15" Column="1" />
+      <File FileName="Assets\menu_control.cs" Line="8" Column="43" />
+      <File FileName="Assets\brickbehave.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

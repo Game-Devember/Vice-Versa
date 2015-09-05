@@ -35,12 +35,4 @@ public class rotate : MonoBehaviour {
 			coincount = 0;
 				}
 	}
-	/*void OnTriggerEnter2D(Collider2D c)
-	{
-		//Destroy(this.gameObject);
-		if (c.gameObject.tag == "ballref") {
-			Debug.Log("hhhhhhhhhhhhhh");
-
-				}
-	}*/
 }

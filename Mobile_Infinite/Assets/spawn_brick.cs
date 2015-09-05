@@ -23,19 +23,17 @@ public class spawn_brick : MonoBehaviour {
 		g = Instantiate (Resources.Load ("Prefabs/brick")) as GameObject;
 		g.transform.Translate (posx, 5.5f, -5);
 		gref.transform.Translate (-posx, 5.5f, -5);
-
-		/*g = Instantiate (Resources.Load ("Prefabs/score")) as GameObject;
-		g.transform.Translate (posx, 5.6f, -2);*/
-
-		posx = Random.Range (5f, 7.3f);
+		//posx = Random.Range (5f, 7.3f);
+		posx = 6.43f - Random.Range (-0.5f,0.5f);
 		g = Instantiate (Resources.Load ("Prefabs/brick")) as GameObject;
 		g.transform.Translate (posx, 8f, -5);
 		gref2.transform.Translate (-posx, 8f, -5);
-
-		/*g = Instantiate (Resources.Load ("Prefabs/score")) as GameObject;
-		g.transform.Translate (posx, 8.1f, -2);*/
-		prevplace = 5;
+		
+		if (PlayerPrefs.GetInt ("CONTINUEINDEX") > 0) {
+			ball.transform.position = new Vector3(posx,9.25f,-5);
+		}
 		prevx = posx;
+		prevplace = 5;
 		prevy = 8f;
 	}
 	// Update is called once per frame
@@ -51,8 +49,6 @@ public class spawn_brick : MonoBehaviour {
 		if (Application.platform == RuntimePlatform.Android) {
 						if (Input.GetKey (KeyCode.Escape)) {
 								Application.LoadLevel ("main_menu");
-								// OR Application.Quit();
-				
 								return;
 						}
 				}
@@ -165,9 +161,7 @@ public class spawn_brick : MonoBehaviour {
 				pupcount = Random.Range(0,7);
 				if((i-1)%19 == 0)
 				{
-					g = Instantiate (Resources.Load ("Prefabs/magnet")) as GameObject;
-
-					/*if(pupcount % 4 == 0 )
+					if(pupcount % 4 == 0 )
 					{
 						g = Instantiate (Resources.Load ("Prefabs/magnet")) as GameObject;
 					}
@@ -182,7 +176,7 @@ public class spawn_brick : MonoBehaviour {
 					else if(pupcount % 4 == 3 )
 					{
 						g = Instantiate (Resources.Load ("Prefabs/shield")) as GameObject;
-					}*/
+					}
 					g.transform.Translate (0,prevy + 1.25f,-5);
 				}
 								

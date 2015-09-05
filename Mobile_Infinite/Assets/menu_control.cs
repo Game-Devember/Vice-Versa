@@ -5,6 +5,7 @@ public class menu_control : MonoBehaviour {
 	public GUIText bst;
 	void Start()
 	{
+		PlayerPrefs.SetInt ("CONTINUEINDEX", 0);
 		bst.GetComponent<GUIText>().text = ("BEST: " + PlayerPrefs.GetInt ("HIGHSCORE").ToString());
 	}
 	void Update()

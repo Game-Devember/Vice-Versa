@@ -29,6 +29,7 @@ public class collisions : MonoBehaviour {
 	public GameObject controlleft;
 	public GameObject controlright;
 
+	private int prevscore;
 	public GameObject maghalo;
 	public bool magged = false;
 
@@ -38,6 +39,12 @@ public class collisions : MonoBehaviour {
 		PlayerPrefs.SetInt("COINCOUNT",0);
 		i = 0;
 		st.color = c1;
+		if (PlayerPrefs.GetInt ("CONTINUEINDEX") > 0) {
+			prevscore = PlayerPrefs.GetInt("PREVSCORE")-9;
+				}
+		else if(PlayerPrefs.GetInt ("CONTINUEINDEX") == 0) {
+			prevscore=0;
+				}
 	}
 	void Update()
 	{	
@@ -52,7 +59,7 @@ public class collisions : MonoBehaviour {
 								st.color = c2;
 						}
 				}
-		st.text = score.ToString ();
+		st.text = (score+prevscore).ToString ();
 				if (hypered) {
 						float c1 = ballref.gameObject.GetComponent <TrailRenderer> ().startWidth;
 						ballref.gameObject.GetComponent <TrailRenderer> ().startWidth = Mathf.Lerp(c1,0,Time.deltaTime*0.5f);
@@ -218,7 +225,7 @@ public class collisions : MonoBehaviour {
 	}
 	public int retscore()
 	{
-		return score;
+		return (score+prevscore);
 	}
 
 	public void Activatepuphyper()

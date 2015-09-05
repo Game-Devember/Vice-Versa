@@ -13,12 +13,14 @@ public class ach_control : MonoBehaviour {
 	{
 		if (Application.platform == RuntimePlatform.WindowsEditor) {
 						if (Input.GetKey (KeyCode.Escape)) {
+				PlayerPrefs.SetInt ("CONTINUEINDEX", 0);
 								Application.Quit();
 								return;
 						}
 				}
 		if (Application.platform == RuntimePlatform.Android) {
 			if (Input.GetKey (KeyCode.Escape)) {
+				PlayerPrefs.SetInt ("CONTINUEINDEX", 0);
 				Application.Quit ();
 				return;
 			}
