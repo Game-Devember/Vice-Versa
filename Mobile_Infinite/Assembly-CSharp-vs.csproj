@@ -204,6 +204,9 @@
      <Compile Include="Assets\collisions.cs" />
      <Compile Include="Assets\color_changer.cs" />
      <Compile Include="Assets\continue_control.cs" />
+     <Compile Include="Assets\continue_no.cs" />
+     <Compile Include="Assets\continue_yes.cs" />
+     <Compile Include="Assets\control_gameoverback.cs" />
      <Compile Include="Assets\copyTrans.cs" />
      <Compile Include="Assets\end_menu_control.cs" />
      <Compile Include="Assets\fadeout.cs" />

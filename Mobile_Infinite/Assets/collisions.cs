@@ -69,11 +69,11 @@ public class collisions : MonoBehaviour {
 						ballref.gameObject.GetComponent<TrailRenderer>().time = Mathf.Lerp(c3,0,Time.deltaTime);
 
 						if (/*this.transform.position.x > 0 && */this.transform.position.x < 0.55f) {
-								//GetComponent<Rigidbody2D> ().AddForce (Vector2.right * 7000f);
+								GetComponent<Rigidbody2D> ().AddForce (Vector2.right * 1400f);
 				GetComponent<Rigidbody2D>().velocity = new Vector2(-GetComponent<Rigidbody2D>().velocity.x,GetComponent<Rigidbody2D>().velocity.y);
 						}
 						if (this.transform.position.x > 7.7f /*&& this.transform.position.x < 8.2f*/) {
-								//GetComponent<Rigidbody2D> ().AddForce (Vector2.right * -7000f);
+								GetComponent<Rigidbody2D> ().AddForce (Vector2.right * -1400f);
 				GetComponent<Rigidbody2D>().velocity = new Vector2(-GetComponent<Rigidbody2D>().velocity.x,GetComponent<Rigidbody2D>().velocity.y);
 						}
 			GetComponent<Rigidbody2D> ().velocity = new Vector2(GetComponent<Rigidbody2D> ().velocity.x,20);
@@ -82,11 +82,11 @@ public class collisions : MonoBehaviour {
 			if (Time.time - curtimehyp >= 2.0f) {
 				GetComponent<Rigidbody2D> ().velocity = new Vector2(GetComponent<Rigidbody2D> ().velocity.x,GetComponent<Rigidbody2D> ().velocity.y/2);
 				hypered = false;
+				c.isTrigger = false;
 				curtimehyp = 1000000f;
 			}
 				}
 		if (this.GetComponent<Rigidbody2D> ().velocity.y <= 0 && !hypered) {
-			c.isTrigger = false;
 			ballref.gameObject.GetComponent <TrailRenderer> ().enabled = false;
 			//this.GetComponent<MeshRenderer>().enabled = true;
 		}

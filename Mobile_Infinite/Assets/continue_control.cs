@@ -1,25 +1,26 @@
-﻿using UnityEngine;
+﻿using UnityEngine.UI;
+using UnityEngine;
 using System.Collections;
 
 public class continue_control : MonoBehaviour {
-	public int continuecost ;
-	private int newcount;
-	// Use this for initialization
+	public Text costtext;
+	
+	public Color c1;
+	public Color c2;
+
+	public GameObject dialog;
+
 	void Start()
 	{
-		newcount = 0;
-		//PlayerPrefs.SetInt ("CONTINUEINDEX", 0);
-		//PlayerPrefs.SetInt ("TOTALCOINS",500);
+		costtext.color = c1;
+
 	}
 	void OnTouchDown()
 	{
+		dialog.transform.Translate (0,8,0);
 		int c = PlayerPrefs.GetInt("CONTINUEINDEX");
-		PlayerPrefs.SetInt ("CONTINUEINDEX", c + 1);
-		newcount = (PlayerPrefs.GetInt ("TOTALCOINS") - ((c + 1) * continuecost));
-		if (newcount >= 0) {
-			PlayerPrefs.SetInt ("TOTALCOINS",newcount);
-			Application.LoadLevel ("Level");
-			Destroy(gameObject);
-				}
+		costtext.text = ((c + 1) * 50).ToString();
+		costtext.color = c2;
+
 	}
 }
