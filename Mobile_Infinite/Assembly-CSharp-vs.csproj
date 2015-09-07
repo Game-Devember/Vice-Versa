@@ -203,6 +203,7 @@
      <Compile Include="Assets\cammove.cs" />
      <Compile Include="Assets\collisions.cs" />
      <Compile Include="Assets\color_changer.cs" />
+     <Compile Include="Assets\colorchanger.cs" />
      <Compile Include="Assets\continue_control.cs" />
      <Compile Include="Assets\continue_no.cs" />
      <Compile Include="Assets\continue_yes.cs" />
