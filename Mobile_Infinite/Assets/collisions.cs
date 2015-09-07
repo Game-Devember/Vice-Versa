@@ -32,10 +32,13 @@ public class collisions : MonoBehaviour {
 	private int prevscore;
 	public GameObject maghalo;
 	public bool magged = false;
-
+	private Material mat;
+	private Material mat2;
 	//private Transform t;
 	void Start()
 	{
+		mat = gameObject.GetComponent<MeshRenderer> ().material;
+		mat2 = maghalo.gameObject.GetComponent<MeshRenderer> ().material;
 		PlayerPrefs.SetInt("COINCOUNT",0);
 		i = 0;
 		st.color = c1;
@@ -76,10 +79,10 @@ public class collisions : MonoBehaviour {
 								GetComponent<Rigidbody2D> ().AddForce (Vector2.right * -1400f);
 				GetComponent<Rigidbody2D>().velocity = new Vector2(-GetComponent<Rigidbody2D>().velocity.x,GetComponent<Rigidbody2D>().velocity.y);
 						}
-			GetComponent<Rigidbody2D> ().velocity = new Vector2(GetComponent<Rigidbody2D> ().velocity.x,20);
-			Debug.Log((Time.time - curtimehyp).ToString());
+			GetComponent<Rigidbody2D> ().velocity = new Vector2(GetComponent<Rigidbody2D> ().velocity.x,35);
+			//Debug.Log((Time.time - curtimehyp).ToString());
 
-			if (Time.time - curtimehyp >= 2.0f) {
+			if (Time.time - curtimehyp >= 1f) {
 				GetComponent<Rigidbody2D> ().velocity = new Vector2(GetComponent<Rigidbody2D> ().velocity.x,GetComponent<Rigidbody2D> ().velocity.y/2);
 				hypered = false;
 				c.isTrigger = false;
@@ -96,25 +99,16 @@ public class collisions : MonoBehaviour {
 			shield.gameObject.GetComponent<MeshRenderer>().enabled = false;
 			curtimeshi = 1000000f;
 				}
-		co++;
-			if(Time.time-curtime >= 7)
-			{
-					if(co%2==0){
-				this.gameObject.GetComponent<MeshRenderer>().enabled = false;
-			}
-			else{
-				this.gameObject.GetComponent<MeshRenderer>().enabled = true;
-			}
-			}
-		co2++;
-		if(Time.time-curtime2 >= 7)
+		//co++;
+		if(Time.time-curtime >= 8)
 		{
-			if(co2%2==0){
-				maghalo.gameObject.GetComponent<MeshRenderer>().enabled = false;
-			}
-			else{
-				maghalo.gameObject.GetComponent<MeshRenderer>().enabled = true;
-			}
+			mat.color = Color.Lerp(mat.color,c1,Time.deltaTime*2);
+		}
+			
+		//	co2++;
+		if(Time.time-curtime2 >= 8)
+		{
+			mat2.color = Color.Lerp(mat2.color,c1,Time.deltaTime*2);
 		}
 
 			if(Time.time-curtime >= 10.0f)

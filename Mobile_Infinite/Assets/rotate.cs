@@ -7,6 +7,7 @@ public class rotate : MonoBehaviour {
 	public float rot;
 	//public GUIText coincounter;
 	private static int coincount = 0;
+	public bool distenable = true;
 	private float d;
 	void Start()
 	{
@@ -15,7 +16,9 @@ public class rotate : MonoBehaviour {
 	}
 	void Update () {
 		this.transform.Rotate(new Vector3(0,rot,0));
-		d = Vector3.Distance (this.transform.position, ballref.transform.position);
+		if (distenable) {
+						d = Vector3.Distance (this.transform.position, ballref.transform.position);
+				}
 		//Debug.Log (d.ToString ());
 
 		if (d <= c) {

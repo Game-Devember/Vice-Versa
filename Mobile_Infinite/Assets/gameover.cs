@@ -27,7 +27,7 @@ public class gameover : MonoBehaviour {
 
 	private Material mat;
 	private Material mat2;
-	private bool i=false;
+	public bool i=false;
 
 	private int c=0;
 	public collisions co;
@@ -80,18 +80,23 @@ public class gameover : MonoBehaviour {
 				coindisp.GetComponent<Rigidbody2D> ().velocity = new Vector3(0,0,0);
 			}
 
-			if(cam.transform.position.y>ballref.transform.position.y+0.8f){
+			/*if(cam.transform.position.y>ballref.transform.position.y+0.8f){
 			cam.transform.position += new Vector3 (0, -0.1f, 0);
-			}
+			}*/
+			/*ball.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(0,0,0);
+			ball.gameObject.GetComponent<Rigidbody2D>().mass = 0;*/
+			ball.transform.Translate(10,0,0);
 			}
 	}
-	void OnCollisionStay2D(Collision2D col)
+	void OnCollisionEnter2D(Collision2D col)
 	{
 		if (col.gameObject.tag == "Hero") {
 			//Time.timeScale = Mathf.Lerp(Time.timeScale,0.4f,1);
 			curtime = Time.time;
 			//Debug.Log("GameOver!");
-			Destroy(ball.gameObject);
+			//Destroy(ball.gameObject);
+			//GetComponent<collisions>().enabled= false;
+
 			Destroy(halo.gameObject);
 			//shatter = Instantiate(Resources.Load("Prefabs/ball_shatter")) as GameObject;
 			//shatter.transform.Translate(ballref.transform.position.x,ballref.transform.position.y-1f,-3f);

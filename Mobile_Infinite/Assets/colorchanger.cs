@@ -4,51 +4,50 @@ using System.Collections;
 
 public class colorchanger : MonoBehaviour {
 	public Color[] c;
-	public Color c1;
-	/*public Color c2;
-	public Color c3;
-	public Color c4;
-	public Color c5;*/
-	private GameObject[] G;
-	private GameObject[] bricks;
-	private GameObject scoretext ;
+	//public Color c1;
+	private GameObject[] G = null;
+	private GameObject[] bricks = null;
+	public Text[] GOtext = null;
 	private Material mat;
-	private int index=0;
-	private float curtime;
-	// Use this for initialization
+	private int index;
+	public GameObject GO;
 	void Start () {
-		scoretext = GameObject.FindGameObjectWithTag ("scoretext");
+		index = PlayerPrefs.GetInt ("THEME");
+		index++;
+		if (index >= c.Length) {
+			index=0;
+		}
+
 		G = GameObject.FindGameObjectsWithTag ("colorchangers");
 		bricks = GameObject.FindGameObjectsWithTag ("colorchangers2");
 
 		foreach (GameObject go in G) {
-						go.GetComponent<SpriteRenderer> ().color = c1;
+						go.GetComponent<SpriteRenderer> ().color = c[index];
 				}
 		foreach( GameObject go in bricks)
 		{
-			go.GetComponent<MeshRenderer> ().material.color = c1;
+			go.GetComponent<MeshRenderer> ().material.color = c[index];
 		}
-		curtime = Time.time;
-			}
+
+		PlayerPrefs.SetInt("THEME",index);
+	}
 	
-	// Update is called once per frame
 	void Update () {
 		bricks = GameObject.FindGameObjectsWithTag ("colorchangers2");
-		if (index >= c.Length) {
-			index=0;
+		if (GO.GetComponent<gameover> ().i) {
+			foreach(Text t in GOtext)
+			{
+				t.color = Color.Lerp(t.color,c [index],Time.deltaTime);
+			}
 				}
-
 		foreach( GameObject go in G)
 		{
 			go.GetComponent<SpriteRenderer> ().color= Color.Lerp(go.GetComponent<SpriteRenderer> ().color,c[index],Time.deltaTime/3);
 		}
 		foreach( GameObject go in bricks)
 		{
-			go.GetComponent<MeshRenderer> ().material.color= Color.Lerp(go.GetComponent<MeshRenderer> ().material.color,c[index],Time.deltaTime);
+			go.GetComponent<MeshRenderer> ().material.color= Color.Lerp(go.GetComponent<MeshRenderer> ().material.color,c[index],Time.deltaTime*2);
 		}
-		if (Time.time - curtime >= 15 ) {
-			index++;
-			curtime = Time.time;
 				}
 	}
-}
+
