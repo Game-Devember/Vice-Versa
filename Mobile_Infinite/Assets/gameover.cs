@@ -4,6 +4,7 @@ using System.Collections;
 
 public class gameover : MonoBehaviour {
 	public GameObject ball;
+	public GameObject g1=null;
 	public GameObject g2=null;
 	public GameObject control_g;
 
@@ -25,6 +26,7 @@ public class gameover : MonoBehaviour {
 	//public Color defc;
 
 	private Material mat;
+	private Material mat2;
 	private bool i=false;
 
 	private int c=0;
@@ -52,11 +54,15 @@ public class gameover : MonoBehaviour {
 		//best_s.guiText.color;
 		mat = g2.GetComponent<Renderer>().material;
 		mat.color = c1;
+		mat2 = g1.GetComponent<Renderer>().material;
+		mat2.color = c1;
 	}
 	void Update()
 	{
 			if (i == true) {
 			mat.color = Color.Lerp(mat.color,c2,Time.deltaTime);
+			mat2.color = Color.Lerp(mat2.color,c2,Time.deltaTime);
+
 			checkHighScore();
 
 			scoredisp.text = co.retscore().ToString();
