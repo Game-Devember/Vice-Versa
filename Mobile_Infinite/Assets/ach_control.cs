@@ -61,42 +61,42 @@ public class ach_control : MonoBehaviour {
 		int hscore = PlayerPrefs.GetInt("HIGHSCORE");
 		if (hscore >=10) {
 			Social.ReportProgress("CgkI1OiZi54dEAIQAA", 100.0f,(bool success) =>{
-				Debug.Log("Scored 10");
+				//Debug.Log("Scored 10");
 			});
 		}
 		if (hscore >=25) {
 			Social.ReportProgress ("CgkI1OiZi54dEAIQAg", 100.0f, (bool success) => {
-				Debug.Log ("Scored 25");
+				//Debug.Log ("Scored 25");
 			});
 		}
 		if (hscore >=40) {
 			Social.ReportProgress ("CgkI1OiZi54dEAIQAw", 100.0f, (bool success) => {
-				Debug.Log ("Scored 40");
+				//Debug.Log ("Scored 40");
 			});
 		}
 		if (hscore >=50) {
 			Social.ReportProgress("CgkI1OiZi54dEAIQBQ", 100.0f,(bool success) =>{
-				Debug.Log("Scored 50");
+				//Debug.Log("Scored 50");
 			});
 		}
 		if (hscore >=75) {
 			Social.ReportProgress("CgkI1OiZi54dEAIQBA", 100.0f,(bool success) =>{
-				Debug.Log("Scored 75");
+				//Debug.Log("Scored 75");
 			});
 		}
 		if (hscore >=100) {
 			Social.ReportProgress("CgkI1OiZi54dEAIQCQ", 100.0f,(bool success) =>{
-				Debug.Log("Scored 100");
+				//Debug.Log("Scored 100");
 			});
 		}
 		if (hscore >=150) {
 			Social.ReportProgress("CgkI1OiZi54dEAIQCw", 100.0f,(bool success) =>{
-				Debug.Log("Scored 150");
+				//Debug.Log("Scored 150");
 			});
 		}
 		if (hscore >=200) {
 			Social.ReportProgress("CgkI1OiZi54dEAIQDA", 100.0f,(bool success) =>{
-				Debug.Log("Scored 200");
+				//Debug.Log("Scored 200");
 			});
 		}
 	}

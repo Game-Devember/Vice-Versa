@@ -34,11 +34,14 @@ public class collisions : MonoBehaviour {
 	public bool magged = false;
 	private Material mat;
 	private Material mat2;
+	private Material matshi;
+	private bool poweredup;
 	//private Transform t;
 	void Start()
 	{
 		mat = gameObject.GetComponent<MeshRenderer> ().material;
 		mat2 = maghalo.gameObject.GetComponent<MeshRenderer> ().material;
+		matshi = shield.gameObject.GetComponent<MeshRenderer> ().material;
 		PlayerPrefs.SetInt("COINCOUNT",0);
 		i = 0;
 		st.color = c1;
@@ -94,25 +97,39 @@ public class collisions : MonoBehaviour {
 			//this.GetComponent<MeshRenderer>().enabled = true;
 		}
 			//GetComponent<Rigidbody2D> ().velocity = new Vector2(GetComponent<Rigidbody2D> ().velocity.x,10);
-			if (Time.time - curtimeshi >= 10.0f) {
-			shield.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
-			shield.gameObject.GetComponent<MeshRenderer>().enabled = false;
-			curtimeshi = 1000000f;
-				}
-		//co++;
-		if(Time.time-curtime >= 8)
-		{
-			mat.color = Color.Lerp(mat.color,c1,Time.deltaTime*2);
-		}
 			
-		//	co2++;
-		if(Time.time-curtime2 >= 8)
+
+		if(Time.time-curtime >= 6 )
 		{
-			mat2.color = Color.Lerp(mat2.color,c1,Time.deltaTime*2);
+			//mat.color = Color.Lerp(mat.color,c1,Time.deltaTime*4);
+			mat.color = Color.Lerp(mat.color,c1,Time.deltaTime*3);
+			if(poweredup)
+			{
+				StartCoroutine("Blink");
+				poweredup = false;
+			}
 		}
 
-			if(Time.time-curtime >= 10.0f)
+		if(Time.time-curtime2 >= 6 )
+		{
+			mat2.color = Color.Lerp(mat2.color,c1,Time.deltaTime*3);
+			if(poweredup)
 			{
+				StartCoroutine("Blink");
+				poweredup = false;
+			}
+		}
+
+		if (Time.time - curtimeshi >= 6) {
+			matshi.color = Color.Lerp(matshi.color,c1,Time.deltaTime*3);
+			if(poweredup)
+			{
+				StartCoroutine("Blink");
+				poweredup = false;
+			}
+				}
+		if(Time.time-curtime >= 10.0f)
+		{
 			mat.color = c2;
 			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
 			this.gameObject.GetComponent<TrailRenderer> ().enabled = false;
@@ -134,7 +151,13 @@ public class collisions : MonoBehaviour {
 			maghalo.gameObject.GetComponent<MeshRenderer> ().enabled = false;
 			halo2.transform.Translate(-transform.position.x,transform.position.y,transform.position.z);
 				}
+		if (Time.time - curtimeshi >= 10.0f) {
+			matshi.color = c2;
+			shield.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+			shield.gameObject.GetComponent<MeshRenderer>().enabled = false;
+			curtimeshi = 1000000f;
 		}
+	}
 	void OnCollisionEnter2D(Collision2D col)
 	{
 		if (col.gameObject.tag == "wall") {
@@ -170,6 +193,7 @@ public class collisions : MonoBehaviour {
 			Destroy(col.gameObject);
 				}
 		if (col.gameObject.tag == "pupshield") {
+			poweredup = true;
 			shield.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
 			shield.gameObject.GetComponent<MeshRenderer>().enabled = true;
 			GameObject halo2 = Instantiate(Resources.Load("Prefabs/halocontrol")) as GameObject;
@@ -237,6 +261,7 @@ public class collisions : MonoBehaviour {
 	}
 	public void Activatepuptele()
 	{
+		poweredup = true;
 		this.gameObject.GetComponent<MeshRenderer>().enabled = true;
 		this.gameObject.GetComponent<TrailRenderer> ().enabled = true;
 		ballref.gameObject.GetComponent<MeshRenderer>().enabled = false;
@@ -254,10 +279,26 @@ public class collisions : MonoBehaviour {
 	}
 	public void Activatepupmag()
 	{
+		poweredup = true;
 		GameObject halo = Instantiate(Resources.Load("Prefabs/halocontrol")) as GameObject;
 		halo.transform.Translate(-transform.position.x,transform.position.y,transform.position.z);
 		magged = true;
 		maghalo.gameObject.GetComponent<MeshRenderer> ().enabled = true;
 		curtime2 = Time.time;
+	}
+	public IEnumerator Blink()
+	{
+		yield return new WaitForSeconds (0.25f);
+		StartCoroutine("Fade");
+		yield return new WaitForSeconds (0.25f);
+		poweredup = true;
+	}
+	public void Fade()
+	{
+		mat.color = c2;
+		mat2.color = c2;
+		matshi.color = c2;
+		/*mat.color = Color.Lerp (mat.color,c2,Time.deltaTime*4);
+		mat2.color = Color.Lerp (mat2.color,c2,Time.deltaTime*4);*/
 	}
 }
