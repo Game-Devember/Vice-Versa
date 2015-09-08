@@ -113,6 +113,7 @@ public class collisions : MonoBehaviour {
 
 			if(Time.time-curtime >= 10.0f)
 			{
+			mat.color = c2;
 			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
 			this.gameObject.GetComponent<TrailRenderer> ().enabled = false;
 			ballref.gameObject.GetComponent<MeshRenderer>().enabled = true;
@@ -126,6 +127,7 @@ public class collisions : MonoBehaviour {
 			controlright.GetComponent<Control> ().speed = controlright.GetComponent<Control> ().speed * -1;
 			}
 		if (Time.time - curtime2 >= 10.0f) {
+			mat2.color = c2;
 			magged = false;
 			curtime2 = 1000000f;
 			GameObject halo2 = Instantiate(Resources.Load("Prefabs/halocontrol")) as GameObject;
@@ -239,7 +241,8 @@ public class collisions : MonoBehaviour {
 		this.gameObject.GetComponent<TrailRenderer> ().enabled = true;
 		ballref.gameObject.GetComponent<MeshRenderer>().enabled = false;
 		ballref.transform.FindChild("halocontrol").gameObject.GetComponent<TrailRenderer>().enabled = false;
-		GetComponent<Rigidbody2D> ().velocity = new Vector2 (-GetComponent<Rigidbody2D> ().velocity.x,GetComponent<Rigidbody2D> ().velocity.y);
+		//GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, 0);
+		GetComponent<Rigidbody2D> ().velocity = new Vector2 (0,GetComponent<Rigidbody2D> ().velocity.y);
 		GameObject halo = Instantiate(Resources.Load("Prefabs/halocontrol")) as GameObject;
 		halo.transform.Translate(transform.position.x,transform.position.y,transform.position.z);
 		GameObject halo2 = Instantiate(Resources.Load("Prefabs/halocontrol")) as GameObject;

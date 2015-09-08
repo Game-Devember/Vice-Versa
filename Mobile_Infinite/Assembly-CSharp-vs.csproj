@@ -202,13 +202,13 @@
      <Compile Include="Assets\cam_move.cs" />
      <Compile Include="Assets\cammove.cs" />
      <Compile Include="Assets\collisions.cs" />
-     <Compile Include="Assets\color_changer.cs" />
      <Compile Include="Assets\colorchanger.cs" />
      <Compile Include="Assets\continue_control.cs" />
      <Compile Include="Assets\continue_no.cs" />
      <Compile Include="Assets\continue_yes.cs" />
      <Compile Include="Assets\control_gameoverback.cs" />
      <Compile Include="Assets\copyTrans.cs" />
+     <Compile Include="Assets\copyTransPup.cs" />
      <Compile Include="Assets\end_menu_control.cs" />
      <Compile Include="Assets\fadeout.cs" />
      <Compile Include="Assets\gameover.cs" />

@@ -14,6 +14,7 @@ public class continue_yes : MonoBehaviour {
 		newcount = (PlayerPrefs.GetInt ("TOTALCOINS") - ((c + 1) * continuecost));
 		if (newcount >= 0) {
 			PlayerPrefs.SetInt ("TOTALCOINS",newcount);
+			PlayerPrefs.SetInt ("THEME",PlayerPrefs.GetInt ("THEME")-1);
 			Application.LoadLevel ("Level");
 			Destroy(gameObject);
 		}

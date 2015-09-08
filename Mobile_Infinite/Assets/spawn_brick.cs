@@ -8,6 +8,7 @@ public class spawn_brick : MonoBehaviour {
 	public GameObject ball = null;
 	public GameObject cam = null;
 	//public float speed ;
+	private GameObject powerup;
 	private GameObject pup;
 	private int i=0;
 	private int p=0;
@@ -32,6 +33,7 @@ public class spawn_brick : MonoBehaviour {
 		if (PlayerPrefs.GetInt ("CONTINUEINDEX") > 0) {
 			ball.transform.position = new Vector3(posx,9.25f,-5);
 		}
+		i = 0;
 		prevx = posx;
 		prevplace = 5;
 		prevy = 8f;
@@ -160,49 +162,38 @@ public class spawn_brick : MonoBehaviour {
 				}*/
 				pupcount = Random.Range(0,7);
 				if((i-1)%19 == 0)
-				{
+				{		
+					//g = Instantiate (Resources.Load ("Prefabs/Tele_main")) as GameObject;
+
 					if(pupcount % 4 == 0 )
 					{
-						g = Instantiate (Resources.Load ("Prefabs/magnet")) as GameObject;
+						powerup = Instantiate (Resources.Load ("Prefabs/magnet")) as GameObject;
 					}
 					else if(pupcount % 4 == 1 )
 					{
-						g = Instantiate (Resources.Load ("Prefabs/Tele_main")) as GameObject;
+						powerup = Instantiate (Resources.Load ("Prefabs/Tele_main")) as GameObject;
 					}
 					else if(pupcount % 4 == 2 )
 					{
-						g = Instantiate (Resources.Load ("Prefabs/Rocket_inv")) as GameObject;
+						powerup = Instantiate (Resources.Load ("Prefabs/Rocket_inv")) as GameObject;
 					}
 					else if(pupcount % 4 == 3 )
 					{
-						g = Instantiate (Resources.Load ("Prefabs/shield")) as GameObject;
+						powerup = Instantiate (Resources.Load ("Prefabs/shield")) as GameObject;
 					}
-					g.transform.Translate (0,prevy + 1.25f,-5);
+					powerup.transform.Translate (prevx-4.4f,prevy -1.25f,-5);
 				}
-								
-				if((i%2==0) )
+
+				if(((i-1)%2==0) )
 				{
-					float p;
-					/*if(i%4 == 0)
-					{
-						p = prevx;
-					}
-					else{
-						p = posx;
-					}*/
-					p = prevx;
 								pup = Instantiate (Resources.Load ("Prefabs/Coin")) as GameObject;
-								pup.transform.Translate (p,(prevy+1.25f),5);
+								pup.transform.Translate (prevx,(prevy+1.25f),5);
 								pup = Instantiate (Resources.Load ("Prefabs/Coin")) as GameObject;
-								pup.transform.Translate (-p,(prevy+1.25f), -5);
+								pup.transform.Translate (-prevx,(prevy+1.25f), -5);
 
 								/*g = Instantiate (Resources.Load ("Prefabs/score")) as GameObject;
 						g.transform.Translate (posx, /*transform.position.y + 7.7f prevy + 2.6f, -2);*/
 				}
-				/*if(cam.transform.position.y>prevy)
-				{
-					Destroy (g.gameObject);
-				}*/ 
 								prevx = posx;
 								prevy = prevy + 2.5f;
 				i++;
