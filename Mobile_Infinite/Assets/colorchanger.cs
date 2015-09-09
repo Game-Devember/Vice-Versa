@@ -14,10 +14,10 @@ public class colorchanger : MonoBehaviour {
 	void Start () {
 		index = PlayerPrefs.GetInt ("THEME");
 		index++;
-		if (index >= c.Length) {
+		if (index == c.Length) {
 			index=0;
 		}
-
+		//PlayerPrefs.SetInt ("THEME", index);
 		G = GameObject.FindGameObjectsWithTag ("colorchangers");
 		bricks = GameObject.FindGameObjectsWithTag ("colorchangers2");
 

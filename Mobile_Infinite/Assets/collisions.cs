@@ -24,8 +24,6 @@ public class collisions : MonoBehaviour {
 	private float curtime2 = 1000000f;
 	private float curtimehyp = 1000000f;
 	private float curtimeshi = 1000000f;
-	private int co = 0;
-	private int co2 = 0;
 	public GameObject controlleft;
 	public GameObject controlright;
 
@@ -36,20 +34,23 @@ public class collisions : MonoBehaviour {
 	private Material mat2;
 	private Material matshi;
 	private bool poweredup;
+	//private int prevcoins;
 	//private Transform t;
 	void Start()
 	{
 		mat = gameObject.GetComponent<MeshRenderer> ().material;
 		mat2 = maghalo.gameObject.GetComponent<MeshRenderer> ().material;
 		matshi = shield.gameObject.GetComponent<MeshRenderer> ().material;
-		PlayerPrefs.SetInt("COINCOUNT",0);
 		i = 0;
 		st.color = c1;
 		if (PlayerPrefs.GetInt ("CONTINUEINDEX") > 0) {
 			prevscore = PlayerPrefs.GetInt("PREVSCORE")-9;
+			//prevcoins = PlayerPrefs.GetInt("PREVCOINS");
+			PlayerPrefs.SetInt("COINCOUNT",PlayerPrefs.GetInt("PREVCOINS"));
 				}
 		else if(PlayerPrefs.GetInt ("CONTINUEINDEX") == 0) {
 			prevscore=0;
+			//prevcoins = 0;
 				}
 	}
 	void Update()
@@ -165,16 +166,13 @@ public class collisions : MonoBehaviour {
 				} 
 		if (col.gameObject.tag == "brick" || col.gameObject.tag == "updown") {
 			GetComponent<AudioSource>().Play ();
-		} 
-	}
-	void OnCollisionStay2D(Collision2D col)
-	{
+		}
 		if(col.gameObject.tag == "brick")
 		{
 			//transform.Translate(0,height,0);
 			//rigidbody2D.position += (Vector2.up * height );
-			GetComponent<Rigidbody2D>().AddForce( Vector2.up * height * 55);
-			}
+			GetComponent<Rigidbody2D>().AddForce( Vector2.up * height * 120);
+		}
 	}
 	void OnTriggerEnter2D(Collider2D col)
 	{
@@ -182,7 +180,7 @@ public class collisions : MonoBehaviour {
 			GameObject halo = Instantiate(Resources.Load("Prefabs/halocontrol")) as GameObject;
 			halo.transform.Translate(-transform.position.x,transform.position.y,transform.position.z);
 			Activatepuphyper();
-			Destroy(col.gameObject,0);
+			Destroy(col.gameObject);
 		}
 		if (col.gameObject.tag == "puptele") {
 			Activatepuptele();

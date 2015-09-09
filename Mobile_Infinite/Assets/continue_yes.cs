@@ -14,7 +14,7 @@ public class continue_yes : MonoBehaviour {
 
 		cant = false;
 		cantcont.color = c1;
-		//PlayerPrefs.SetInt ("TOTALCOINS", 140);
+		//PlayerPrefs.SetInt ("TOTALCOINS", 160);
 	}
 	
 	void OnTouchDown()

@@ -4,32 +4,45 @@ using System.Collections;
 public class spawn_brick : MonoBehaviour {
 	public GameObject g = null;
 	public GameObject gref = null;
-	public GameObject gref2 = null;
 	public GameObject ball = null;
-	public GameObject cam = null;
 	//public float speed ;
 	private GameObject powerup;
 	private GameObject pup;
 	private int i=0;
-	private int p=0;
 	private float prevx=0;
 	private float prevy = 0;
 	private float posx=1;
-	private float offset = 0.5f;
 	private int prevplace;
 	private int pupcount;
+	public GameObject brick;
+	private Renderer rend;
+	public GameObject BG;
+
 	// Use this for initialization
 	void Start () {
+		int colindex = PlayerPrefs.GetInt ("THEME") + 1;
+		if (colindex == BG.GetComponent<colorchanger>().c.Length) {
+			colindex = 0;
+				}
+		Color tcol = BG.GetComponent<colorchanger>().c[colindex];
+
 		posx = Random.Range (0.7f, 3f);
-		g = Instantiate (Resources.Load ("Prefabs/brick")) as GameObject;
-		g.transform.Translate (posx, 5.5f, -5);
-		gref.transform.Translate (-posx, 5.5f, -5);
-		//posx = Random.Range (5f, 7.3f);
+		brick.transform.position = new Vector3(posx, 5.5f, -5);
+		Instantiate (brick);
+		gref.transform.position = new Vector3(-posx, 5.5f, -5);
+		g = Instantiate (gref) as GameObject;
+		rend = g.GetComponent<Renderer>();
+		rend.material.color = new Color (tcol.r, tcol.g, tcol.b, 0.6f);
+
 		posx = 6.43f - Random.Range (-0.5f,0.5f);
-		g = Instantiate (Resources.Load ("Prefabs/brick")) as GameObject;
-		g.transform.Translate (posx, 8f, -5);
-		gref2.transform.Translate (-posx, 8f, -5);
-		
+		brick.transform.position = new Vector3(posx, 8f, -5);
+		Instantiate (brick);
+		gref.transform.position = new Vector3(-posx, 8f, -5);
+		g = Instantiate (gref) as GameObject;
+		rend = g.GetComponent<Renderer>();
+		rend.material.color = new Color (tcol.r, tcol.g, tcol.b, 0.2f);
+
+
 		if (PlayerPrefs.GetInt ("CONTINUEINDEX") > 0) {
 			ball.transform.position = new Vector3(posx,9.25f,-5);
 		}
@@ -58,12 +71,12 @@ public class spawn_brick : MonoBehaviour {
 		{
 
 						
-						if (ball.transform.position.y > prevy-4.0f) 
+			if (ball.transform.position.y > prevy-8.0f) 
 			{
 				//posx = Random.Range(0.7f,7f);
 
 				int place = Random.Range(1,6);
-				g = Instantiate (Resources.Load ("Prefabs/brick")) as GameObject;
+
 				if(place==1)
 				{
 					if(prevplace ==1)
@@ -148,19 +161,18 @@ public class spawn_brick : MonoBehaviour {
 
 					}
 				}
-			pla:
-								g.transform.Translate (posx, /*transform.position.y*/ prevy + 2.5f, -5);
-				
-				/*if(i%15 == 0)
-				{
-					g = Instantiate (Resources.Load ("Prefabs/Rocket_inv")) as GameObject;
-					g.transform.Translate (0,prevy + 1.25f,1);
-				}*/
-				/*if(cam.transform.position.y>prevy)
-				{
-					Destroy (g.gameObject);
-				}*/
-				pupcount = Random.Range(0,7);
+					brick.transform.position = new Vector3(posx,prevy+2.5f,-5);
+					brick.transform.rotation = Quaternion.identity;
+					Instantiate (brick,brick.transform.position,brick.transform.rotation);
+
+					
+					/*
+					fadingBrick.transform.position = new Vector3(-posx,prevy-2.5f,-5);
+					fadingBrick.transform.rotation = Quaternion.identity;
+					Instantiate (fadingBrick,fadingBrick.transform.position,fadingBrick.transform.rotation);
+					*/
+				pupcount = Random.Range(0,4);
+
 				if((i-1)%19 == 0)
 				{		
 					//g = Instantiate (Resources.Load ("Prefabs/Tele_main")) as GameObject;

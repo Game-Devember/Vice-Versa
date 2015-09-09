@@ -97,7 +97,7 @@ public class gameover : MonoBehaviour {
 			//Destroy(ball.gameObject);
 			//GetComponent<collisions>().enabled= false;
 
-			Destroy(halo.gameObject);
+			//Destroy(halo.gameObject);
 			//shatter = Instantiate(Resources.Load("Prefabs/ball_shatter")) as GameObject;
 			//shatter.transform.Translate(ballref.transform.position.x,ballref.transform.position.y-1f,-3f);
 			//shatter.GetComponent<Animator>().Play("Take 001");
@@ -122,6 +122,7 @@ public class gameover : MonoBehaviour {
 			});
 			control_g.transform.Translate(0,11,0);
 			int con = PlayerPrefs.GetInt("TOTALCOINS")+PlayerPrefs.GetInt("COINCOUNT");
+			PlayerPrefs.SetInt("PREVCOINS",PlayerPrefs.GetInt("COINCOUNT"));
 			cointext.text = con.ToString();
 			PlayerPrefs.SetInt("TOTALCOINS",con);
 			//Debug.Log (c);

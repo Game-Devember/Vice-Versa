@@ -7,7 +7,6 @@ public class menu_exit_control : MonoBehaviour {
 	public Text cointext;
 	void Start()
 	{
-		int coins;
 		bst.text = ("BEST: " + PlayerPrefs.GetInt ("HIGHSCORE").ToString());
 		cointext.text = PlayerPrefs.GetInt ("TOTALCOINS").ToString ();
 		//cointext.GetComponent<GUIText> ().text = coins.ToString ();

@@ -1,28 +1,25 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\continue_yes.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\spawn_brick.cs">
     <Files>
-      <File FileName="Assets\continue_yes.cs" Line="17" Column="5" />
-      <File FileName="Assets\collisions.cs" Line="1" Column="1" />
-      <File FileName="Assets\colorchanger.cs" Line="1" Column="1" />
-      <File FileName="Assets\spawn_brick.cs" Line="1" Column="1" />
-      <File FileName="Assets\gameover.cs" Line="1" Column="1" />
+      <File FileName="Assets\brickbehave.cs" Line="16" Column="6" />
+      <File FileName="Assets\continue_yes.cs" Line="1" Column="1" />
+      <File FileName="Assets\collisions.cs" Line="26" Column="38" />
+      <File FileName="Assets\colorchanger.cs" Line="17" Column="14" />
+      <File FileName="Assets\spawn_brick.cs" Line="174" Column="32" />
+      <File FileName="Assets\gameover.cs" Line="100" Column="6" />
       <File FileName="Assets\cammove.cs" Line="1" Column="1" />
       <File FileName="Assets\splashcolor.cs" Line="1" Column="1" />
       <File FileName="Assets\visitus.cs" Line="1" Column="1" />
-      <File FileName="Assets\LookAtBall.cs" Line="1" Column="1" />
-      <File FileName="Assets\PortalCopyRot.cs" Line="1" Column="1" />
-      <File FileName="Assets\copyTrans.cs" Line="1" Column="1" />
-      <File FileName="Assets\ach_control.cs" Line="84" Column="7" />
+      <File FileName="Assets\ach_control.cs" Line="1" Column="1" />
       <File FileName="Assets\continue_control.cs" Line="1" Column="1" />
-      <File FileName="Assets\retry_control.cs" Line="1" Column="1" />
       <File FileName="Assets\menu_control.cs" Line="1" Column="1" />
       <File FileName="Assets\rotate.cs" Line="1" Column="1" />
       <File FileName="Assets\continue_no.cs" Line="1" Column="1" />
       <File FileName="Assets\control_gameoverback.cs" Line="1" Column="1" />
-      <File FileName="Assets\copyTransPup.cs" Line="1" Column="1" />
-      <File FileName="Assets\setting_control.cs" Line="15" Column="60" />
-      <File FileName="Assets\back_control.cs" Line="15" Column="59" />
+      <File FileName="Assets\setting_control.cs" Line="1" Column="1" />
+      <File FileName="Assets\back_control.cs" Line="1" Column="1" />
+      <File FileName="Assets\menu_exit_control.cs" Line="9" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

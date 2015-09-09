@@ -6,6 +6,7 @@ public class menu_control : MonoBehaviour {
 	void Start()
 	{
 		PlayerPrefs.SetInt ("CONTINUEINDEX", 0);
+		PlayerPrefs.SetInt ("PREVCOINS", 0);
 		bst.GetComponent<GUIText>().text = ("BEST: " + PlayerPrefs.GetInt ("HIGHSCORE").ToString());
 	}
 	void Update()

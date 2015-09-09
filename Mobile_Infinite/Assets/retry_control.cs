@@ -7,7 +7,7 @@ public class retry_control : MonoBehaviour {
 	void OnTouchDown()
 	{
 		PlayerPrefs.SetInt ("CONTINUEINDEX", 0);
-		Debug.Log("exit!");
+		PlayerPrefs.SetInt ("PREVCOINS", 0);
 		Application.LoadLevel ("Level");
 		Destroy (gameObject);
 	}
