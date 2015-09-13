@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using GooglePlayGames;
 
 public class collisions : MonoBehaviour {
 	public Color trailcolor;
@@ -12,6 +13,7 @@ public class collisions : MonoBehaviour {
 	public GameObject cam = null;
 
 	public GameObject shield = null;
+	public AudioClip[] pupsaudio = null;
 
 	public Color c1;
 	public Color c2;
@@ -165,7 +167,7 @@ public class collisions : MonoBehaviour {
 						GetComponent<Rigidbody2D>().AddForce (Vector2.right * -1);
 				} 
 		if (col.gameObject.tag == "brick" || col.gameObject.tag == "updown") {
-			GetComponent<AudioSource>().Play ();
+			//GetComponent<AudioSource>().Play ();
 		}
 		if(col.gameObject.tag == "brick")
 		{
@@ -180,14 +182,20 @@ public class collisions : MonoBehaviour {
 			GameObject halo = Instantiate(Resources.Load("Prefabs/halocontrol")) as GameObject;
 			halo.transform.Translate(-transform.position.x,transform.position.y,transform.position.z);
 			Activatepuphyper();
+			GetComponent<AudioSource>().clip = pupsaudio[0];
+			GetComponent<AudioSource>().Play ();
 			Destroy(col.gameObject);
 		}
 		if (col.gameObject.tag == "puptele") {
 			Activatepuptele();
+			GetComponent<AudioSource>().clip = pupsaudio[1];
+			GetComponent<AudioSource>().Play ();
 			Destroy(col.gameObject);
 				}
 		if (col.gameObject.tag == "pupmag") {
 			Activatepupmag();
+			GetComponent<AudioSource>().clip = pupsaudio[2];
+			GetComponent<AudioSource>().Play ();
 			Destroy(col.gameObject);
 				}
 		if (col.gameObject.tag == "pupshield") {
@@ -200,44 +208,34 @@ public class collisions : MonoBehaviour {
 			Destroy(col.gameObject);
 				}
 
-		if (score == 10) {
-			Social.ReportProgress("CgkI1OiZi54dEAIQAA", 100.0f,(bool success) =>{
-				Debug.Log("Scored 10");
-			});
-				}
-		if (score == 25) {
-						Social.ReportProgress ("CgkI1OiZi54dEAIQAg", 100.0f, (bool success) => {
-								Debug.Log ("Scored 25");
-						});
-				}
-		if (score == 40) {
-						Social.ReportProgress ("CgkI1OiZi54dEAIQAw", 100.0f, (bool success) => {
-								Debug.Log ("Scored 40");
-						});
-				}
-		if (score == 50) {
-					Social.ReportProgress("CgkI1OiZi54dEAIQBQ", 100.0f,(bool success) =>{
-						Debug.Log("Scored 50");
-					});
-		}
-		if (score == 75) {
-					Social.ReportProgress("CgkI1OiZi54dEAIQBA", 100.0f,(bool success) =>{
-						Debug.Log("Scored 75");
-					});
-				}
-		if (score == 100) {
-					Social.ReportProgress("CgkI1OiZi54dEAIQCQ", 100.0f,(bool success) =>{
-						Debug.Log("Scored 100");
-					});
-				}
-		if (score == 150) {
-			Social.ReportProgress("CgkI1OiZi54dEAIQCw", 100.0f,(bool success) =>{
-				Debug.Log("Scored 150");
+		if (score >=100) {
+			Social.ReportProgress("CgkI7bOmyN8IEAIQAA", 100.0f,(bool success) =>{
+				//Debug.Log("Scored 10");
 			});
 		}
-		if (score == 200) {
-			Social.ReportProgress("CgkI1OiZi54dEAIQDA", 100.0f,(bool success) =>{
-				Debug.Log("Scored 200");
+		if (score >=250) {
+			Social.ReportProgress ("CgkI7bOmyN8IEAIQAQ", 100.0f, (bool success) => {
+				//Debug.Log ("Scored 25");
+			});
+		}
+		if (score >=500) {
+			Social.ReportProgress ("CgkI7bOmyN8IEAIQAg", 100.0f, (bool success) => {
+				//Debug.Log ("Scored 40");
+			});
+		}
+		if (score >=750) {
+			Social.ReportProgress("CgkI7bOmyN8IEAIQAw", 100.0f,(bool success) =>{
+				//Debug.Log("Scored 50");
+			});
+		}
+		if (score >=1000) {
+			Social.ReportProgress("CgkI7bOmyN8IEAIQBA", 100.0f,(bool success) =>{
+				//Debug.Log("Scored 100");
+			});
+		}
+		if (score >=1500) {
+			Social.ReportProgress("CgkI7bOmyN8IEAIQBQ", 100.0f,(bool success) =>{
+				//Debug.Log("Scored 150");
 			});
 		}
 	}
@@ -298,5 +296,9 @@ public class collisions : MonoBehaviour {
 		matshi.color = c2;
 		/*mat.color = Color.Lerp (mat.color,c2,Time.deltaTime*4);
 		mat2.color = Color.Lerp (mat2.color,c2,Time.deltaTime*4);*/
+	}
+	public void playcoin()
+	{
+		shield.GetComponent<AudioSource> ().Play ();
 	}
 }

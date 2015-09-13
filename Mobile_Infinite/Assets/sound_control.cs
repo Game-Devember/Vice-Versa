@@ -7,7 +7,9 @@ public class sound_control : MonoBehaviour {
 	public GameObject bar;
 	void Start()
 	{
-
+		if (PlayerPrefs.GetInt ("PLAYCOUNT") == 0) {
+			PlayerPrefs.SetInt("GAMEVOLUME",1);
+				}
 		AudioListener.volume = c = PlayerPrefs.GetInt("GAMEVOLUME");
 		if (c == 1) {
 						bar.GetComponent<SpriteRenderer> ().enabled = false;

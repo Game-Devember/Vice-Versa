@@ -39,10 +39,10 @@
 	<Reference Include="System.Core" />
 	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
-	  <HintPath>E:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>E:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +193,7 @@
      <Compile Include="Assets\GooglePlayGames\Platforms\PlayGamesClientFactory.cs" />
      <Compile Include="Assets\GooglePlayGames\PluginVersion.cs" />
      <Compile Include="Assets\LookAtBall.cs" />
+     <Compile Include="Assets\MusicManager.cs" />
      <Compile Include="Assets\PortalCopyRot.cs" />
      <Compile Include="Assets\TouchInput1.cs" />
      <Compile Include="Assets\ach_control.cs" />
@@ -201,6 +202,7 @@
      <Compile Include="Assets\brickbehave.cs" />
      <Compile Include="Assets\cam_move.cs" />
      <Compile Include="Assets\cammove.cs" />
+     <Compile Include="Assets\coinrotatemenu.cs" />
      <Compile Include="Assets\collisions.cs" />
      <Compile Include="Assets\colorchanger.cs" />
      <Compile Include="Assets\continue_control.cs" />
@@ -217,6 +219,7 @@
      <Compile Include="Assets\help_control.cs" />
      <Compile Include="Assets\leaderboard_control.cs" />
      <Compile Include="Assets\magnet.cs" />
+     <Compile Include="Assets\marketplace_control.cs" />
      <Compile Include="Assets\menu_control.cs" />
      <Compile Include="Assets\menu_exit_control.cs" />
      <Compile Include="Assets\pause_control.cs" />
@@ -333,16 +336,16 @@
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values\admob_iap_style.xml" />
      <None Include="Assets\Plugins\Android\google-play-services_lib\res\values-sv\common_strings.xml" />
  <Reference Include="UnityEngine.UI">
- <HintPath>E:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
- <HintPath>E:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Analytics">
- <HintPath>E:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
- <HintPath>E:/Program Files/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+ <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

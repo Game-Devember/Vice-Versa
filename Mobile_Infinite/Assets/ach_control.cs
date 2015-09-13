@@ -7,7 +7,9 @@ public class ach_control : MonoBehaviour {
 	void Start()
 	{
 		PlayGamesPlatform.Activate ();
-		checkach ();
+		if (Time.time <= 4f) {
+						checkach ();
+				}
 	}
 	void Update()
 	{
@@ -29,7 +31,7 @@ public class ach_control : MonoBehaviour {
 	void OnTouchDown()
 	{
 		GetComponent<AudioSource>().Play ();
-		Social.ReportScore (PlayerPrefs.GetInt ("HIGHSCORE"), "CgkI1OiZi54dEAIQBw", (bool success) => {
+		Social.ReportScore (PlayerPrefs.GetInt ("HIGHSCORE"), "CgkI7bOmyN8IEAIQBg", (bool success) => {
 			Debug.Log("Score submitted");
 		});
 		Social.localUser.Authenticate((bool success) =>{
@@ -45,7 +47,7 @@ public class ach_control : MonoBehaviour {
 			}
 		});
 	}
-	void DoWindow0(int windowID){
+	/*void DoWindow0(int windowID){
 		if (GUI.Button (new Rect (105,22, 60, 30), "OK")) {
 			flogin=false		;
 		}
@@ -55,48 +57,38 @@ public class ach_control : MonoBehaviour {
 		if (flogin) {
 			GUI.Window(0,new Rect((Screen.width/2)-135,(Screen.height/2)-30,270,60),DoWindow0,"Please Check your Internet Connection");
 		}
-	}
+	}*/
 	void checkach()
 	{
 		int hscore = PlayerPrefs.GetInt("HIGHSCORE");
-		if (hscore >=10) {
-			Social.ReportProgress("CgkI1OiZi54dEAIQAA", 100.0f,(bool success) =>{
+		if (hscore >=100) {
+			Social.ReportProgress("CgkI7bOmyN8IEAIQAA", 100.0f,(bool success) =>{
 				//Debug.Log("Scored 10");
 			});
 		}
-		if (hscore >=25) {
-			Social.ReportProgress ("CgkI1OiZi54dEAIQAg", 100.0f, (bool success) => {
+		if (hscore >=250) {
+			Social.ReportProgress ("CgkI7bOmyN8IEAIQAQ", 100.0f, (bool success) => {
 				//Debug.Log ("Scored 25");
 			});
 		}
-		if (hscore >=40) {
-			Social.ReportProgress ("CgkI1OiZi54dEAIQAw", 100.0f, (bool success) => {
+		if (hscore >=500) {
+			Social.ReportProgress ("CgkI7bOmyN8IEAIQAg", 100.0f, (bool success) => {
 				//Debug.Log ("Scored 40");
 			});
 		}
-		if (hscore >=50) {
-			Social.ReportProgress("CgkI1OiZi54dEAIQBQ", 100.0f,(bool success) =>{
+		if (hscore >=750) {
+			Social.ReportProgress("CgkI7bOmyN8IEAIQAw", 100.0f,(bool success) =>{
 				//Debug.Log("Scored 50");
 			});
 		}
-		if (hscore >=75) {
-			Social.ReportProgress("CgkI1OiZi54dEAIQBA", 100.0f,(bool success) =>{
-				//Debug.Log("Scored 75");
-			});
-		}
-		if (hscore >=100) {
-			Social.ReportProgress("CgkI1OiZi54dEAIQCQ", 100.0f,(bool success) =>{
+		if (hscore >=1000) {
+			Social.ReportProgress("CgkI7bOmyN8IEAIQBA", 100.0f,(bool success) =>{
 				//Debug.Log("Scored 100");
 			});
 		}
-		if (hscore >=150) {
-			Social.ReportProgress("CgkI1OiZi54dEAIQCw", 100.0f,(bool success) =>{
+		if (hscore >=1500) {
+			Social.ReportProgress("CgkI7bOmyN8IEAIQBQ", 100.0f,(bool success) =>{
 				//Debug.Log("Scored 150");
-			});
-		}
-		if (hscore >=200) {
-			Social.ReportProgress("CgkI1OiZi54dEAIQDA", 100.0f,(bool success) =>{
-				//Debug.Log("Scored 200");
 			});
 		}
 	}

@@ -7,6 +7,17 @@ public class leaderboard_control : MonoBehaviour {
 	void Start()
 	{
 		PlayGamesPlatform.Activate ();
+		if (Time.time <= 4f) {
+						Social.localUser.Authenticate ((bool success) => {
+								if (success) {
+										//Social.ShowAchievementsUI ();
+										Debug.Log ("You've successfully logged in");
+								} else {
+										Debug.Log ("Login failed for some reason");
+										flogin = true;
+								}
+						});
+				}
 		//bst.GetComponent<GUIText>().text = ("BEST: " + PlayerPrefs.GetInt ("HIGHSCORE").ToString());
 	}
 	void Update()
@@ -33,13 +44,13 @@ public class leaderboard_control : MonoBehaviour {
 		//Time.timeScale = 1;
 		//Destroy (gameObject);
 		GetComponent<AudioSource>().Play ();
-		Social.ReportScore (PlayerPrefs.GetInt ("HIGHSCORE"), "CgkI1OiZi54dEAIQBw", (bool success) => {
+		Social.ReportScore (PlayerPrefs.GetInt ("HIGHSCORE"), "CgkI7bOmyN8IEAIQBg", (bool success) => {
 			Debug.Log("Score submitted");
 		});
 		Social.localUser.Authenticate((bool success) =>{
 		if (success)
 		{
-			PlayGamesPlatform.Instance.ShowLeaderboardUI("CgkI1OiZi54dEAIQBw");
+				PlayGamesPlatform.Instance.ShowLeaderboardUI("CgkI7bOmyN8IEAIQBg");
 			Debug.Log("You've successfully logged in");
 		}
 		else
@@ -49,7 +60,7 @@ public class leaderboard_control : MonoBehaviour {
 		}
 	});
 	}
-	void DoWindow0(int windowID){
+	/*void DoWindow0(int windowID){
 		if (GUI.Button (new Rect (105,22, 60, 30), "OK")) {
 			flogin=false		;
 		}
@@ -59,5 +70,5 @@ public class leaderboard_control : MonoBehaviour {
 		if (flogin) {
 			GUI.Window(0,new Rect((Screen.width/2)-135,(Screen.height/2)-30,270,60),DoWindow0,"Please Check your Internet Connection");
 		}
-	}	
+	}*/	
 }

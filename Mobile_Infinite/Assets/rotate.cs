@@ -33,12 +33,15 @@ public class rotate : MonoBehaviour {
 		if (d <= c) {
 			coincount=coincount+1;
 			//Debug.Log(coincount);
-
 			GameObject halo = Instantiate(Resources.Load("Prefabs/halocontrol")) as GameObject;
 			halo.transform.Translate(transform.position.x,transform.position.y,transform.position.z);
 			//coincounter.text = coincount.ToString();
+			GameObject.FindGameObjectWithTag("Hero").GetComponent<collisions>().playcoin();
+			//InvokeRepeating("playcoin",0,3f);
 			Destroy(this.gameObject);
 				}
+			//Debug.Log ("Coined");
+
 	}
 	void OnLevelWasLoaded(int level)
 	{

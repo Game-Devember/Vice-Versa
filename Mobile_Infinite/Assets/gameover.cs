@@ -85,7 +85,7 @@ public class gameover : MonoBehaviour {
 			}*/
 			/*ball.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(0,0,0);
 			ball.gameObject.GetComponent<Rigidbody2D>().mass = 0;*/
-			ball.transform.Translate(10,0,0);
+			//ball.transform.Translate(10,0,0);
 			}
 	}
 	void OnCollisionEnter2D(Collision2D col)
@@ -93,9 +93,11 @@ public class gameover : MonoBehaviour {
 		if (col.gameObject.tag == "Hero") {
 			//Time.timeScale = Mathf.Lerp(Time.timeScale,0.4f,1);
 			curtime = Time.time;
+			//PlayerPrefs.SetInt("MUSICINDEX",1);
 			//Debug.Log("GameOver!");
 			//Destroy(ball.gameObject);
 			//GetComponent<collisions>().enabled= false;
+			ball.transform.Translate(10,0,0);
 
 			//Destroy(halo.gameObject);
 			//shatter = Instantiate(Resources.Load("Prefabs/ball_shatter")) as GameObject;
@@ -103,7 +105,7 @@ public class gameover : MonoBehaviour {
 			//shatter.GetComponent<Animator>().Play("Take 001");
 			//GetComponent<Animation>().wrapMode=WrapMode.Once;
 			ballref.GetComponent<MeshRenderer>().enabled = false;
-			GetComponent<AudioSource>().Play ();
+			//GetComponent<AudioSource>().Play ();
 				i=true;
 			//Application.LoadLevel("end_menu");
 			//co = ball.gameObject.GetComponent<collisions>();
@@ -120,13 +122,14 @@ public class gameover : MonoBehaviour {
 			Social.ReportScore (PlayerPrefs.GetInt ("HIGHSCORE"), "CgkI1OiZi54dEAIQBw", (bool success) => {
 				Debug.Log("Score submitted");
 			});
-			control_g.transform.Translate(0,11,0);
 			int con = PlayerPrefs.GetInt("TOTALCOINS")+PlayerPrefs.GetInt("COINCOUNT");
 			PlayerPrefs.SetInt("PREVCOINS",PlayerPrefs.GetInt("COINCOUNT"));
 			cointext.text = con.ToString();
 			PlayerPrefs.SetInt("TOTALCOINS",con);
-			//Debug.Log (c);
+			//control_g.transform.Translate(0,11,0);
+			control_g.transform.position = new Vector3(cam.transform.position.x+7.35f,cam.transform.position.y,cam.transform.position.z+16.7f);
 		}
+	
 	}
 	void checkHighScore()
 	{
