@@ -19,6 +19,7 @@ public class continue_yes : MonoBehaviour {
 	
 	void OnTouchDown()
 	{
+		AudioListener.volume = 1;
 		int c = PlayerPrefs.GetInt("CONTINUEINDEX");
 		newcount = (PlayerPrefs.GetInt ("TOTALCOINS") - ((c + 1) * continuecost));
 		if (newcount >= 0) {

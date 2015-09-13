@@ -7,7 +7,7 @@ public class gameover : MonoBehaviour {
 	public GameObject g1=null;
 	public GameObject g2=null;
 	public GameObject control_g;
-
+	public GameObject flash;
 	public GameObject halo;
 
 	public Text textdisp;
@@ -26,11 +26,13 @@ public class gameover : MonoBehaviour {
 	//public Color defc;
 
 	private Material mat;
+	private Material matflash;
 	private Material mat2;
 	public bool i=false;
 
 	private int c=0;
 	public collisions co;
+	private bool f = false;
 	private float curtime = 1000000f;
 	void Start()
 	{
@@ -56,12 +58,25 @@ public class gameover : MonoBehaviour {
 		mat.color = c1;
 		mat2 = g1.GetComponent<Renderer>().material;
 		mat2.color = c1;
+		matflash = flash.GetComponent<Renderer>().material;;
+		matflash.color = c1;
 	}
 	void Update()
 	{
 			if (i == true) {
 			mat.color = Color.Lerp(mat.color,c2,Time.deltaTime);
 			mat2.color = Color.Lerp(mat2.color,c2,Time.deltaTime);
+			if(f==false)
+			{
+				//Debug.Log("www");
+				matflash.color = Color.Lerp(matflash.color,c2,Time.deltaTime*4);
+				StartCoroutine("flasher");
+			}
+			else
+			{
+				matflash.color = Color.Lerp(matflash.color,c1,Time.deltaTime*4);
+			}
+			AudioListener.volume = Mathf.Lerp(AudioListener.volume,0,Time.deltaTime*7);
 
 			checkHighScore();
 
@@ -98,7 +113,6 @@ public class gameover : MonoBehaviour {
 			//Destroy(ball.gameObject);
 			//GetComponent<collisions>().enabled= false;
 			ball.transform.Translate(10,0,0);
-
 			//Destroy(halo.gameObject);
 			//shatter = Instantiate(Resources.Load("Prefabs/ball_shatter")) as GameObject;
 			//shatter.transform.Translate(ballref.transform.position.x,ballref.transform.position.y-1f,-3f);
@@ -136,5 +150,10 @@ public class gameover : MonoBehaviour {
 		if (PlayerPrefs.GetInt ("HIGHSCORE") < c) {
 			PlayerPrefs.SetInt("HIGHSCORE",c);
 		}
+	}
+	IEnumerator flasher()
+	{
+		yield return new WaitForSeconds (Time.deltaTime*10);
+		f = true;
 	}
 }

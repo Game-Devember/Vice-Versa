@@ -55,10 +55,14 @@ public class collisions : MonoBehaviour {
 			//prevcoins = 0;
 				}
 	}
+	void OnLevelwasLoaded()
+	{
+		AudioListener.volume = 1;
+		}
 	void Update()
 	{	
 				coincounter.text = PlayerPrefs.GetInt ("COINCOUNT").ToString ();
-				score = Mathf.RoundToInt (cam.transform.position.y);
+				score = Mathf.RoundToInt (cam.transform.position.y)-5;
 				i++;
 				if (i < 10) {
 						st.color = c1;
@@ -200,6 +204,8 @@ public class collisions : MonoBehaviour {
 				}
 		if (col.gameObject.tag == "pupshield") {
 			poweredup = true;
+			GetComponent<AudioSource>().clip = pupsaudio[3];
+			GetComponent<AudioSource>().Play ();
 			shield.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
 			shield.gameObject.GetComponent<MeshRenderer>().enabled = true;
 			GameObject halo2 = Instantiate(Resources.Load("Prefabs/halocontrol")) as GameObject;

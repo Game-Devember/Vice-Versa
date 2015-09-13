@@ -1,8 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\..\VR_Mobile\Assets\movement.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\collisions.cs">
     <Files>
-      <File FileName="..\..\..\VR_Mobile\Assets\movement.cs" Line="38" Column="4" />
+      <File FileName="Assets\collisions.cs" Line="65" Column="58" />
+      <File FileName="Assets\sound_control.cs" Line="28" Column="17" />
+      <File FileName="Assets\gameover.cs" Line="79" Column="77" />
+      <File FileName="Assets\retry_control.cs" Line="11" Column="3" />
+      <File FileName="Assets\control_gameoverback.cs" Line="8" Column="3" />
+      <File FileName="Assets\continue_control.cs" Line="21" Column="1" />
+      <File FileName="Assets\continue_yes.cs" Line="22" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
