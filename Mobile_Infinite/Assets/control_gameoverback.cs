@@ -5,7 +5,7 @@ public class control_gameoverback : MonoBehaviour {
 
 	void OnTouchDown()
 	{
-		AudioListener.volume = 1;
+		PlayerPrefs.SetInt ("PREVCOINS", 0);
 		Application.LoadLevel("main_menu");
 	}
 }

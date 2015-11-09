@@ -8,7 +8,7 @@ public class retry_control : MonoBehaviour {
 	{
 		PlayerPrefs.SetInt ("CONTINUEINDEX", 0);
 		PlayerPrefs.SetInt ("PREVCOINS", 0);
-		AudioListener.volume = 1;
+		AudioListener.volume = PlayerPrefs.GetInt("GAMEVOLUME");
 		Application.LoadLevel ("Level");
 		Destroy (gameObject);
 	}
